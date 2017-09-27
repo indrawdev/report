@@ -14,4 +14,21 @@ class Fpd extends CI_Controller {
 		$this->load->view('vfpd');
 	}
 
+	public function gridtanggal() {
+		$cabang = $this->input->post('fs_kode_cabang');
+		$this->load->model('MFdp');
+	}
+
+	public function previewfpd() {
+
+	}
+
+	public function excelfpd() {
+
+	}
+
+	public function excelsvy() {
+
+	}
+
 }

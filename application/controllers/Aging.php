@@ -14,4 +14,23 @@ class Aging extends CI_Controller {
 		$this->load->view('vaging');
 	}
 
+	public function gridtanggal() {
+		$cabang = $this->input->post('fs_kode_cabang');
+	}
+
+	public function previewaging() {
+
+	}
+
+	public function excelaging() {
+
+	}
+
+	public function previewagingawal() {
+
+	}
+
+	public function excelagingawal() {
+		
+	}
 }

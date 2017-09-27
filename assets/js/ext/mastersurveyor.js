@@ -18,11 +18,11 @@ Ext.onReady(function() {
 
 	var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
-	var frmDashboard = Ext.create('Ext.form.Panel', {
+	var frmMasterSurveyor = Ext.create('Ext.form.Panel', {
 		border: false,
 		frame: true,
 		region: 'center',
-		title: 'Dashboard',
+		title: 'Master Surveyor',
 		width: 930,
 		items: [{
 			
@@ -31,17 +31,17 @@ Ext.onReady(function() {
 
 	var vMask = new Ext.LoadMask({
 		msg: 'Please wait...',
-		target: frmDashboard
+		target: frmMasterSurveyor
 	});
 
 	function fnMaskShow() {
-		frmDashboard.mask('Please wait...');
+		frmMasterSurveyor.mask('Please wait...');
 	}
 
 	function fnMaskHide() {
-		frmDashboard.unmask();
+		frmMasterSurveyor.unmask();
 	}
 	
-	frmDashboard.render(Ext.getBody());
+	frmMasterSurveyor.render(Ext.getBody());
 	Ext.get('loading').destroy();
 });

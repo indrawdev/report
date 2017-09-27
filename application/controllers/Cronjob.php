@@ -8,7 +8,10 @@ class Cronjob extends CI_Controller {
 			echo "can only be accessed via the command line";
 			return;
 		} else {
-
+			$this->cronARAPK();
+			$this->cronAROVDD();
+			$this->cronARPJB();
+			$this->cronlog();
 		}
 	}
 
@@ -75,6 +78,8 @@ class Cronjob extends CI_Controller {
 						'JOBKON' => '', 'KDDATI' => '',
 						'TGLSPK' => '', 'TGCTPO' => ''
 					);
+
+					$this->db->insert('tx_arapk', $data);
 				}
 
 				dbase_close($db);
@@ -103,6 +108,8 @@ class Cronjob extends CI_Controller {
 						'OVDNET' => '', 'LAMOVD' => '',
 						'JUMKEN' => '', 'CABANG' => ''
 					);
+
+					$this->db->insert('tx_arovdd', $data);
 				}
 				dbase_close($db);
 			}
@@ -171,6 +178,8 @@ class Cronjob extends CI_Controller {
 						'DNDPHR' => '', 'PRMASK' => '',
 						'STATUS' => '', 'NLCAIR' => '',
 					);
+
+					$this->db->insert('tx_arpjb', $data);
 				}
 				dbase_close($db);
 			}
