@@ -45,6 +45,170 @@ Ext.onReady(function() {
 		}
 	});
 
+	Ext.define('DataGridGrouping', {
+		extend: 'Ext.data.Model',
+		fields: [
+			{name: 'fs_kategori', type: 'string'},
+			{name: 'fn_unit', type: 'string'},
+			{name: 'fn_ospokok', type: 'string'},
+			{name: 'fn_ospiu', type: 'string'},
+			{name: 'fd_tglovd', type: 'string'}
+		]
+	});
+
+	var grupGrouping = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		model: 'DataGridGrouping',
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				rootProperty: 'hasil',
+				totalProperty: 'total',
+				type: 'json',
+			},
+			type: 'ajax',
+			url: 'aging/gridgrouping'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_kd_cabang': Ext.getCmp('cboCabang').getValue(),
+					'fd_start': Ext.getCmp('cboStartDate').getValue(),
+					'fd_end': Ext.getCmp('cboEndDate').getValue()
+				});
+			}
+		}
+	});
+
+	var gridGrouping = Ext.create('Ext.grid.Panel', {
+		anchor: '100%',
+		height: 339,
+		sortableColumns: false,
+		store: grupGrouping,
+		columns: [{
+			width: 35,
+			xtype: 'rownumberer'
+		},{
+			align: 'center',
+			text: 'Detail',
+			width: 90,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'Detail',
+						scale: 'small',
+						handler: function() {
+							var record = gridGrouping.getStore().getAt(rowIndex);
+							var kategori = record.get('fs_kategori');
+							var kdcabang = record.get('fs_kode_cabang');
+							var tglstart = record.get('fd_start');
+							var tglend = record.get('fd_end');
+
+							// AFTER CLICK OPEN WINDOW
+							var popUp = Ext.create('Ext.window.Window', {
+								modal: true,
+								width: 950,
+								height: 650,
+								closable: false,
+								layout:'anchor',
+								title: 'REPORT',
+								buttons: [{
+									text: 'Close',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							});
+
+							popUp.add({html: '<iframe height="650" width="942" src="aging/preview/'+ kategori +'/'+ kdcabang +'/'+ tglstart +'/'+ tglend + '"></iframe>'});
+							popUp.show();
+						}
+					});
+				}, 50);
+			}
+		},{
+			align: 'center',
+			text: 'Export to Excel',
+			width: 120,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'Export Excel',
+						scale: 'small',
+						handler: function() {
+							var record = gridGrouping.getStore().getAt(rowIndex);
+							var kategori = record.get('fs_kategori');
+							var kdcabang = record.get('fs_kode_cabang');
+							var tglstart = record.get('fd_start');
+							var tglend = record.get('fd_end');
+
+							var popUp = Ext.create('Ext.window.Window', {
+								width: 300,
+								closable: false,
+								draggable: false,
+								layout: 'fit',
+								title: 'MFAS',
+								items: [],
+								buttons: [{
+									xtype: 'button',
+									text: 'Download',
+									href: 'aging/excel/' + kategori + '/' + kdcabang + '/' + tglstart + '/' + tglend,
+									hrefTarget: '_blank',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								},{
+									text: 'Exit',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							});
+						}
+					});
+				});
+			}
+		},{
+			text: 'Kategori Aging',
+			dataIndex: 'fs_kategori',
+			width: 300,
+			menuDisabled: true
+		},{
+			align: 'center',
+			text: 'Unit',
+			dataIndex: 'fn_unit',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'O/S POKOK',
+			dataIndex: 'fn_ospokok',
+			menuDisabled: true,
+			width: 135
+		},{
+			align: 'center',
+			text: 'O/S PIUTANG',
+			dataIndex: 'fn_ospiu',
+			menuDisabled: true,
+			width: 145
+		}],
+		viewConfig: {
+			getRowClass: function() {
+				return 'rowwrap';
+			},
+			markDirty: false
+		}
+	});
+
 	// POPUP CABANG
 	var winGrid = Ext.create('Ext.grid.Panel', {
 		anchor: '100%',
@@ -225,20 +389,64 @@ Ext.onReady(function() {
 		handler: fnShowData
 	};
 
-
-	var gridAging = {};
-
 	// FUNCTIONS
 	function fnShowData() {
 
 	}
 
 	function fnPreview() {
+		var kdcabang = '';
+		var tglstart = '';
+		var tglend = '';
 
+		var popUp = Ext.create('Ext.window.Window', {
+			modal: true,
+			closable: false,
+			width: 950,
+			height: 650,
+			layout:'anchor',
+			title: 'REPORT',
+			buttons: [{
+				text: 'Close',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		});
+
+		popUp.add({html: '<iframe height="650" width="942" src="aging/previewfpdawal/'+ kdcabang +'/'+ tglstart +'/'+ tglend +'"></iframe>'});
+		popUp.show();
 	}
 
 	function fnDownload() {
+		var kdcabang = '';
+		var tglstart = '';
+		var tglend = '';
 
+		var popUp = Ext.create('Ext.window.Window', {
+			width: 300,
+			closable: false,
+			draggable: false,
+			layout: 'fit',
+			title: 'REPORT',
+			items: [],
+			buttons: [{
+				xtype: 'button',
+				text: 'Download',
+				href: 'aging/download/'+ kdcabang +'/'+ tglstart +'/'+ tglend,
+				hrefTarget: '_blank',
+				handler: function() {
+					vMask.hide();
+				}
+			},{
+				text: 'Exit',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		}).show();
 	}
 
 	var frmAging = Ext.create('Ext.form.Panel', {
@@ -256,7 +464,7 @@ Ext.onReady(function() {
 			},
 			anchor: '100%',
 			style: 'padding: 5px;',
-			title: 'Report',
+			title: 'Report Aging Surveyor',
 			xtype: 'fieldset',
 			items: [{
 				anchor: '100%',
@@ -295,6 +503,13 @@ Ext.onReady(function() {
 						]
 					}]
 				}]
+			},{
+				anchor: '100%',
+				layout: 'hbox',
+				xtype: 'container',
+				items: [
+					gridGrouping
+				]
 			}]
 		}]
 	});

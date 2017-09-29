@@ -102,8 +102,7 @@ Ext.onReady(function() {
 			}]
 		}),
 		listeners: {
-			itemdblclick: function(grid, record)
-			{
+			itemdblclick: function(grid, record) {
 				Ext.getCmp('cboNIK').setValue(record.get('fn_nik'));
 				Ext.getCmp('txtNama').setValue(record.get('fs_nama_karyawan'));
 				grupKaryawan.load();
