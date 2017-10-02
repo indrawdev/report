@@ -17,33 +17,6 @@ Ext.onReady(function() {
 	Ext.util.Format.decimalSeparator = '.';
 
 	var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
-	
-	var grupCabang = Ext.create('Ext.data.Store', {
-		autoLoad: false,
-		fields: [
-			'fs_kode_cabang','fs_nama_cabang'
-		],
-		pageSize: 25,
-		proxy: {
-			actionMethods: {
-				read: 'POST'
-			},
-			reader: {
-				rootProperty: 'hasil',
-				totalProperty: 'total',
-				type: 'json'
-			},
-			type: 'ajax',
-			url: 'aging/gridcabang'
-		},
-		listeners: {
-			beforeload: function(store) {
-				Ext.apply(store.getProxy().extraParams, {
-					'fs_cari': Ext.getCmp('txtCariCabang').getValue()
-				});
-			}
-		}
-	});
 
 	Ext.define('DataGridGrouping', {
 		extend: 'Ext.data.Model',
@@ -74,7 +47,7 @@ Ext.onReady(function() {
 		listeners: {
 			beforeload: function(store) {
 				Ext.apply(store.getProxy().extraParams, {
-					'fs_kd_cabang': Ext.getCmp('cboCabang').getValue(),
+					'fs_kode_cabang': Ext.getCmp('txtKdCabang').getValue(),
 					'fd_start': Ext.getCmp('cboStartDate').getValue(),
 					'fd_end': Ext.getCmp('cboEndDate').getValue()
 				});
@@ -103,6 +76,7 @@ Ext.onReady(function() {
 						scale: 'small',
 						handler: function() {
 							var record = gridGrouping.getStore().getAt(rowIndex);
+
 							var kategori = record.get('fs_kategori');
 							var kdcabang = record.get('fs_kode_cabang');
 							var tglstart = record.get('fd_start');
@@ -144,10 +118,11 @@ Ext.onReady(function() {
 						scale: 'small',
 						handler: function() {
 							var record = gridGrouping.getStore().getAt(rowIndex);
-							var kategori = record.get('fs_kategori');
-							var kdcabang = record.get('fs_kode_cabang');
-							var tglstart = record.get('fd_start');
-							var tglend = record.get('fd_end');
+
+							var xkategori = record.get('fs_kategori');
+							var xkdcabang = record.get('fs_kode_cabang');
+							var xtglstart = record.get('fd_start');
+							var xtglend = record.get('fd_end');
 
 							var popUp = Ext.create('Ext.window.Window', {
 								width: 300,
@@ -159,7 +134,7 @@ Ext.onReady(function() {
 								buttons: [{
 									xtype: 'button',
 									text: 'Download',
-									href: 'aging/excel/' + kategori + '/' + kdcabang + '/' + tglstart + '/' + tglend,
+									href: 'aging/excel/' + xkategori + '/' + xkdcabang + '/' + xtglstart + '/' + xtglend,
 									hrefTarget: '_blank',
 									handler: function() {
 										vMask.hide();
@@ -206,6 +181,33 @@ Ext.onReady(function() {
 				return 'rowwrap';
 			},
 			markDirty: false
+		}
+	});
+
+	var grupCabang = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		fields: [
+			'fs_kode_cabang','fs_nama_cabang'
+		],
+		pageSize: 25,
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				rootProperty: 'hasil',
+				totalProperty: 'total',
+				type: 'json'
+			},
+			type: 'ajax',
+			url: 'aging/gridcabang'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_cari': Ext.getCmp('txtCariCabang').getValue()
+				});
+			}
 		}
 	});
 

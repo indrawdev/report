@@ -18,10 +18,668 @@ Ext.onReady(function() {
 
 	var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
+	Ext.define('DataGridGroupDealer', {
+		extend: 'Ext.data.Model',
+		fields: [
+			{name: 'nomrjb', type: 'string'},
+			{name: 'penjualan', type: 'string'},
+			{name: 'lancar', type: 'string'},
+			{name: 'lunas', type: 'string'},
+			{name: 'kodsup', type: 'string'},
+			{name: 'nomsup', type: 'string'},
+			{name: 'ovdue', type: 'string'},
+			{name: 'nama_dealer', type: 'string'},
+			{name: 'nampem', type: 'string'},
+			{name: 'jenpiu', type: 'string'},
+			{name: 'kodelk', type: 'string'}
+		]
+	});
+
+	Ext.define('DataGridGroupSurveyor', {
+		extend: 'Ext.data.Model',
+		fields: [
+			{name: 'nomrjb', type: 'string'},
+			{name: 'penjualan', type: 'string'},
+			{name: 'lancar', type: 'string'},
+			{name: 'ovdue', type: 'string'},
+			{name: 'lunas', type: 'string'},
+			{name: 'tglfix', type: 'string'},
+			{name: 'tglfix2', type: 'string'},
+			{name: 'nama_svy', type: 'string'},
+			{name: 'nampem', type: 'string'},
+			{name: 'jenpiu', type: 'string'},
+			{name: 'kodelk', type: 'string'}
+		]
+	});
+
+	var grupGroupingDealer = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		model: 'DataGridGroupDealer',
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				type: 'json',
+			},
+			type: 'ajax',
+			url: 'fpd/gridgroupdealer'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_kode_cabang': Ext.getCmp('txtKdCabang1').getValue(),
+					'fd_start': Ext.getCmp('cboStartDate1').getValue(),
+					'fd_end': Ext.getCmp('cboEndDate1').getValue()
+				});
+			}
+		}
+	});
+
+	var grupGroupingSurveyor = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		model: 'DataGridGroupDealer',
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				type: 'json',
+			},
+			type: 'ajax',
+			url: 'fpd/gridgroupdealer'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_kode_cabang': Ext.getCmp('txtKdCabang2').getValue(),
+					'fd_start': Ext.getCmp('cboStartDate2').getValue(),
+					'fd_end': Ext.getCmp('cboEndDate2').getValue()
+				});
+			}
+		}
+	});
+
+	var gridGroupingDealer = Ext.create('Ext.grid.Panel', {
+		anchor: '100%',
+		height: 250,
+		sortableColumns: false,
+		store: grupGroupingDealer,
+		columns: [{
+			width: 35,
+			xtype: 'rownumberer'
+		},{
+			text: 'Detail',
+			align: 'center',
+			width: 70,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'DETAIL',
+						scale: 'small',
+						handler: function() {
+							var record = gridGroupingDealer.getStore().getAt(rowIndex);
+
+							var kdcabang = record.get('fs_kode_cabang');
+							var tglstart = record.get('fd_start');
+							var tglend = record.get('fd_end');
+							var kodsup = record.get('kodsup');
+							var nomsup = record.get('nomsup');
+
+							// AFTER CLICK OPEN WINDOW
+							var popUp = Ext.create('Ext.window.Window', {
+								modal: true,
+								width: 950,
+								height: 650,
+								closable: false,
+								layout:'anchor',
+								title: 'REPORT',
+								buttons: [{
+									text: 'Close',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							});
+
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpd/'+ kdcabang +'/'+ tglstart +'/'+ tglend +'/'+ nomsup +'"></iframe>'});
+							popUp.show();
+						}
+					});
+				}, 50);
+				return Ext.String.format('<div id="{0}"></div>', id);
+			}
+		},{
+			text: 'Export To Excel',
+			align: 'center',
+			width: 100,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'Export To Excel',
+						scale: 'small',
+						handler: function() {
+							var record = gridGroupingDealer.getStore().getAt(rowIndex);
+
+							var kdcabang = record.get('fs_kode_cabang');
+							var tglstart = record.get('fd_start');
+							var tglend = record.get('fd_end');
+							var kodsup = record.get('kodsup');
+							var nomsup = record.get('nomsup');
+
+							// AFTER CLICK OPEN WINDOW
+							var popUp = Ext.create('Ext.window.Window', {
+								width: 300,
+								closable: false,
+								draggable: false,
+								layout: 'fit',
+								title: 'MFAS',
+								items: [],
+								buttons: [{
+									xtype: 'button',
+									text: 'Download',
+									href: 'fpd/downloadexcelfpd/'+kdcabang+'/'+tglstart+'/'+tglend+'/'+kodsup+'/'+nomsup,
+									hrefTarget: '_blank',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								},{
+									text: 'Exit',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							}).show();
+						}
+					});
+				}, 50);
+				return Ext.String.format('<div id="{0}"></div>', id);
+			}
+		},{
+			text: 'Kode Dealer',
+			dataIndex: 'fn_kodelk',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Nama Dealer',
+			dataIndex: 'fs_nama_dealer',
+			menuDisabled: true,
+			width: 195
+		},{
+			align: 'center',
+			text: 'Penjualan',
+			dataIndex: 'fn_penjualan',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Lancar',
+			dataIndex: 'fn_lancar',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Overdue',
+			dataIndex: 'fn_ovdue',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Lunas',
+			dataIndex: 'fn_lunas',
+			menuDisabled: true,
+			width: 70
+		},{
+			dataIndex: 'fd_start',
+			menuDisabled: true,
+			hidden:true
+		},{
+			dataIndex: 'fd_end',
+			menuDisabled: true,
+			hidden:true
+		},{
+			dataIndex: 'fn_kodsup',
+			menuDisabled: true,
+			hidden:true
+		},{
+			dataIndex: 'fn_kodsup',
+			menuDisabled: true,
+			hidden:true
+		},{
+			dataIndex: 'fn_nomsup',
+			menuDisabled: true,
+			hidden:true
+		}],
+		viewConfig: {
+			getRowClass: function() {
+				return 'rowwrap';
+			},
+			markDirty: false
+		}
+	});
+
+	var gridGroupingSurveyor = Ext.create('Ext.grid.Panel', {
+		anchor: '100%',
+		autoDestroy: true,
+		height: 250,
+		sortableColumns: false,
+		store: grupGroupingSurveyor,
+		columns: [{
+			width: 35,
+			xtype: 'rownumberer'
+		},{
+			align: 'center',
+			text: 'Detail',
+			width: 70,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'DETAIL',
+						scale: 'small',
+						handler: function() {
+							var record = gridGroupingSurveyor.getStore().getAt(rowIndex);
+
+							var xkdcabang = record.get('fs_kode_cabang');
+							var xtglstart = record.get('fd_start');
+							var xtglend = record.get('fd_end');
+							var xkodelk = record.get('fn_kodelk');
+							var xptgsvy = record.get('fs_nama_surveyor');
+
+							var popUp = Ext.create('Ext.window.Window', {
+								modal: true,
+								width: 950,
+								height: 650,
+								closable: false,
+								layout:'anchor',
+								title: 'REPORT',
+								buttons: [{
+									text: 'Close',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							});
+
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpd2/'+xkdcabang+'/'+xtglstart+'/'+xtglend+'/'+xkodelk+'/'+xptgsvy+'"></iframe>'});
+							popUp.show();
+						}
+					});
+				}, 50);
+				return Ext.String.format('<div id="{0}"></div>', id);
+			}
+		},{
+			align: 'center',
+			text: 'Export To Excel',
+			width: 100,
+			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
+				var id = Ext.id();
+				Ext.defer(function() {
+					Ext.widget('button', {
+						renderTo: id,
+						text: 'Export To Excel',
+						scale: 'small',
+						handler: function() {
+							var record = gridGroupingSurveyor.getStore().getAt(rowIndex);
+
+							var xkdcabang = record.get('fs_kode_cabang');
+							var xtglstart = record.get('fd_start');
+							var xtglend = record.get('fd_end');
+							var xkodelk = record.get('fn_kodelk');
+							var xptgsvy = record.get('fs_nama_surveyor');
+
+							var popUp = Ext.create('Ext.window.Window', {
+								width: 300,
+								closable: false,
+								draggable: false,
+								layout: 'fit',
+								title: 'MFAS',
+								items: [],
+								buttons: [{
+									xtype: 'button',
+									text: 'Download',
+									href: 'fpd/downloadexcelsvy/'+ptgsvy+'/'+kodelk+'/'+tglfix+'/'+tglfix2,
+									hrefTarget: '_blank',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								},{
+									text: 'Exit',
+									handler: function() {
+										vMask.hide();
+										popUp.hide();
+									}
+								}]
+							}).show();
+						}
+					});
+				}, 50);
+				return Ext.String.format('<div id="{0}"></div>', id);
+			}
+		},{
+			text: 'Kode Cabang',
+			dataIndex: 'fn_kodelk',
+			menuDisabled: true,
+			width: 80
+		},{
+			align: 'center',
+			text: 'Nama Surveyor',
+			dataIndex: 'fs_nama_surveyor',
+			menuDisabled: true,
+			width: 185
+		},{
+			align: 'center',
+			text: 'Penjualan',
+			dataIndex: 'fn_penjualan',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Lancar',
+			dataIndex: 'fn_lancar',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Overdue',
+			dataIndex: 'fn_ovdue',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'Lunas',
+			dataIndex: 'fn_lunas',
+			menuDisabled: true,
+			width: 70
+		},{
+			dataIndex: 'fd_start',
+			menuDisabled: true,
+			hidden:true
+		},{
+			dataIndex: 'fd_end',
+			menuDisabled: true,
+			hidden:true
+		}],
+		viewConfig: {
+			getRowClass: function() {
+				return 'rowwrap';
+			},
+			markDirty: false
+		}
+	});
+
+	var grupCabang1 = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		fields: [
+			'fs_kode_cabang','fs_nama_cabang'
+		],
+		pageSize: 25,
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				rootProperty: 'hasil',
+				totalProperty: 'total',
+				type: 'json'
+			},
+			type: 'ajax',
+			url: 'aging/gridcabang'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_cari': Ext.getCmp('txtCariCabang1').getValue()
+				});
+			}
+		}
+	});
+
+	var grupCabang2 = Ext.create('Ext.data.Store', {
+		autoLoad: false,
+		fields: [
+			'fs_kode_cabang','fs_nama_cabang'
+		],
+		pageSize: 25,
+		proxy: {
+			actionMethods: {
+				read: 'POST'
+			},
+			reader: {
+				rootProperty: 'hasil',
+				totalProperty: 'total',
+				type: 'json'
+			},
+			type: 'ajax',
+			url: 'aging/gridcabang'
+		},
+		listeners: {
+			beforeload: function(store) {
+				Ext.apply(store.getProxy().extraParams, {
+					'fs_cari': Ext.getCmp('txtCariCabang2').getValue()
+				});
+			}
+		}
+	});
+
+
+	// POPUP CABANG REPOT DEALER
+	var winGrid1 = Ext.create('Ext.grid.Panel', {
+		anchor: '100%',
+		autoDestroy: true,
+		height: 450,
+		width: 500,
+		sortableColumns: false,
+		store: grupCabang1,
+		columns: [{
+			xtype: 'rownumberer',
+			width: 25
+		},{
+			text: 'Kode Cabang',
+			dataIndex: 'fs_kode_cabang',
+			menuDisabled: true,
+			flex: 0.7
+		},{
+			text: 'Nama Cabang',
+			dataIndex: 'fs_nama_cabang',
+			menuDisabled: true,
+			flex: 2
+		}],
+		tbar: [{
+			flex: 1,
+			layout: 'anchor',
+			xtype: 'container',
+			items: [{
+				anchor: '98%',
+				emptyText: 'Nama Cabang',
+				id: 'txtCariCabang1',
+				name: 'txtCariCabang1',
+				xtype: 'textfield'
+			}]
+		},{
+			flex: 0.2,
+			layout: 'anchor',
+			xtype: 'container',
+			items: [{
+				anchor: '100%',
+				text: 'Search',
+				xtype: 'button',
+				handler: function() {
+					grupCabang1.load();
+				}
+			}]
+		},{
+			flex: 0.5,
+			layout: 'anchor',
+			xtype: 'container',
+			items: []
+		}],
+		bbar: Ext.create('Ext.PagingToolbar', {
+			displayInfo: true,
+			pageSize: 25,
+			plugins: Ext.create('Ext.ux.ProgressBarPager', {}),
+			store: grupCabang1,
+			items:[
+				'-', {
+				text: 'Exit',
+				handler: function() {
+					winCari1.hide();
+				}
+			}]
+		}),
+		listeners: {
+			itemdblclick: function(grid, record) {
+				Ext.getCmp('cboCabang1').setValue(record.get('fs_nama_cabang'));
+				Ext.getCmp('txtKdCabang1').setValue(record.get('fs_kode_cabang'));
+				winCari1.hide();
+			}
+		},
+		viewConfig: {
+			getRowClass: function() {
+				return 'rowwrap';
+			},
+			markDirty: false
+		}
+	});
+
+	var winCari1 = Ext.create('Ext.window.Window', {
+		border: false,
+		closable: false,
+		draggable: true,
+		frame: false,
+		layout: 'fit',
+		plain: true,
+		resizable: false,
+		title: 'Searching...',
+		items: [
+			winGrid1
+		],
+		listeners: {
+			beforehide: function() {
+				vMask.hide();
+			},
+			beforeshow: function() {
+				grupCabang1.load();
+				vMask.show();
+			}
+		}
+	});
+
+	// POPUP CABANG REPORT SURVEYOR
+	var winGrid2 = Ext.create('Ext.grid.Panel', {
+		anchor: '100%',
+		autoDestroy: true,
+		height: 450,
+		width: 500,
+		sortableColumns: false,
+		store: grupCabang2,
+		columns: [{
+			xtype: 'rownumberer',
+			width: 25
+		},{
+			text: 'Kode Cabang',
+			dataIndex: 'fs_kode_cabang',
+			menuDisabled: true,
+			flex: 0.7
+		},{
+			text: 'Nama Cabang',
+			dataIndex: 'fs_nama_cabang',
+			menuDisabled: true,
+			flex: 2
+		}],
+		tbar: [{
+			flex: 1,
+			layout: 'anchor',
+			xtype: 'container',
+			items: [{
+				anchor: '98%',
+				emptyText: 'Nama Cabang',
+				id: 'txtCariCabang2',
+				name: 'txtCariCabang2',
+				xtype: 'textfield'
+			}]
+		},{
+			flex: 0.2,
+			layout: 'anchor',
+			xtype: 'container',
+			items: [{
+				anchor: '100%',
+				text: 'Search',
+				xtype: 'button',
+				handler: function() {
+					grupCabang2.load();
+				}
+			}]
+		},{
+			flex: 0.5,
+			layout: 'anchor',
+			xtype: 'container',
+			items: []
+		}],
+		bbar: Ext.create('Ext.PagingToolbar', {
+			displayInfo: true,
+			pageSize: 25,
+			plugins: Ext.create('Ext.ux.ProgressBarPager', {}),
+			store: grupCabang2,
+			items:[
+				'-', {
+				text: 'Exit',
+				handler: function() {
+					winCari2.hide();
+				}
+			}]
+		}),
+		listeners: {
+			itemdblclick: function(grid, record) {
+				Ext.getCmp('cboCabang2').setValue(record.get('fs_nama_cabang'));
+				Ext.getCmp('txtKdCabang2').setValue(record.get('fs_kode_cabang'));
+				winCari2.hide();
+			}
+		},
+		viewConfig: {
+			getRowClass: function() {
+				return 'rowwrap';
+			},
+			markDirty: false
+		}
+	});
+
+	var winCari2 = Ext.create('Ext.window.Window', {
+		border: false,
+		closable: false,
+		draggable: true,
+		frame: false,
+		layout: 'fit',
+		plain: true,
+		resizable: false,
+		title: 'Searching...',
+		items: [
+			winGrid2
+		],
+		listeners: {
+			beforehide: function() {
+				vMask.hide();
+			},
+			beforeshow: function() {
+				grupCabang2.load();
+				vMask.show();
+			}
+		}
+	});
+
 	// COMPONENT TAB FORM REPORT DEALER
 	var cboCabang1 = {
-		afterLabelTextTpl: required,
-		allowBlank: false,
 		anchor: '99%',
 		emptyText: 'Nama Cabang',
 		fieldLabel: 'Nama Cabang',
@@ -34,6 +692,7 @@ Ext.onReady(function() {
 				cls: 'x-form-clear-trigger',
 				handler: function(field) {
 					field.setValue('');
+					Ext.getCmp('txtKdCabang1').setValue('');
 				}
 			},
 			cari: {
@@ -93,13 +752,14 @@ Ext.onReady(function() {
 		iconCls: 'icon-complete',
 		text: 'TAMPILKAN DATA',
 		xtype: 'button',
-		handler: fnShowData1
+		handler: function() {
+			grupGroupingDealer.removeAll();
+			grupGroupingDealer.load();
+		}
 	};
 
 	// COMPONENT TAB FORM REPORT SURVEYOR
 	var cboCabang2 = {
-		afterLabelTextTpl: required,
-		allowBlank: false,
 		anchor: '99%',
 		emptyText: 'Nama Cabang',
 		fieldLabel: 'Nama Cabang',
@@ -112,6 +772,7 @@ Ext.onReady(function() {
 				cls: 'x-form-clear-trigger',
 				handler: function(field) {
 					field.setValue('');
+					Ext.getCmp('txtKdCabang2').setValue('');
 				}
 			},
 			cari: {
@@ -171,24 +832,151 @@ Ext.onReady(function() {
 		iconCls: 'icon-complete',
 		text: 'TAMPILKAN DATA',
 		xtype: 'button',
-		handler: fnShowData2
+		handler: function() {
+			grupGroupingSurveyor.removeAll();
+			grupGroupingSurveyor.load();
+		}
 	};
 
 	// FUNCTIONS
-	function fnShowData1() {
-
-	}
-
-	function fnShowData2() {
-
-	}
-
 	function fnReset1() {
-
+		Ext.getCmp('cboCabang1').setValue('');
+		Ext.getCmp('txtKdCabang1').setValue('');
+		Ext.getCmp('cboStartDate1').setValue(new Date());
+		Ext.getCmp('cboEndDate1').setValue(new Date());
 	}
 
 	function fnReset2() {
+		Ext.getCmp('cboCabang2').setValue('');
+		Ext.getCmp('txtKdCabang2').setValue('');
+		Ext.getCmp('cboStartDate2').setValue(new Date());
+		Ext.getCmp('cboEndDate2').setValue(new Date());
+	}
 
+	function fnPrintDealer() {
+		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
+		var xtglend = Ext.getCmp('cboEndDate1').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
+
+		var popUp = Ext.create('Ext.window.Window', {
+			modal: true,
+			width: 950,
+			height: 650,
+			layout:'anchor',
+			title: 'REPORT',
+			buttons: [{
+				text: 'Close',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		});
+
+		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpdawal/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
+		popUp.show();
+	}
+
+	function fnPrintSurveyor() {
+		var xkdcabang = Ext.getCmp('txtKdCabang2').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate2').getValue();
+		var xtglend = Ext.getCmp('cboEndDate2').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
+
+		var popUp = Ext.create('Ext.window.Window', {
+			modal: true,
+			width: 950,
+			height: 650,
+			layout:'anchor',
+			title: 'REPORT',
+			buttons: [{
+				text: 'Close',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		});
+
+		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewsvyawal/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
+		popUp.show();
+	}
+
+	function fnDownloadDealer() {
+		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
+		var xtglend = Ext.getCmp('cboEndDate1').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
+
+		var popUp = Ext.create('Ext.window.Window', {
+			width: 300,
+			closable: false,
+			draggable: false,
+			layout: 'fit',
+			title: 'REPORT',
+			items: [],
+			buttons: [{
+				xtype: 'button',
+				text: 'Download',
+				href: 'fpd/downloadfpdawalsvy/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
+				hrefTarget: '_blank',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			},{
+				text: 'Exit',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		}).show();
+	}
+
+	function fnDownloadSurveyor() {
+		var xkdcabang = Ext.getCmp('txtKdCabang2').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate2').getValue();
+		var xtglend = Ext.getCmp('cboEndDate2').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
+
+		var popUp = Ext.create('Ext.window.Window', {
+			width: 300,
+			closable: false,
+			draggable: false,
+			layout: 'fit',
+			title: 'REPORT',
+			items: [],
+			buttons: [{
+				xtype: 'button',
+				text: 'Download',
+				href: 'fpd/downloadfpdawalsvy/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
+				hrefTarget: '_blank',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			},{
+				text: 'Exit',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		}).show();
 	}
 
 	var frmFDP = Ext.create('Ext.form.Panel', {
@@ -209,6 +997,7 @@ Ext.onReady(function() {
 				border: false,
 				frame: false,
 				title: 'Report Dealer',
+				xtype: 'form',
 				items: [{
 					fieldDefaults: {
 						labelAlign: 'right',
@@ -258,6 +1047,25 @@ Ext.onReady(function() {
 							}]
 						}]
 					}]
+				},{
+					anchor: '100%',
+					style: 'padding: 5px',
+					title: 'Data Dealer',
+					xtype: 'fieldset',
+					items: [
+						gridGroupingDealer
+					]
+				}],
+				buttons: [{
+					text: 'Print PDF',
+					iconCls: 'icon-print',
+					scale: 'medium',
+					handler: fnPrintDealer
+				},{
+					text: 'Download Excel',
+					iconCls: 'icon-save',
+					scale: 'medium',
+					handler: fnDownloadDealer
 				}]
 			},{
 				id: 'tab2',
@@ -265,6 +1073,7 @@ Ext.onReady(function() {
 				border: false,
 				frame: false,
 				title: 'Report Surveyor',
+				xtype: 'form',
 				items: [{
 					fieldDefaults: {
 						labelAlign: 'right',
@@ -314,6 +1123,25 @@ Ext.onReady(function() {
 							}]
 						}]
 					}]
+				},{
+					anchor: '100%',
+					style: 'padding: 5px',
+					title: 'Data Dealer',
+					xtype: 'fieldset',
+					items: [
+						gridGroupingSurveyor
+					]
+				}],
+				buttons: [{
+					text: 'Print PDF',
+					iconCls: 'icon-print',
+					scale: 'medium',
+					handler: fnPrintSurveyor
+				},{
+					text: 'Download Excel',
+					iconCls: 'icon-save',
+					scale: 'medium',
+					handler: fnDownloadSurveyor
 				}]
 			}]
 		}]
