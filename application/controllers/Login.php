@@ -97,8 +97,8 @@ class Login extends CI_Controller {
 					$this->db->update('tm_user', $data);
 
 					// START LOGGING
-					$this->load->model('Mlog');
-					$this->Mlog->logger('LOGIN', $username, 'MASUK KE SISTEM REPORT');
+					$this->load->model('MLog');
+					$this->MLog->logger('LOGIN', $username, 'MASUK KE SISTEM REPORT');
 					// END LOGGING
 
 					echo "{success:true}";
@@ -117,8 +117,8 @@ class Login extends CI_Controller {
 		$user = $this->encryption->decrypt($this->session->userdata('username'));
 		
 		// START LOGGING
-		$this->load->model('Mlog');
-		$this->Mlog->logger('LOGOUT', $user, 'KELUAR DARI SISTEM REPORT');
+		$this->load->model('MLog');
+		$this->MLog->logger('LOGOUT', $user, 'KELUAR DARI SISTEM REPORT');
 		// END LOGGING
 
 		$this->session->sess_destroy();

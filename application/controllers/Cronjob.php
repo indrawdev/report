@@ -3,15 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cronjob extends CI_Controller {
 
+	public function __construct() {
+		parent::__construct();
+    }
+
 	public function index() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
-			return;
 		} else {
 			$this->cronARAPK();
 			$this->cronAROVDD();
 			$this->cronARPJB();
-			$this->cronlog();
+			$this->cronLog();
 		}
 	}
 
@@ -19,13 +22,17 @@ class Cronjob extends CI_Controller {
 	public function cronARAPK() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
-			return;
 		} else {
-			$db = dbase_open('/temp/ARAPK.dbf', 0);
+			$db = dbase_open('./temp/dbf/ARAPK.DBF', 0);
 			if ($db) {
+
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arapk');
+
 				$num_row = dbase_numrecords($db);
 				for ($i = 1; $i <= $num_row; $i++) {
-					$val = dbase_get_record($num_row, $i);
+					$val = dbase_get_record($db, $i);
 
 					$data = array(
 						'fs_recordid' => $val[0], 'fn_nomapk' => $val[1],
@@ -76,7 +83,8 @@ class Cronjob extends CI_Controller {
 						'fs_sptthn' => $val[90], 'fs_namibu' => $val[91],
 						'fs_kecama' => $val[92], 'fs_kelura' => $val[93],
 						'fs_jobkon' => $val[94], 'fs_kddati' => $val[95],
-						'fd_tglspk' => date('Y-m-d', strtotime($val[96])), date('Y-m-d', strtotime('fd_tgctpo' => $val[97]))
+						'fd_tglspk' => date('Y-m-d', strtotime($val[96])), 'fd_tgctpo' => date('Y-m-d', strtotime($val[97])),
+						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
 
 					$this->db->insert('tx_arapk', $data);
@@ -91,13 +99,17 @@ class Cronjob extends CI_Controller {
 	public function cronAROVDD() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
-			return;
 		} else {
-			$db = dbase_open('/temp/AROVDD.dbf', 0);
+			$db = dbase_open('/temp/dbf/AROVDD.DBF', 0);
+
 			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arovdd');
+
 				$num_row = dbase_numrecords($db);
 				for ($i = 1; $i <= $num_row; $i++) {
-					$val = dbase_get_record($num_row, $i);
+					$val = dbase_get_record($db, $i);
 
 					$data = array(
 						'fn_kodelk' => $val[0], 'fn_nomdel' => $val[1],
@@ -106,7 +118,8 @@ class Cronjob extends CI_Controller {
 						'fd_tglovd' => date('Y-m-d', strtotime($val[6])), 'fn_outgrs' => $val[7],
 						'fn_outnet' => $val[8], 'fn_ovdgrs' => $val[9],
 						'fn_ovdnet' => $val[10], 'fn_lamovd' => $val[11],
-						'fn_jumken' => $val[12], 'fs_cabang' => $val[13]
+						'fn_jumken' => $val[12], 'fs_cabang' => $val[13],
+						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
 
 					$this->db->insert('tx_arovdd', $data);
@@ -120,13 +133,17 @@ class Cronjob extends CI_Controller {
 	public function cronARPJB() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
-			return;
 		} else {
-			$db = dbase_open('/temp/ARPJB.dbf', 0);
+			$db = dbase_open('./temp/dbf/ARPJB.DBF', 0);
+
 			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arpjb');
+
 				$num_row = dbase_numrecords($db);
 				for ($i = 1; $i <= $num_row; $i++) {
-					$val = dbase_get_record($num_row, $i);
+					$val = dbase_get_record($db, $i);
 
 					$data = array(
 						'fn_recordid' => $val[0], 'fn_nomrjb' => $val[1],
@@ -177,6 +194,7 @@ class Cronjob extends CI_Controller {
 						'fn_tgangp' => $val[90], 'fn_aroffs' => $val[91],
 						'fs_dndphr' => $val[92], 'fn_prmask' => $val[93],
 						'fs_status' => $val[94], 'fn_nlcair' => $val[95],
+						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
 
 					$this->db->insert('tx_arpjb', $data);
@@ -187,14 +205,16 @@ class Cronjob extends CI_Controller {
 	}
 
 	// CRONTAB ACTIVITY
-	public function cronlog() {
+	public function cronLog() {
 		$data = array(
 			'log_time' => date('Y-m-d H:i:s'),
 			'log_name' => 'CRONJOB',
 			'log_user' => 'SERVER',
 			'log_message' => 'CRONJOB DBF FILE',
-			'ip_address' => $_SERVER['REMOTE_ADDR']
+			'ip_address' => 'NO-IP'
 		);
+		
+		$this->load->database();
 		$this->db->insert('tb_log', $data);
 	}
 

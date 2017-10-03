@@ -57,7 +57,7 @@ Ext.onReady(function() {
 
 	var gridGrouping = Ext.create('Ext.grid.Panel', {
 		anchor: '100%',
-		height: 339,
+		height: 250,
 		sortableColumns: false,
 		store: grupGrouping,
 		columns: [{
@@ -329,6 +329,7 @@ Ext.onReady(function() {
 				cls: 'x-form-clear-trigger',
 				handler: function(field) {
 					field.setValue('');
+					Ext.getCmp('txtKdCabang').setValue('');
 				}
 			},
 			cari: {
@@ -393,13 +394,25 @@ Ext.onReady(function() {
 
 	// FUNCTIONS
 	function fnShowData() {
+		grupGrouping.removeAll();
+		grupGrouping.load();
+	}
 
+	function fnReset() {
+		Ext.getCmp('cboCabang').setValue('');
+		Ext.getCmp('txtKdCabang').setValue('');
+		Ext.getCmp('cboStartDate').setValue(new Date());
+		Ext.getCmp('cboEndDate').setValue(new Date());
 	}
 
 	function fnPreview() {
-		var kdcabang = '';
-		var tglstart = '';
-		var tglend = '';
+		var xkdcabang = Ext.getCmp('txtKdCabang').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate').getValue();
+		var xtglend = Ext.getCmp('cboEndDate').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
 
 		var popUp = Ext.create('Ext.window.Window', {
 			modal: true,
@@ -417,14 +430,18 @@ Ext.onReady(function() {
 			}]
 		});
 
-		popUp.add({html: '<iframe height="650" width="942" src="aging/previewfpdawal/'+ kdcabang +'/'+ tglstart +'/'+ tglend +'"></iframe>'});
+		popUp.add({html: '<iframe height="650" width="942" src="aging/previewfpdawal/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
 		popUp.show();
 	}
 
 	function fnDownload() {
-		var kdcabang = '';
-		var tglstart = '';
-		var tglend = '';
+		var xkdcabang = Ext.getCmp('txtKdCabang').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate').getValue();
+		var xtglend = Ext.getCmp('cboEndDate').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
 
 		var popUp = Ext.create('Ext.window.Window', {
 			width: 300,
@@ -436,7 +453,7 @@ Ext.onReady(function() {
 			buttons: [{
 				xtype: 'button',
 				text: 'Download',
-				href: 'aging/download/'+ kdcabang +'/'+ tglstart +'/'+ tglend,
+				href: 'aging/download/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
 				hrefTarget: '_blank',
 				handler: function() {
 					vMask.hide();
@@ -513,7 +530,18 @@ Ext.onReady(function() {
 					gridGrouping
 				]
 			}]
-		}]
+		}],
+		buttons: [{
+				text: 'Print PDF',
+				iconCls: 'icon-print',
+				scale: 'medium',
+				handler: ''
+			},{
+				text: 'Download Excel',
+				iconCls: 'icon-save',
+				scale: 'medium',
+				handler: ''
+			}]
 	});
 
 	var vMask = new Ext.LoadMask({

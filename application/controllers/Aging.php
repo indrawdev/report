@@ -61,19 +61,21 @@ class Aging extends CI_Controller {
 		}
 	}
 
-	public function previewaging() {
+	// DETAIL REPORT AGING
+	public function previewagingdetail() {
 
 	}
 
-	public function excelaging() {
+	public function downloadagingdetail() {
 
 	}
 
-	public function previewagingawal() {
+	// ALL REPORT AGING
+	public function previewpdfagingall() {
 
 	}
 
-	public function excelagingawal() {
+	public function downloadexcelagingall() {
 		
 	}
 }
