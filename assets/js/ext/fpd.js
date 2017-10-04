@@ -28,10 +28,10 @@ Ext.onReady(function() {
 			{name: 'kodsup', type: 'string'},
 			{name: 'nomsup', type: 'string'},
 			{name: 'ovdue', type: 'string'},
-			{name: 'nama_dealer', type: 'string'},
+			{name: 'fs_nama_dealer', type: 'string'},
 			{name: 'nampem', type: 'string'},
-			{name: 'jenpiu', type: 'string'},
-			{name: 'kodelk', type: 'string'}
+			{name: 'fs_jenpiu', type: 'string'},
+			{name: 'fn_kodelk', type: 'string'}
 		]
 	});
 
@@ -69,8 +69,8 @@ Ext.onReady(function() {
 			beforeload: function(store) {
 				Ext.apply(store.getProxy().extraParams, {
 					'fs_kode_cabang': Ext.getCmp('txtKdCabang1').getValue(),
-					'fd_start': Ext.getCmp('cboStartDate1').getValue(),
-					'fd_end': Ext.getCmp('cboEndDate1').getValue()
+					'fd_start': Ext.Date.format(Ext.getCmp('cboStartDate1').getValue(), 'Y-m-d'),
+					'fd_end': Ext.Date.format(Ext.getCmp('cboEndDate1').getValue(), 'Y-m-d')
 				});
 			}
 		}
@@ -87,14 +87,14 @@ Ext.onReady(function() {
 				type: 'json',
 			},
 			type: 'ajax',
-			url: 'fpd/gridgroupdealer'
+			url: 'fpd/gridgroupsurveyor'
 		},
 		listeners: {
 			beforeload: function(store) {
 				Ext.apply(store.getProxy().extraParams, {
 					'fs_kode_cabang': Ext.getCmp('txtKdCabang2').getValue(),
-					'fd_start': Ext.getCmp('cboStartDate2').getValue(),
-					'fd_end': Ext.getCmp('cboEndDate2').getValue()
+					'fd_start': Ext.Date.format(Ext.getCmp('cboStartDate2').getValue(), 'Y-m-d'),
+					'fd_end': Ext.Date.format(Ext.getCmp('cboEndDate2').getValue(), 'Y-m-d')
 				});
 			}
 		}
@@ -122,11 +122,11 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingDealer.getStore().getAt(rowIndex);
 
-							var kdcabang = record.get('fs_kode_cabang');
-							var tglstart = record.get('fd_start');
-							var tglend = record.get('fd_end');
-							var kodsup = record.get('kodsup');
-							var nomsup = record.get('nomsup');
+							var xkdcabang = record.get('fs_kode_cabang');
+							var xtglstart = record.get('fd_start');
+							var xtglend = record.get('fd_end');
+							var xkodsup = record.get('fn_kodsup');
+							var xnomsup = record.get('fn_nomsup');
 
 							// AFTER CLICK OPEN WINDOW
 							var popUp = Ext.create('Ext.window.Window', {
@@ -145,7 +145,7 @@ Ext.onReady(function() {
 								}]
 							});
 
-							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpd/'+ kdcabang +'/'+ tglstart +'/'+ tglend +'/'+ nomsup +'"></iframe>'});
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewdealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkodsup +'/'+ xnomsup +'"></iframe>'});
 							popUp.show();
 						}
 					});
@@ -166,11 +166,11 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingDealer.getStore().getAt(rowIndex);
 
-							var kdcabang = record.get('fs_kode_cabang');
-							var tglstart = record.get('fd_start');
-							var tglend = record.get('fd_end');
-							var kodsup = record.get('kodsup');
-							var nomsup = record.get('nomsup');
+							var xkdcabang = record.get('fs_kode_cabang');
+							var xtglstart = record.get('fd_start');
+							var xtglend = record.get('fd_end');
+							var xkodsup = record.get('fn_kodsup');
+							var xnomsup = record.get('fn_nomsup');
 
 							// AFTER CLICK OPEN WINDOW
 							var popUp = Ext.create('Ext.window.Window', {
@@ -183,7 +183,7 @@ Ext.onReady(function() {
 								buttons: [{
 									xtype: 'button',
 									text: 'Download',
-									href: 'fpd/downloadexcelfpd/'+kdcabang+'/'+tglstart+'/'+tglend+'/'+kodsup+'/'+nomsup,
+									href: 'fpd/downloaddealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkodsup +'/'+ xnomsup,
 									hrefTarget: '_blank',
 									handler: function() {
 										vMask.hide();
@@ -292,8 +292,8 @@ Ext.onReady(function() {
 							var xkdcabang = record.get('fs_kode_cabang');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xkodelk = record.get('fn_kodelk');
 							var xptgsvy = record.get('fs_nama_surveyor');
+							var xkodelk = record.get('fn_kodelk');
 
 							var popUp = Ext.create('Ext.window.Window', {
 								modal: true,
@@ -311,7 +311,7 @@ Ext.onReady(function() {
 								}]
 							});
 
-							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpd2/'+xkdcabang+'/'+xtglstart+'/'+xtglend+'/'+xkodelk+'/'+xptgsvy+'"></iframe>'});
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy +'/'+ xkodelk +'"></iframe>'});
 							popUp.show();
 						}
 					});
@@ -335,20 +335,20 @@ Ext.onReady(function() {
 							var xkdcabang = record.get('fs_kode_cabang');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xkodelk = record.get('fn_kodelk');
 							var xptgsvy = record.get('fs_nama_surveyor');
+							var xkodelk = record.get('fn_kodelk');
 
 							var popUp = Ext.create('Ext.window.Window', {
 								width: 300,
 								closable: false,
 								draggable: false,
 								layout: 'fit',
-								title: 'MFAS',
+								title: 'REPORT',
 								items: [],
 								buttons: [{
 									xtype: 'button',
 									text: 'Download',
-									href: 'fpd/downloadexcelsvy/'+ptgsvy+'/'+kodelk+'/'+tglfix+'/'+tglfix2,
+									href: 'fpd/downloadsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy +'/'+ xkodelk,
 									hrefTarget: '_blank',
 									handler: function() {
 										vMask.hide();
@@ -435,7 +435,7 @@ Ext.onReady(function() {
 				type: 'json'
 			},
 			type: 'ajax',
-			url: 'aging/gridcabang'
+			url: 'fpd/gridcabang'
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -462,7 +462,7 @@ Ext.onReady(function() {
 				type: 'json'
 			},
 			type: 'ajax',
-			url: 'aging/gridcabang'
+			url: 'fpd/gridcabang'
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -753,7 +753,6 @@ Ext.onReady(function() {
 		text: 'TAMPILKAN DATA',
 		xtype: 'button',
 		handler: function() {
-			grupGroupingDealer.removeAll();
 			grupGroupingDealer.load();
 		}
 	};
@@ -877,8 +876,43 @@ Ext.onReady(function() {
 			}]
 		});
 
-		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewfpdawal/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
+		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewpdfdealerall/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
 		popUp.show();
+	}
+
+	function fnDownloadDealer() {
+		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
+		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
+		var xtglend = Ext.getCmp('cboEndDate1').getValue();
+
+		if (xkdcabang == '') {
+			xkdcabang = 0;
+		}
+
+		var popUp = Ext.create('Ext.window.Window', {
+			width: 300,
+			closable: false,
+			draggable: false,
+			layout: 'fit',
+			title: 'REPORT',
+			items: [],
+			buttons: [{
+				xtype: 'button',
+				text: 'Download',
+				href: 'fpd/downloadexceldealerall/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
+				hrefTarget: '_blank',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			},{
+				text: 'Exit',
+				handler: function() {
+					vMask.hide();
+					popUp.hide();
+				}
+			}]
+		}).show();
 	}
 
 	function fnPrintSurveyor() {
@@ -905,43 +939,8 @@ Ext.onReady(function() {
 			}]
 		});
 
-		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewsvyawal/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
+		popUp.add({html: '<iframe width="942" height="650" src="fpd/previewpdfsurveyorall/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
 		popUp.show();
-	}
-
-	function fnDownloadDealer() {
-		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
-		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
-		var xtglend = Ext.getCmp('cboEndDate1').getValue();
-
-		if (xkdcabang == '') {
-			xkdcabang = 0;
-		}
-
-		var popUp = Ext.create('Ext.window.Window', {
-			width: 300,
-			closable: false,
-			draggable: false,
-			layout: 'fit',
-			title: 'REPORT',
-			items: [],
-			buttons: [{
-				xtype: 'button',
-				text: 'Download',
-				href: 'fpd/downloadfpdawalsvy/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
-				hrefTarget: '_blank',
-				handler: function() {
-					vMask.hide();
-					popUp.hide();
-				}
-			},{
-				text: 'Exit',
-				handler: function() {
-					vMask.hide();
-					popUp.hide();
-				}
-			}]
-		}).show();
 	}
 
 	function fnDownloadSurveyor() {
@@ -963,7 +962,7 @@ Ext.onReady(function() {
 			buttons: [{
 				xtype: 'button',
 				text: 'Download',
-				href: 'fpd/downloadfpdawalsvy/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
+				href: 'fpd/downloadexcelsurveyorall/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend,
 				hrefTarget: '_blank',
 				handler: function() {
 					vMask.hide();

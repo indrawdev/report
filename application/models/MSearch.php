@@ -44,7 +44,7 @@ class MSearch extends CI_Model
 		}
 
 		$xSQL = $xSQL.("
-			ORDER BY fs_nama_cabang ASC LIMIT ".$nStart.",".$nLimit."
+			ORDER BY fs_kode_cabang ASC LIMIT ".$nStart.",".$nLimit."
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -62,7 +62,7 @@ class MSearch extends CI_Model
 		if (!empty($sCari))
 		{
 			$xSQL = $xSQL.("
-				AND fs_nama_surveyor LIKE '%".trim($sCari)."%'
+				AND fs_kode_surveyor LIKE '%".trim($sCari)."%'
 			");
 		}
 
@@ -86,7 +86,7 @@ class MSearch extends CI_Model
 		}
 		
 		$xSQL = $xSQL.("
-			ORDER BY fs_nama_surveyor ASC LIMIT ".$nStart.",".$nLimit."
+			ORDER BY fs_kode_surveyor ASC LIMIT ".$nStart.",".$nLimit."
 		");
 
 		$sSQL = $this->db->query($xSQL);

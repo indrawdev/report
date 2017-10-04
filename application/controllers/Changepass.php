@@ -74,6 +74,7 @@ class Changepass extends CI_Controller {
 		$data = array(
 				'fs_password' => $newpass,
 				'fs_user_edit' => $username,
+				'fd_ganti_pass' => date('Y-m-d H:i:s'),
 				'fd_tanggal_edit' => date('Y-m-d H:i:s')
 			);
 		$where = "fs_username = '".trim($username)."' AND fs_password = '".trim($oldpass)."'";
@@ -81,8 +82,8 @@ class Changepass extends CI_Controller {
 		$this->db->update('tm_user', $data);
 
 		// START LOGGING
-		$this->load->model('Mlog');
-		$this->Mlog->logger('CHANGE PASSWORD', $username, 'SUDAH GANTI PASSWORD');
+		$this->load->model('MLog');
+		$this->MLog->logger('CHANGE PASSWORD', $username, 'SUDAH GANTI PASSWORD');
 		// END LOGGING
 		
 		$hasil = array(

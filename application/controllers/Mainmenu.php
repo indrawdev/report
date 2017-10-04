@@ -27,24 +27,10 @@ class Mainmenu extends CI_Controller {
 	
 	function ambil_nodes() {
 		$leveluser = $this->encryption->decrypt($this->session->userdata('leveluser'));
-
-		/*
-		if ($leveluser == '1') {
-			$this->db->trans_start();
-			$this->load->model('MMainMenu');
-			$ssql = $this->MMainMenu->loadMenu();
-			$this->db->trans_complete();
-		} else {
-			$this->db->trans_start();
-			$this->load->model('MMainMenu');
-			$ssql = $this->MMainMenu->loadMenu2($leveluser);
-			$this->db->trans_complete();
-		}
-		*/
 		
 		$this->db->trans_start();
 		$this->load->model('MMainMenu');
-		$ssql = $this->MMainMenu->loadMenu();
+		$ssql = $this->MMainMenu->loadMenu2($leveluser);
 		$this->db->trans_complete();
 
 		$arr0 = array();

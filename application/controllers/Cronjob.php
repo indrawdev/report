@@ -3,10 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cronjob extends CI_Controller {
 
-	public function __construct() {
-		parent::__construct();
-    }
-
 	public function index() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
@@ -100,7 +96,7 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
-			$db = dbase_open('/temp/dbf/AROVDD.DBF', 0);
+			$db = dbase_open('./temp/dbf/AROVDD.DBF', 0);
 
 			if ($db) {
 				// TRUNCATE TABLE

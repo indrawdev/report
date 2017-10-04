@@ -229,11 +229,11 @@ Ext.onReady(function() {
 		}
 	});
 
-	var grupLokasi = Ext.create('Ext.data.Store', {
+	var grupCabang = Ext.create('Ext.data.Store', {
 		autoLoad: false,
 		fields: [
-			'fs_kode_lokasi','fs_nama_lokasi',
-			'fs_alamat_lokasi','fs_no_tlp'
+			'fs_kode_cabang','fs_nama_cabang',
+			'fs_alamat_cabang','fs_no_tlp'
 		],
 		pageSize: 25,
 		proxy: {
@@ -246,7 +246,7 @@ Ext.onReady(function() {
 				type: 'json'
 			},
 			type: 'ajax',
-			url: 'masteruser/gridlokasi'
+			url: 'masteruser/gridcabang'
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -260,17 +260,17 @@ Ext.onReady(function() {
 		height: 450,
 		width: 550,
 		sortableColumns: false,
-		store: grupLokasi,
+		store: grupCabang,
 		columns: [
 			{xtype: 'rownumberer', width: 45},
-			{text: "Kode Lokasi", dataIndex: 'fs_kode_lokasi', menuDisabled: true, width: 80},
-			{text: "Nama Lokasi", dataIndex: 'fs_nama_lokasi', menuDisabled: true, width: 250}
+			{text: "Kode Cabang", dataIndex: 'fs_kode_cabang', menuDisabled: true, width: 80},
+			{text: "Nama Cabang", dataIndex: 'fs_nama_cabang', menuDisabled: true, width: 250}
 		],
 		bbar: Ext.create('Ext.PagingToolbar', {
 			displayInfo: true,
 			pageSize: 25,
 			plugins: Ext.create('Ext.ux.ProgressBarPager', {}),
-			store: grupLokasi,
+			store: grupCabang,
 			items:[
 				'-', {
 				text: 'Exit',
@@ -281,8 +281,8 @@ Ext.onReady(function() {
 		}),
 		listeners: {
 			itemdblclick: function(grid, record) {
-				Ext.getCmp('cboKodeLokasi').setValue(record.get('fs_kode_lokasi'));
-				Ext.getCmp('txtNamaLokasi').setValue(record.get('fs_nama_lokasi'));
+				Ext.getCmp('cboKodeCabang').setValue(record.get('fs_kode_cabang'));
+				Ext.getCmp('txtNamaCabang').setValue(record.get('fs_nama_cabang'));
 				winCari3.hide();
 			}
 		},
@@ -311,23 +311,23 @@ Ext.onReady(function() {
 				vMask.hide();
 			},
 			beforeshow: function() {
-				grupLokasi.load();
+				grupCabang.load();
 				vMask.show();
 			}
 		}
 	});
 
-	Ext.define('DataGridAksesLokasi', {
+	Ext.define('DatagridAksesCabang', {
 		extend: 'Ext.data.Model',
 		fields: [
-			{name: 'fs_kode_lokasi', type: 'string'},
-			{name: 'fs_nama_lokasi', type: 'string'}
+			{name: 'fs_kode_cabang', type: 'string'},
+			{name: 'fs_nama_cabang', type: 'string'}
 		]
 	});
 
-	var grupAksesLokasi = Ext.create('Ext.data.Store', {
+	var grupAksesCabang = Ext.create('Ext.data.Store', {
 		autoLoad: false,
-		model: 'DataGridAksesLokasi',
+		model: 'DatagridAksesCabang',
 		pageSize: 25,
 		proxy: {
 			actionMethods: {
@@ -339,7 +339,7 @@ Ext.onReady(function() {
 				type: 'json'
 			},
 			type: 'ajax',
-			url: 'masteruser/gridakseslokasi'
+			url: 'masteruser/gridAksesCabang'
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -350,35 +350,35 @@ Ext.onReady(function() {
 		}
 	});
 
-	var gridAksesLokasi = Ext.create('Ext.grid.Panel', {
+	var gridAksesCabang = Ext.create('Ext.grid.Panel', {
 		defaultType: 'textfield',
 		height: 450,
 		sortableColumns: false,
-		store: grupAksesLokasi,
+		store: grupAksesCabang,
 		columns: [{
 			xtype: 'rownumberer',
 			width: 25
 		},{
-			text: 'Kode Lokasi',
-			dataIndex: 'fs_kode_lokasi',
+			text: 'Kode Cabang',
+			dataIndex: 'fs_kode_cabang',
 			menuDisabled: true,
 			flex: 1
 		},{
-			text: 'Nama Lokasi',
-			dataIndex: 'fs_nama_lokasi',
+			text: 'Nama Cabang',
+			dataIndex: 'fs_nama_cabang',
 			menuDisabled: true,
 			flex: 2
 		}],
 		listeners: {
 			selectionchange: function(view, records) {
-				gridAksesLokasi.down('#removeData').setDisabled(!records.length);
+				gridAksesCabang.down('#removeData').setDisabled(!records.length);
 			}
 		},
 		bbar: Ext.create('Ext.PagingToolbar', {
 			displayInfo: true,
 			pageSize: 25,
 			plugins: Ext.create('Ext.ux.ProgressBarPager', {}),
-			store: grupAksesLokasi
+			store: grupAksesCabang
 		}),
 		viewConfig: {
 			getRowClass: function() {
@@ -393,10 +393,10 @@ Ext.onReady(function() {
 			xtype: 'container',
 			items: [{
 				anchor: '95%',
-				emptyText: 'Kode Lokasi',
+				emptyText: 'Kode Cabang',
 				editable: true,
-				id: 'cboKodeLokasi',
-				name: 'cboKodeLokasi',
+				id: 'cboKodeCabang',
+				name: 'cboKodeCabang',
 				xtype: 'textfield',
 				triggers: {
 					reset: {
@@ -420,11 +420,11 @@ Ext.onReady(function() {
 			xtype: 'container',
 			items: [{
 				anchor: '95%',
-				emptyText: 'Nama Lokasi',
+				emptyText: 'Nama Cabang',
 				fieldStyle: 'background-color: #eee; background-image: none;',
 				readOnly: true,
-				id: 'txtNamaLokasi',
-				name: 'txtNamaLokasi',
+				id: 'txtNamaCabang',
+				name: 'txtNamaCabang',
 				xtype: 'textfield',
 			}]
 		},{
@@ -437,31 +437,31 @@ Ext.onReady(function() {
 				iconCls: 'icon-add',
 				text: 'Add',
 				handler: function() {
-					var total = grupAksesLokasi.getCount();
+					var total = grupAksesCabang.getCount();
 
-					var data = Ext.create('DataGridAksesLokasi', {
-						fs_kode_lokasi: Ext.getCmp('cboKodeLokasi').getValue(),
-						fs_nama_lokasi: Ext.getCmp('txtNamaLokasi').getValue()
+					var data = Ext.create('DatagridAksesCabang', {
+						fs_kode_cabang: Ext.getCmp('cboKodeCabang').getValue(),
+						fs_nama_cabang: Ext.getCmp('txtNamaCabang').getValue()
 					});
 
-					grupAksesLokasi.insert(total, data);
+					grupAksesCabang.insert(total, data);
 
-					Ext.getCmp('cboKodeLokasi').setValue('');
-					Ext.getCmp('txtNamaLokasi').setValue('');
+					Ext.getCmp('cboKodeCabang').setValue('');
+					Ext.getCmp('txtNamaCabang').setValue('');
 
-					total = grupAksesLokasi.getCount() - 1;
-					gridAksesLokasi.getSelectionModel().select(total);
+					total = grupAksesCabang.getCount() - 1;
+					gridAksesCabang.getSelectionModel().select(total);
 				}
 			},{
 				iconCls: 'icon-delete',
 				itemId: 'removeData',
 				text: 'Delete',
 				handler: function() {
-					var sm = gridAksesLokasi.getSelectionModel();
-					grupAksesLokasi.remove(sm.getSelection());
-					gridAksesLokasi.getView().refresh();
+					var sm = gridAksesCabang.getSelectionModel();
+					grupAksesCabang.remove(sm.getSelection());
+					gridAksesCabang.getView().refresh();
 
-					if (grupAksesLokasi.getCount() > 0) {
+					if (grupAksesCabang.getCount() > 0) {
 						sm.select(0);
 					}
 				},
@@ -495,18 +495,6 @@ Ext.onReady(function() {
 				}
 			}
 		}
-	};
-
-	var txtNama = {
-		afterLabelTextTpl: required,
-		allowBlank: false,
-		anchor: '100%',
-		fieldLabel: 'Nama Karyawan',
-		fieldStyle: 'background-color: #eee; background-image: none;',
-		readOnly: true,
-		id: 'txtNama',
-		name: 'txtNama',
-		xtype: 'textfield'
 	};
 
 	var txtUser = {
@@ -1474,10 +1462,11 @@ Ext.onReady(function() {
 	Ext.define('DataGridUser', {
 		extend: 'Ext.data.Model',
 		fields: [
-			{name: 'fn_nik', type: 'string'},
 			{name: 'fs_username', type: 'string'},
 			{name: 'fs_level_user', type: 'string'},
 			{name: 'fs_user_buat', type: 'string'},
+			{name: 'fd_tanggal_buat', type: 'string'},
+			{name: 'fd_last_login', type: 'string'},
 			{name: 'fs_aktif', type: 'string'}
 		]
 	});
@@ -1516,30 +1505,25 @@ Ext.onReady(function() {
 			xtype: 'rownumberer',
 			width: 25
 		},{
-			text: 'NIK',
-			dataIndex: 'fn_nik',
-			menuDisabled: true,
-			hidden: true
-		},{
-			text: 'Nama Karyawan',
-			dataIndex: 'fs_nama_karyawan',
-			menuDisabled: true,
-			width: 200
-		},{
 			text: 'Username',
 			dataIndex: 'fs_username',
 			menuDisabled: true,
-			width: 90
+			width: 120
 		},{
 			text: 'Level User',
 			dataIndex: 'fs_level_user',
 			menuDisabled: true,
 			width: 150
 		},{
+			text: 'Tanggal Login',
+			dataIndex: 'fd_last_login',
+			menuDisabled: true,
+			width: 150
+		},{
 			text: 'Tanggal Dibuat',
 			dataIndex: 'fd_tanggal_buat',
 			menuDisabled: true,
-			width: 90
+			width: 150
 		}],
 		bbar: Ext.create('Ext.PagingToolbar', {
 			displayInfo: true,
@@ -1578,13 +1562,11 @@ Ext.onReady(function() {
 		}],
 		listeners: {
 			itemdblclick: function(grid, record) {
-				Ext.getCmp('cboNIK').setValue(record.get('fn_nik'));
-				Ext.getCmp('txtNama').setValue(record.get('fs_nama_karyawan'));
 				Ext.getCmp('txtUser').setValue(record.get('fs_username'));
 				Ext.getCmp('cboLevel1').setValue(record.get('fs_level_user'));
 
 				// RELOAD AKSES LOKASI
-				grupAksesLokasi.load();
+				grupAksesCabang.load();
 				
 				// CHANGE TAB
 				var tabPanel = Ext.ComponentQuery.query('tabpanel')[0];
@@ -1717,14 +1699,12 @@ Ext.onReady(function() {
 
 	// FUNCTION RESET
 	function fnResetUser() {
-		Ext.getCmp('cboNIK').setValue('');
-		Ext.getCmp('txtNama').setValue('');
 		Ext.getCmp('txtUser').setValue('');
 		Ext.getCmp('txtPass').setValue('');
 		Ext.getCmp('txtConfPass').setValue('');
 		Ext.getCmp('cboLevel1').setValue('');
-		grupAksesLokasi.removeAll();
-		gridAksesLokasi.getView().refresh();
+		grupAksesCabang.removeAll();
+		gridAksesCabang.getView().refresh();
 	}
 
 	function fnResetLevel() {
@@ -1737,12 +1717,12 @@ Ext.onReady(function() {
 	function fnCekSaveUser() {
 		if (this.up('form').getForm().isValid()) {
 
-			// LOKASI AKSES
-			var xkdlokasi = '';
+			// CABANG AKSES
+			var xkdcabang = '';
 
-			var store = gridAksesLokasi.getStore();
+			var store = gridAksesCabang.getStore();
 			store.each(function(record, idx) {
-				xkdlokasi = xkdlokasi +'|'+ record.get('fs_kode_lokasi');
+				xkdcabang = xkdcabang +'|'+ record.get('fs_kode_cabang');
 			});
 
 			Ext.Ajax.on('beforerequest', fnMaskShow);
@@ -1753,11 +1733,10 @@ Ext.onReady(function() {
 				method: 'POST',
 				url: 'masteruser/ceksaveuser',
 				params: {
-					'fn_nik': Ext.getCmp('cboNIK').getValue(),
 					'fs_username': Ext.getCmp('txtUser').getValue(),
 					'fs_password': Ext.getCmp('txtPass').getValue(),
 					'fs_confpass': Ext.getCmp('txtConfPass').getValue(),
-					'fs_kode_lokasi': xkdlokasi
+					'fs_kode_cabang': xkdcabang
 				},
 				success: function(response) {
 					var xtext = Ext.decode(response.responseText);
@@ -1767,7 +1746,7 @@ Ext.onReady(function() {
 							closable: false,
 							icon: Ext.MessageBox.INFO,
 							msg: xtext.hasil,
-							title: 'HRD'
+							title: 'REPORT'
 						});
 					} else {
 						Ext.MessageBox.show({
@@ -1775,7 +1754,7 @@ Ext.onReady(function() {
 							closable: false,
 							icon: Ext.MessageBox.QUESTION,
 							msg: xtext.hasil,
-							title: 'HRD',
+							title: 'REPORT',
 							fn: function(btn) {
 								if (btn == 'yes') {
 									fnSaveUser();
@@ -1791,7 +1770,7 @@ Ext.onReady(function() {
 						closable: false,
 						icon: Ext.MessageBox.INFO,
 						msg: 'Simpan Gagal, Koneksi Gagal',
-						title: 'HRD'
+						title: 'REPORT'
 					});
 					fnMaskHide();
 				}
@@ -1801,12 +1780,12 @@ Ext.onReady(function() {
 
 	function fnSaveUser() {
 
-		// LOKASI AKSES
-		var xkdlokasi = '';
+		// LOKASI CABANG
+		var xkdcabang = '';
 
-		var store = gridAksesLokasi.getStore();
+		var store = gridAksesCabang.getStore();
 		store.each(function(record, idx) {
-			xkdlokasi = xkdlokasi +'|'+ record.get('fs_kode_lokasi');
+			xkdcabang = xkdcabang +'|'+ record.get('fs_kode_cabang');
 		});
 
 		Ext.Ajax.on('beforerequest', fnMaskShow);
@@ -1817,12 +1796,10 @@ Ext.onReady(function() {
 			method: 'POST',
 			url: 'masteruser/saveuser',
 			params: {
-				'fn_nik': Ext.getCmp('cboNIK').getValue(),
 				'fs_username': Ext.getCmp('txtUser').getValue(),
 				'fs_password': Ext.getCmp('txtPass').getValue(),
 				'fs_level_user': Ext.getCmp('cboLevel1').getValue(),
-				'fs_pin': Ext.getCmp('txtPIN').getValue(),
-				'fs_kode_lokasi': xkdlokasi
+				'fs_kode_cabang': xkdcabang
 			},
 			success: function(response) {
 				var xtext = Ext.decode(response.responseText);
@@ -1831,12 +1808,12 @@ Ext.onReady(function() {
 					closable: false,
 					icon: Ext.MessageBox.INFO,
 					msg: xtext.hasil,
-					title: 'HRD'
+					title: 'REPORT'
 				});
 				fnResetUser();
 
 				// REFRESH AFTER SAVE
-				grupAksesLokasi.load();
+				grupAksesCabang.load();
 				grupUser.load();
 				grupActivity.load();
 			},
@@ -1847,7 +1824,7 @@ Ext.onReady(function() {
 					closable: false,
 					icon: Ext.MessageBox.INFO,
 					msg: 'Saving Failed, Connection Failed!!',
-					title: 'HRD'
+					title: 'REPORT'
 				});
 				fnMaskHide();
 			}
@@ -1875,7 +1852,7 @@ Ext.onReady(function() {
 							closable: false,
 							icon: Ext.MessageBox.INFO,
 							msg: xtext.hasil,
-							title: 'HRD'
+							title: 'REPORT'
 						});
 					} else {
 						Ext.MessageBox.show({
@@ -1883,7 +1860,7 @@ Ext.onReady(function() {
 							closable: false,
 							icon: Ext.MessageBox.QUESTION,
 							msg: xtext.hasil,
-							title: 'HRD',
+							title: 'REPORT',
 							fn: function(btn) {
 								if (btn == 'yes') {
 									fnSaveLevel();
@@ -1899,7 +1876,7 @@ Ext.onReady(function() {
 						closable: false,
 						icon: Ext.MessageBox.INFO,
 						msg: 'Simpan Gagal, Koneksi Gagal',
-						title: 'HRD'
+						title: 'REPORT'
 					});
 					fnMaskHide();
 				}
@@ -1938,7 +1915,7 @@ Ext.onReady(function() {
 					closable: false,
 					icon: Ext.MessageBox.INFO,
 					msg: xtext.hasil,
-					title: 'HRD'
+					title: 'REPORT'
 				});
 				fnResetLevel();
 			},
@@ -1949,7 +1926,7 @@ Ext.onReady(function() {
 					closable: false,
 					icon: Ext.MessageBox.INFO,
 					msg: 'Saving Failed, Connection Failed!!',
-					title: 'HRD'
+					title: 'REPORT'
 				});
 				fnMaskHide();
 			}
@@ -1998,13 +1975,10 @@ Ext.onReady(function() {
 								title: 'Form Setup User',
 								xtype: 'fieldset',
 								items: [
-									cboNIK,
-									txtNama,
 									txtUser,
 									txtPass,
 									txtConfPass,
-									cboLevel1,
-									txtPIN
+									cboLevel1
 								]
 							},{
 								anchor: '100%',
@@ -2037,10 +2011,10 @@ Ext.onReady(function() {
 							xtype: 'container',
 							items: [{
 								style: 'padding: 5px;',
-								title: 'Form Akses Lokasi',
+								title: 'Form Akses Cabang',
 								xtype: 'fieldset',
 								items: [
-									gridAksesLokasi
+									gridAksesCabang
 								]
 							}]
 						}]

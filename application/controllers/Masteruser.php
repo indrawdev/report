@@ -15,72 +15,48 @@ class Masteruser extends CI_Controller {
 	}
 
 	// TAB SETUP USER
-	public function gridkaryawan() {
+	public function gridcabang() {
 		$sCari = trim($this->input->post('fs_cari'));
 		$nStart = trim($this->input->post('start'));
 		$nLimit = trim($this->input->post('limit'));
 
 		$this->db->trans_start();
 		$this->load->model('MMasterUser');
-		$sSQL = $this->MMasterUser->listKaryawanAll($sCari);
+		$sSQL = $this->MMasterUser->listCabangAll($sCari);
 		$xTotal = $sSQL->num_rows();
-		$sSQL = $this->MMasterUser->listKaryawan($sCari, $nStart, $nLimit);
+		$sSQL = $this->MMasterUser->listCabang($sCari, $nStart, $nLimit);
 		$this->db->trans_complete();
 
 		$xArr = array();
 		if ($sSQL->num_rows() > 0) {
 			foreach ($sSQL->result() as $xRow) {
 				$xArr[] = array(
-					'fn_nik' => trim($xRow->fn_nik),
-					'fs_nama_karyawan' => trim($xRow->fs_nama_karyawan)
+					'fs_kode_cabang' => trim($xRow->fs_kode_cabang),
+					'fs_nama_cabang' => trim($xRow->fs_nama_cabang)
 				);
 			}
 		}
 		echo '({"total":"'.$xTotal.'","hasil":'.json_encode($xArr).'})';
 	}
 
-	public function gridlokasi() {
-		$sCari = trim($this->input->post('fs_cari'));
-		$nStart = trim($this->input->post('start'));
-		$nLimit = trim($this->input->post('limit'));
-
-		$this->db->trans_start();
-		$this->load->model('MMasterUser');
-		$sSQL = $this->MMasterUser->listLokasiAll($sCari);
-		$xTotal = $sSQL->num_rows();
-		$sSQL = $this->MMasterUser->listLokasi($sCari, $nStart, $nLimit);
-		$this->db->trans_complete();
-
-		$xArr = array();
-		if ($sSQL->num_rows() > 0) {
-			foreach ($sSQL->result() as $xRow) {
-				$xArr[] = array(
-					'fs_kode_lokasi' => trim($xRow->fs_kode_lokasi),
-					'fs_nama_lokasi' => trim($xRow->fs_nama_lokasi)
-				);
-			}
-		}
-		echo '({"total":"'.$xTotal.'","hasil":'.json_encode($xArr).'})';
-	}
-
-	public function gridakseslokasi() {
+	public function gridaksescabang() {
 		$sUser = trim($this->input->post('fs_username'));
 		$nStart = trim($this->input->post('start'));
 		$nLimit = trim($this->input->post('limit'));
 
 		$this->db->trans_start();
 		$this->load->model('MMasterUser');
-		$sSQL = $this->MMasterUser->listAksesLokasiAll($sUser);
+		$sSQL = $this->MMasterUser->listAksesCabangAll($sUser);
 		$xTotal = $sSQL->num_rows();
-		$sSQL = $this->MMasterUser->listAksesLokasi($sUser, $nStart, $nLimit);
+		$sSQL = $this->MMasterUser->listAksesCabang($sUser, $nStart, $nLimit);
 		$this->db->trans_complete();
 
 		$xArr = array();
 		if ($sSQL->num_rows() > 0)  {
 			foreach ($sSQL->result() as $xRow) {
 				$xArr[] = array(
-						'fs_kode_lokasi' => trim($xRow->fs_kode_lokasi),
-						'fs_nama_lokasi' => trim($xRow->fs_nama_lokasi)
+						'fs_kode_cabang' => trim($xRow->fs_kode_cabang),
+						'fs_nama_cabang' => trim($xRow->fs_nama_cabang)
 					);
 			}
 		}
@@ -121,21 +97,20 @@ class Masteruser extends CI_Controller {
 		$nLimit = trim($this->input->post('limit'));
 
 		$this->db->trans_start();
-		$this->load->model('MSearch');
-		$sSQL = $this->MSearch->listUserAll($sCari);
+		$this->load->model('MMasterUser');
+		$sSQL = $this->MMasterUser->listUserAll($sCari);
 		$xTotal = $sSQL->num_rows();
-		$sSQL = $this->MSearch->listUser($sCari, $nStart, $nLimit);
+		$sSQL = $this->MMasterUser->listUser($sCari, $nStart, $nLimit);
 		$this->db->trans_complete();
 
 		$xArr = array();
 		if ($sSQL->num_rows() > 0) {
 			foreach ($sSQL->result() as $xRow) {
 				$xArr[] = array(
-						'fn_nik' => trim($xRow->fn_nik),
-						'fs_nama_karyawan' => trim($xRow->fs_nama_karyawan),
 						'fs_username' => trim($xRow->fs_username),
 						'fs_level_user' => trim($xRow->fs_level_user),
-						'fd_tanggal_buat' => trim(date_format(date_create($xRow->fd_tanggal_buat),"d/m/Y"))
+						'fd_tanggal_buat' => trim($xRow->fd_tanggal_buat),
+						'fd_last_login' => trim($xRow->fd_last_login)
 					);
 			}
 		}
@@ -188,10 +163,10 @@ class Masteruser extends CI_Controller {
 			$nik = $this->input->post('fn_nik');
 			$username = $this->input->post('fs_username');
 			
-			$kdlokasi = explode('|', $this->input->post('fs_kode_lokasi'));
-			$jml = count($kdlokasi) - 1;
+			$kdcabang = explode('|', $this->input->post('fs_kode_cabang'));
+			$jml = count($kdcabang) - 1;
 
-			if (!empty($nik) && !empty($username)) {
+			if (!empty($username)) {
 				$this->load->model('MMasterUser');
 				$xSQL = $this->MMasterUser->checkUser($username);
 				if ($xSQL->num_rows() > 0) {
@@ -219,12 +194,10 @@ class Masteruser extends CI_Controller {
 
 	public function saveuser() {
 		$user = $this->encryption->decrypt($this->session->userdata('username'));
-		$nik = $this->input->post('fn_nik');
 		$username = $this->input->post('fs_username');
 
-		// MD5 (PASS + USERNAME) & (PIN + USERNAME)
+		// MD5 (PASS + USERNAME)
 		$password = md5($this->input->post('fs_password').$username);
-		$pin = md5($this->input->post('fs_pin').$username);
 
 		$update = false;
 		$this->load->model('MMasterUser');
@@ -235,21 +208,19 @@ class Masteruser extends CI_Controller {
 		}
 
 		$dt = array(
-			'fn_nik' => trim($nik),
 			'fs_username' => trim($username),
 			'fs_password' => trim($password),
 			'fs_level_user' => $this->input->post('fs_level_user'),
-			'fs_pin' => trim($pin),
 			'fs_ip_address' => $this->input->ip_address()
 		);
 
-		// HAPUS TM_AKSES_LOKASI
-		$where = "fn_nik = '".trim($nik)."' AND fs_username = '".trim($username)."'";
+		// HAPUS tm_akses_cabang
+		$where = "fs_username = '".trim($username)."'";
 		$this->db->where($where);
-		$this->db->delete('tm_akses_lokasi');
+		$this->db->delete('tm_akses_cabang');
 
-		$kdlokasi = explode('|', $this->input->post('fs_kode_lokasi'));
-		$jml = count($kdlokasi) - 1;
+		$kdcabang = explode('|', $this->input->post('fs_kode_cabang'));
+		$jml = count($kdcabang) - 1;
 
 		if ($update == false) {
 			// INSERT TM USER
@@ -260,36 +231,22 @@ class Masteruser extends CI_Controller {
 
 			$data = array_merge($dt, $dt1);
 			$this->db->insert('tm_user', $data);
-			// INSERT TM_AKSES_LOKASI
+			// INSERT tm_akses_cabang
 			if ($jml <> 0) {
 				for ($i=1; $i<=$jml; $i++) {
-					$akseslokasi = array(
-						'fs_kode_lokasi' => $kdlokasi[$i],
-						'fn_nik' => trim($nik),
+					$aksescabang = array(
+						'fs_kode_cabang' => $kdcabang[$i],
 						'fs_username' => trim($username),
 						'fs_user_buat' => trim($user),
 						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
-					$this->db->insert('tm_akses_lokasi', $akseslokasi);
+					$this->db->insert('tm_akses_cabang', $aksescabang);
 				}
 			}
 
-			// UPDATE FLAG TM_KARYAWAN
-			$sSQL = $this->MMasterUser->checkNIK($nik);
-			if ($sSQL->num_rows() > 0) {
-				$karyawan = array(
-						'fs_flag_user' => '1',
-						'fs_user_edit' => trim($user),
-						'fd_tanggal_edit' => date('Y-m-d H:i:s')
-					);
-				$where = "fn_nik = '".trim($nik)."'";
-				$this->db->where($where);
-				$this->db->update('tm_karyawan', $karyawan);
-			}
-
 			// START LOGGING
-			$this->load->model('Mlog');
-			$this->Mlog->logger('BUAT USER', $user, 'USER BARU '.trim($username).' SUDAH DIBUAT');
+			$this->load->model('MLog');
+			$this->MLog->logger('BUAT USER', $user, 'USER BARU '.trim($username).' SUDAH DIBUAT');
 			// END LOGGING
 
 			$hasil = array(
@@ -311,20 +268,19 @@ class Masteruser extends CI_Controller {
 
 			if ($jml <> 0) {
 				for ($i=1; $i<=$jml; $i++) {
-					$akseslokasi = array(
-						'fs_kode_lokasi' => $kdlokasi[$i],
-						'fn_nik' => trim($nik),
+					$aksescabang = array(
+						'fs_kode_cabang' => $kdcabang[$i],
 						'fs_username' => trim($username),
 						'fs_user_buat' => trim($user),
 						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
-					$this->db->insert('tm_akses_lokasi', $akseslokasi);
+					$this->db->insert('tm_akses_cabang', $aksescabang);
 				}
 			}
 
 			// START LOGGING
-			$this->load->model('Mlog');
-			$this->Mlog->logger('EDIT USER', $user, 'USER '.trim($username).' SUDAH DIEDIT');
+			$this->load->model('MLog');
+			$this->MLog->logger('EDIT USER', $user, 'USER '.trim($username).' SUDAH DIEDIT');
 			// END LOGGING
 
 			$hasil = array(
