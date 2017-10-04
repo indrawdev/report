@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MSearch extends CI_Model
-{
+class MSearch extends CI_Model {
+	
 	public function __construct()
 	{
 		parent::__construct();
