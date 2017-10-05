@@ -63,7 +63,8 @@ Ext.onReady(function() {
 				type: 'json',
 			},
 			type: 'ajax',
-			url: 'fpd/gridgroupdealer'
+			url: 'fpd/gridgroupdealer',
+			timeout: 360000
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -87,7 +88,8 @@ Ext.onReady(function() {
 				type: 'json',
 			},
 			type: 'ajax',
-			url: 'fpd/gridgroupsurveyor'
+			url: 'fpd/gridgroupsurveyor',
+			timeout: 360000
 		},
 		listeners: {
 			beforeload: function(store) {

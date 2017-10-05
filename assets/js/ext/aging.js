@@ -21,12 +21,11 @@ Ext.onReady(function() {
 	Ext.define('DataGridGrouping', {
 		extend: 'Ext.data.Model',
 		fields: [
+			{name: 'fs_kode_cabang', type: 'string'},
 			{name: 'fd_start', type: 'string'},
 			{name: 'fd_end', type: 'string'},
-			{name: 'fn_unit', type: 'string'},
-			{name: 'fs_kode_cabang', type: 'string'},
 			{name: 'fs_kategori', type: 'string'},
-			{name: 'fn_ospiuta', type: 'string'},
+			{name: 'fn_unit', type: 'string'},
 			{name: 'fn_ospokok', type: 'string'}
 		]
 	});
@@ -44,7 +43,8 @@ Ext.onReady(function() {
 				type: 'json',
 			},
 			type: 'ajax',
-			url: 'aging/gridgrouping'
+			url: 'aging/gridgrouping',
+			timeout: 360000
 		},
 		listeners: {
 			beforeload: function(store) {
@@ -171,12 +171,6 @@ Ext.onReady(function() {
 			align: 'center',
 			text: 'O/S POKOK',
 			dataIndex: 'fn_ospokok',
-			menuDisabled: true,
-			width: 145
-		},{
-			align: 'center',
-			text: 'O/S PIUTANG',
-			dataIndex: 'fn_ospiuta',
 			menuDisabled: true,
 			width: 145
 		}],

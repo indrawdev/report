@@ -53,13 +53,11 @@ class Aging extends CI_Controller {
 		);
 
 		$xArr = array();
+
 		foreach ($arr as $val) {
 
-			$display = $this->MAging->getDisplay($cabang, $mulai, $selesai);
-			$count = $this->MAging->getCount($cabang, $mulai, $selesai);
-
 			if ($val == 'CURRENT') {
-				$unit = $this->MAging->getCurrent($cabang, $mulai, $selesai, 0, 0);
+				$unit = $this->MAging->getCurrent($cabang, $mulai, $selesai);
 			}
 
 			if ($val == '1-7 Hari') {
@@ -97,263 +95,134 @@ class Aging extends CI_Controller {
 			$units = $unit->row();
 
 			$totalpokok = 0;
-			$totalpiuta = 0;
-			$tanggalupd = '';
 
-			foreach ($display->result() as $key) {
-				
+			$aging = $this->MAging->getAging($cabang, $mulai, $selesai);
+
+			foreach ($aging->result() as $a) {
 				if ($val == 'CURRENT') {
-					$detail = $this->MAging->getDetailCurrent($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 0, 0);
-					
+					$detail = $this->MAging->getDetailCurrent($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
-				
+
 				if ($val == '1-7 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 0, 7);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 1, 7);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '8-15 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 7, 15);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 7, 15);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '16-30 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 15, 30);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 15, 30);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '31-60 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 30, 60);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 30, 60);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '61-90 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 60, 90);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 60, 90);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '91-120 Hari') {
-					$detail = $this->MAging->getDetailUnit($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 90, 120);
+					$detail = $this->MAging->getDetailUnit($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 90, 120);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == '> 120 Hari') {
-					$detail = $this->MAging->getDetailMax($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb, 120);
+					$detail = $this->MAging->getDetailMax($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb, 120);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 
 				if ($val == 'TOTAL') {
-					$detail = $this->MAging->getDetailTotal($key->fn_kodelk, $key->fn_nomdel, $key->fs_jenpiu, $key->fn_polpen, $key->fn_nompjb);
+					$detail = $this->MAging->getDetailTotal($a->fn_kodelk, $a->fn_nomdel, $a->fs_jenpiu, $a->fn_polpen, $a->fn_nompjb);
 					if ($detail->num_rows() > 0) {
-						$outgrs = 0;
 						$outnet = 0;
-						$tglupd = '';
+						$d = $detail->row();
 
-						$a = $detail->row();
-
-						if (!empty($a->fn_outgrs)) {
-							$outgrs = $a->fn_outgrs;
+						if ($d->fn_outnet) {
+							$outnet = $d->fn_outnet;
 						}
-
-						if (!empty($a->fn_outnet)) {
-							$outnet = $a->fn_outnet;
-						}
-
-						if (!empty($a->fd_tglupd)) {
-							$tglupd = $a->fd_tglupd;
-						}
-
-						$totalpokok += $outgrs;
-						$totalpiuta += $outnet;
-						$tanggalupd = $tglupd;
+						$totalpokok += $outnet;
 					}
 				}
 			}
 
 			$xArr[] = array(
+				'fs_kode_cabang' => trim($cabang),
 				'fd_start' => trim($mulai),
 				'fd_end' => trim($selesai),
-				'fn_unit' => trim($units->fn_unit),
-				'fs_kode_cabang' => trim($cabang),
 				'fs_kategori' => trim($val),
-				'fn_ospiuta' => number_format($totalpiuta, 0, ',', '.'),
+				'fn_unit' => trim($units->fn_unit),
 				'fn_ospokok' => number_format($totalpokok, 0, ',', '.'),
 			);		
 		}
@@ -366,14 +235,27 @@ class Aging extends CI_Controller {
 		$this->load->library('Pdf');
 		$this->load->model('MAging');
 
-		$data['tanggal_mulai'] = date('Y-m-d', strtotime($mulai));
-		$data['tanggal_selesai'] = date('Y-m-d', strtotime($selesai));
+		$data['tanggal_mulai'] = $mulai;
+		$data['tanggal_selesai'] = $selesai;
 		$data['kategori'] = $kategori;
 		$data['nama_cabang'] = $this->MAging->getCabang($cabang);
-		$data['detail_aging'] = $this->MAging->getAging($cabang, $mulai, $selesai);
+		$data['agings'] = $this->MAging->getAging($cabang, $mulai, $selesai);
+		
+		/*
+		// DETAIL
+		$data['detail_current'] = $this->MAging->getCurrent($cabang, $mulai, $selesai, 0, 0);
+		$data['detail_1_7'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 1, 7);
+		$data['detail_8_15'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 7, 15);
+		$data['detail_16_30'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 15, 30);
+		$data['detail_31_60'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 30, 60);
+		$data['detail_61_90'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 60, 90);
+		$data['detail_91_120'] = $this->MAging->getUnit($cabang, $mulai, $selesai, 90, 120);
+		$data['detail_120'] = $this->MAging->getMax($cabang, $mulai, $selesai, 120);
+		$data['detail_total'] = $this->MAging->getTotal($cabang, $mulai, $selesai);
+		*/
 
-		$html = $this->load->view('print/vagingpdfsurveyor', $data,true);
-		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		$html = $this->load->view('print/vagingpdfsurveyor', $data, true);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
 		$pdf->SetPrintHeader(false);
 		$pdf->SetMargins(10, 10, 40, true);
@@ -382,7 +264,7 @@ class Aging extends CI_Controller {
 		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
 		$pdf->SetFont('', '', 7.4, '', false);
-		$pdf->AddPage('P', 'A4');
+		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
 		$pdf->Output('daftar-aging-surveyor.pdf', 'I');
@@ -1053,4 +935,5 @@ class Aging extends CI_Controller {
 		$data['all_aging'] = $xArr;
 		$this->load->view('print/vagingexcelsurveyorall', $data);
 	}
+
 }

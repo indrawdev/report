@@ -10,6 +10,7 @@ class Cronjob extends CI_Controller {
 			$this->cronARAPK();
 			$this->cronAROVDD();
 			$this->cronARPJB();
+			$this->cronARCMAS();
 			$this->cronLog();
 		}
 	}
@@ -34,10 +35,10 @@ class Cronjob extends CI_Controller {
 						'fs_recordid' => $val[0], 'fn_nomapk' => $val[1],
 						'fs_flagtr' => $val[2], 'fs_nomlks' => $val[3],
 						'fn_noapke' => $val[4], 'fs_jnsfrm' => $val[5],
-						'fd_tglapk' => date('Y-m-d', strtotime($val[6])), 'fn_kodelk' => $val[7],
+						'fd_tglapk' => $val[6], 'fn_kodelk' => $val[7],
 						'fn_nomdel' => $val[8], 'fs_jenpiu' => $val[9],
 						'fn_polpen' => $val[10], 'fn_nompjb' => $val[11],
-						'fd_tglpjb' => date('Y-m-d', strtotime($val[12])), 'fs_nampem' => $val[13],
+						'fd_tglpjb' => $val[12], 'fs_nampem' => $val[13],
 						'fs_alpem1' => $val[14], 'fs_alpem2' => $val[15],
 						'fs_namkot' => $val[16], 'fn_kodeps' => $val[17],
 						'fs_notelp' => $val[18], 'fs_hphone' => $val[19],
@@ -57,29 +58,29 @@ class Cronjob extends CI_Controller {
 						'fn_gajpjm' => $val[46], 'fs_alkor1' => $val[47],
 						'fs_alkor2' => $val[48], 'fs_kotkor' => $val[49],
 						'fs_poskor' => $val[50], 'fn_stsrmh' => $val[51],
-						'fd_sjktgl' => date('Y-m-d', strtotime($val[52])), 'fd_tgltkh' => date('Y-m-d', strtotime($val[53])),
+						'fd_sjktgl' => $val[52], 'fd_tgltkh' => $val[53],
 						'fs_jnsklm' => $val[54], 'fs_tptlhr' => $val[55],
-						'fd_tgllhr' => date('Y-m-d', strtotime($val[56])), 'fs_agama' => $val[57],
+						'fd_tgllhr' => $val[56], 'fs_agama' => $val[57],
 						'fn_penddk' => $val[58], 'fs_status' => $val[59],
 						'fs_stskwn' => $val[60], 'fn_tgngan' => $val[61],
-						'fn_biayah' => $val[62], 'fd_sjkker' => date('Y-m-d', strtotime($val[63])),
-						'fd_tglsvy' => date('Y-m-d', strtotime($val[64])), 'fn_lamsvy' => $val[65],
+						'fn_biayah' => $val[62], 'fd_sjkker' => $val[63],
+						'fd_tglsvy' => $val[64], 'fn_lamsvy' => $val[65],
 						'fs_ptgsvy' => $val[66], 'fs_kptsan' => $val[67],
-						'fd_tglkep' => date('Y-m-d', strtotime($val[68])), 'fs_ketkep' => $val[69],
-						'fd_tglspp' => date('Y-m-d', strtotime($val[70])), 'fs_namsls' => $val[71],
+						'fd_tglkep' => $val[68], 'fs_ketkep' => $val[69],
+						'fd_tglspp' => $val[70], 'fs_namsls' => $val[71],
 						'fs_resiko' => $val[72], 'fs_flagct' => $val[73],
 						'fn_flctdp' => $val[74], 'fn_flctsp' => $val[75],
 						'fn_updtke' => $val[76], 'fn_updtsp' => $val[77],
-						'fs_tarikw' => $val[78], 'fd_tglinp' => date('Y-m-d', strtotime($val[79])),
+						'fs_tarikw' => $val[78], 'fd_tglinp' => $val[79],
 						'fs_naminp' => $val[80], 'fs_usersp' => $val[81],
 						'fs_srtstj' => $val[82], 'fn_batapk' => $val[83],
 						'fn_batspp' => $val[84], 'fs_nomktp' => $val[85],
-						'fd_nktpsd' => date('Y-m-d', strtotime($val[86])), 'fs_flappr' => $val[87],
+						'fd_nktpsd' => $val[86], 'fs_flappr' => $val[87],
 						'fs_apprid' => $val[88], 'fs_nonpwp' => $val[89],
 						'fs_sptthn' => $val[90], 'fs_namibu' => $val[91],
 						'fs_kecama' => $val[92], 'fs_kelura' => $val[93],
 						'fs_jobkon' => $val[94], 'fs_kddati' => $val[95],
-						'fd_tglspk' => date('Y-m-d', strtotime($val[96])), 'fd_tgctpo' => date('Y-m-d', strtotime($val[97])),
+						'fd_tglspk' => $val[96], 'fd_tgctpo' => $val[97],
 						'fd_tanggal_buat' => date('Y-m-d H:i:s')
 					);
 
@@ -110,8 +111,8 @@ class Cronjob extends CI_Controller {
 					$data = array(
 						'fn_kodelk' => $val[0], 'fn_nomdel' => $val[1],
 						'fs_jenpiu' => $val[2], 'fn_polpen' => $val[3],
-						'fn_nompjb' => $val[4], 'fd_tglupd' => date('Y-m-d', strtotime($val[5])),
-						'fd_tglovd' => date('Y-m-d', strtotime($val[6])), 'fn_outgrs' => $val[7],
+						'fn_nompjb' => $val[4], 'fd_tglupd' => $val[5],
+						'fd_tglovd' => $val[6], 'fn_outgrs' => $val[7],
 						'fn_outnet' => $val[8], 'fn_ovdgrs' => $val[9],
 						'fn_ovdnet' => $val[10], 'fn_lamovd' => $val[11],
 						'fn_jumken' => $val[12], 'fs_cabang' => $val[13],
@@ -146,7 +147,7 @@ class Cronjob extends CI_Controller {
 						'fn_nomdel' => $val[2], 'fn_kodelk' => $val[3],
 						'fn_nomrut' => $val[4], 'fs_jenpiu' => $val[5],
 						'fn_polpen' => $val[6], 'fn_nompjb' => $val[7],
-						'fn_kodekr' => $val[8], 'fd_tglpjb' => date('Y-m-d', strtotime($val[9])),
+						'fn_kodekr' => $val[8], 'fd_tglpjb' => $val[9],
 						'fn_jumken' => $val[10], 'fs_jenken' => $val[11],
 						'fn_thnken' => $val[12], 'fn_kodebk' => $val[13],
 						'fn_kowibk' => $val[14], 'fs_noacbk' => $val[15],
@@ -172,21 +173,21 @@ class Cronjob extends CI_Controller {
 						'fs_carang' => $val[54], 'fn_lamang' => $val[55],
 						'fn_masang' => $val[56], 'fn_bekang' => $val[57],
 						'fn_bekanp' => $val[58], 'fs_angdel' => $val[59],
-						'fs_carbar' => $val[60], 'fd_tglang' => date('Y-m-d', strtotime($val[61])),
+						'fs_carbar' => $val[60], 'fd_tglang' => $val[61],
 						'fn_tgangs' => $val[62], 'fn_anggih' => $val[63],
 						'fn_juangi' => $val[64], 'fn_juandk' => $val[65],
-						'fd_tglstj' => date('Y-m-d', strtotime($val[66])), 'fd_tglrep' => date('Y-m-d', strtotime($val[67])),
+						'fd_tglstj' => $val[66], 'fd_tglrep' => $val[67],
 						'fn_biarep' => $val[68], 'fn_tagrep' => $val[69],
 						'fn_selrep' => $val[70], 'fn_srepdk' => $val[71],
 						'fn_angrep' => $val[72], 'fn_arepdk' => $val[73],
 						'fn_noskmr' => $val[74], 'fs_tgskmr' => $val[75],
 						'fs_flagnw' => $val[76], 'fs_sudobl' => $val[77],
 						'fn_nodobl' => $val[78], 'fs_sudoby' => $val[79],
-						'fn_nodoby' => $val[80], 'fd_tgllns' => date('Y-m-d', strtotime($val[81])),
-						'fd_tglres' => date('Y-m-d', strtotime($val[82])), 'fs_akrctk' => $val[83],
+						'fn_nodoby' => $val[80], 'fd_tgllns' => $val[81],
+						'fd_tglres' => $val[82], 'fs_akrctk' => $val[83],
 						'fn_kodsup' => $val[84], 'fn_nomsup' => $val[85],
 						'fs_flagcr' => $val[86], 'fn_flagbl' => $val[87],
-						'fn_kodcab' => $val[88], 'fd_tglanp' => date('Y-m-d', strtotime($val[89])),
+						'fn_kodcab' => $val[88], 'fd_tglanp' => $val[89],
 						'fn_tgangp' => $val[90], 'fn_aroffs' => $val[91],
 						'fs_dndphr' => $val[92], 'fn_prmask' => $val[93],
 						'fs_status' => $val[94], 'fn_nlcair' => $val[95],
@@ -194,6 +195,64 @@ class Cronjob extends CI_Controller {
 					);
 
 					$this->db->insert('tx_arpjb', $data);
+				}
+				dbase_close($db);
+			}
+		}
+	}
+
+	// CONTAB ARCMAS
+	public function cronARCMAS() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/ARCMAS.DBF', 0);
+
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arcmas');
+
+				$num_row = dbase_numrecords($db);
+
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+					
+					$data = array(
+						'fs_recordid' => $val[0], 'fn_nomdel' => $val[1],
+						'fn_kodelk' => $val[2], 'fn_polpen' => $val[3],
+						'fs_namdel' => $val[4], 'fs_aldel1' => $val[5],
+						'fs_aldel1' => $val[6], 'fs_namkot' => $val[7],
+						'fs_nampem' => $val[8], 'fn_plafon' => $val[9],
+						'fd_tglpla' => $val[10], 'fs_matlkp' => $val[11],
+						'fn_salwal' => $val[12], 'fn_salwap' => $val[13],
+						'fn_jumpen' => $val[14], 'fn_jumpep' => $val[15],
+						'fn_jumbyr' => $val[16], 'fn_jumbyb' => $val[17],
+						'fn_jumbyp' => $val[18], 'fn_notbit' => $val[19],
+						'fn_notbip' => $val[20], 'fn_notkre' => $val[21],
+						'fn_notkrp' => $val[22], 'fn_tungak' => $val[23],
+						'fn_tungap' => $val[24], 'fs_flagtg' => $val[25],
+						'fn_dlmpro' => $val[26], 'fn_dlmprp' => $val[27],
+						'fd_tglpjl' => $val[28], 'fn_bbkpro' => $val[29],
+						'fn_bbkprp' => $val[30], 'fn_ddpjml' => $val[31],
+						'fn_dppbbk' => $val[32], 'fs_pladep' => $val[33],
+						'fs_potdep' => $val[34], 'fn_dpplin' => $val[35],
+						'fn_sispla' => $val[36], 'fn_sisplp' => $val[37],
+						'fn_niljam' => $val[38], 'fs_nabank' => $val[39],
+						'fs_acbank' => $val[40], 'fs_anbank' => $val[41],
+						'fn_kowibk' => $val[42], 'fn_kodebk' => $val[43],
+						'fn_noskmr' => $val[44], 'fs_flagnw' => $val[45],
+						'fs_naskm1' => $val[46], 'fs_jaskm1' => $val[47],
+						'fs_naskm2' => $val[48], 'fs_jaskm2' => $val[49],
+						'fs_nopeku' => $val[50], 'fs_tgpeku' => $val[51],
+						'fs_nanota' => $val[52], 'fs_konota' => $val[53],
+						'fs_fltpbp' => $val[54], 'fd_tglinp' => $val[55],
+						'fs_flctdp' => $val[56], 'fs_updtke' => $val[57],
+						'fs_userid' => $val[58], 'fs_nombat' => $val[59],
+						'fn_cabang' => $val[60], 'fd_tanggal_buat' => date('Y-m-d H:i:s')
+					);
+
+					$this->db->insert('tx_arcmas', $data);
 				}
 				dbase_close($db);
 			}
