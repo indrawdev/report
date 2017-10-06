@@ -21,64 +21,49 @@ class MAging extends CI_Model
 		return $sSQL->row();
 	}
 
-	public function getAging($sKdCab, $dStart, $dEnd)
-	{	
-		$xSQL = ("
-			SELECT fn_kodelk, fn_nomdel, fs_jenpiu, 
-				fn_polpen, fn_nompjb, fs_nampem, fn_thnken, fd_tglstj, fn_anggih, fn_lamang,
-				fn_juhang, fn_biangd
-			FROM tx_arpjb
-			WHERE fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
-			AND fd_tgllns = '0000-00-00'
-		");
-
-		if (!empty($sKdCab)) {
-			$xSQL = $xSQL.("
-				AND fn_kodekr = '".trim($sKdCab)."'
-			");
-		}
-
-		$sSQL = $this->db->query($xSQL);
-		return $sSQL;
-	}
-
 	public function getCurrent($sKdCab, $dStart, $dEnd)
 	{
 		$xSQL = ("
-			SELECT COUNT(a.fn_recordid) as fn_unit
-			FROM tx_arpjb a
-			LEFT JOIN tx_arovdd b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			SELECT COUNT(*) as fn_unit, SUM(a.fn_outnet) as fn_total_outnet, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
-			WHERE a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
-			AND b.fn_lamovd = 0 AND b.fn_ovdnet = 0 AND a.fd_tgllns = '0000-00-00'
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd = '0' AND a.fn_ovdgrs = '0'
 		");
-
-		if (!empty($sKdCab)) {
-			$xSQL = $xSQL.("
-				AND a.fn_kodekr = '".trim($sKdCab)."'
-			");
-		}
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
 	}
 
-	public function getUnit($sKdCab, $dStart, $dEnd, $nPrm1, $nPrm2)
+	public function getUnit7($sKdCab, $dStart, $dEnd, $nPrm1, $nPrm2)
 	{
 		$xSQL = ("
-			SELECT COUNT(a.fn_recordid) as fn_unit
-			FROM tx_arpjb a
-			LEFT JOIN tx_arovdd b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			SELECT COUNT(*) as fn_unit, SUM(a.fn_outnet) as fn_total_outnet, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
-			WHERE a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
-			AND b.fn_lamovd > '".trim($nPrm1)."' AND b.fn_lamovd <= '".trim($nPrm2)."' AND a.fd_tgllns = '0000-00-00'
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND (a.fn_lamovd > '".trim($nPrm1)."' AND a.fn_lamovd <= '".trim($nPrm2)."' OR a.fn_lamovd = '0' AND a.fn_ovdnet <> '0')
 		");
 
-		if (!empty($sKdCab)) {
-			$xSQL = $xSQL.("
-				AND a.fn_kodekr = '".trim($sKdCab)."'
-			");
-		}
+		$sSQL = $this->db->query($xSQL);
+		return $sSQL;
+	}
+
+	public function getUnitNxt($sKdCab, $dStart, $dEnd, $nPrm1, $nPrm2)
+	{
+		$xSQL = ("
+			SELECT COUNT(*) as fn_unit, SUM(a.fn_outnet) as fn_total_outnet, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd > '".trim($nPrm1)."' AND a.fn_lamovd <= '".trim($nPrm2)."'
+		");
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
@@ -87,19 +72,14 @@ class MAging extends CI_Model
 	public function getMax($sKdCab, $dStart, $dEnd, $nPrm)
 	{
 		$xSQL = ("
-			SELECT COUNT(a.fn_recordid) as fn_unit
-			FROM tx_arpjb a
-			LEFT JOIN tx_arovdd b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			SELECT COUNT(*) as fn_unit, SUM(a.fn_outnet) as fn_total_outnet, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
-			WHERE a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."' 
-			AND b.fn_lamovd > '".trim($nPrm)."' AND a.fd_tgllns = '0000-00-00'
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd > '".trim($nPrm)."'
 		");
-
-		if (!empty($sKdCab)) {
-			$xSQL = $xSQL.("
-				AND a.fn_kodekr = '".trim($sKdCab)."'
-			");
-		}
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
@@ -108,75 +88,117 @@ class MAging extends CI_Model
 	public function getTotal($sKdCab, $dStart, $dEnd)
 	{
 		$xSQL = ("
-			SELECT COUNT(a.fn_recordid) as fn_unit
-			FROM tx_arpjb a
-			LEFT JOIN tx_arovdd b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			SELECT COUNT(*) as fn_unit, SUM(a.fn_outnet) as fn_total_outnet, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
-			WHERE a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."' AND a.fd_tgllns = '0000-00-00'
-		");
-
-		if (!empty($sKdCab)) {
-			$xSQL = $xSQL.("
-				AND a.fn_kodekr = '".trim($sKdCab)."'
-			");
-		}
-
-		$sSQL = $this->db->query($xSQL);
-		return $sSQL;
-	}
-
-	public function getDetailCurrent($nKdLk, $nNoDl, $sJnPi, $nPolpn, $nNoPj)
-	{
-		$xSQL = ("
-			SELECT fn_outnet
-			FROM tx_arovdd
-			WHERE fn_kodelk = '".trim($nKdLk)."' AND fn_nomdel = '".trim($nNoDl)."'
-			AND fs_jenpiu = '".trim($sJnPi)."' AND fn_polpen = '".trim($nPolpn)."'
-			AND fn_nompjb = '".trim($nNoPj)."' AND fn_lamovd = 0
-			AND fn_ovdnet = 0
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
 	}
 
-	public function getDetailUnit($nKdLk, $nNoDl, $sJnPi, $nPolpn, $nNoPj, $sPrm1, $sPrm2)
+	public function getDetailCurrent($sKdCab, $dStart, $dEnd)
 	{
 		$xSQL = ("
-			SELECT fn_outnet
-			FROM tx_arovdd
-			WHERE fn_kodelk = '".trim($nKdLk)."' AND fn_nomdel = '".trim($nNoDl)."'
-			AND fs_jenpiu = '".trim($sJnPi)."' AND fn_polpen = '".trim($nPolpn)."'
-			AND fn_nompjb = '".trim($nNoPj)."' AND fn_lamovd > '".trim($sPrm1)."' 
-			AND fn_lamovd <= '".trim($sPrm2)."'
+			SELECT CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
+			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, d.fs_namdel, b.fd_tglstj, 
+			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
+			a.fn_outnet, a.fn_lamovd, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd = '0' AND a.fn_ovdgrs = '0'
 		");
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
 	}
 
-	public function getDetailMax($nKdLk, $nNoDl, $sJnPi, $nPolpn, $nNoPj, $sPrm)
+	public function getDetailUnit7($sKdCab, $dStart, $dEnd, $nPrm1, $nPrm2)
 	{
 		$xSQL = ("
-			SELECT fn_outnet
-			FROM tx_arovdd
-			WHERE fn_kodelk = '".trim($nKdLk)."' AND fn_nomdel = '".trim($nNoDl)."'
-			AND fs_jenpiu = '".trim($sJnPi)."' AND fn_polpen = '".trim($nPolpn)."'
-			AND fn_nompjb = '".trim($nNoPj)."' AND fn_lamovd > '".trim($sPrm)."'
+			SELECT CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
+			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, d.fs_namdel, b.fd_tglstj, 
+			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
+			a.fn_outnet, a.fn_lamovd, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND (a.fn_lamovd > '".trim($nPrm1)."' AND a.fn_lamovd <= '".trim($nPrm2)."' 
+				OR a.fn_lamovd = '0' AND a.fn_ovdnet <> '0')
 		");
 
 		$sSQL = $this->db->query($xSQL);
 		return $sSQL;
 	}
 
-	public function getDetailTotal($nKdLk, $nNoDl, $sJnPi, $nPolpn, $nNoPj)
+	public function getDetailUnitNxt($sKdCab, $dStart, $dEnd, $nPrm1, $nPrm2)
 	{
 		$xSQL = ("
-			SELECT fn_outnet
-			FROM tx_arovdd
-			WHERE fn_kodelk = '".trim($nKdLk)."' AND fn_nomdel = '".trim($nNoDl)."'
-			AND fs_jenpiu = '".trim($sJnPi)."' AND fn_polpen = '".trim($nPolpn)."'
-			AND fn_nompjb = '".trim($nNoPj)."'
+			SELECT CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
+			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, d.fs_namdel, b.fd_tglstj, 
+			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
+			a.fn_outnet, a.fn_lamovd, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd > '".trim($nPrm1)."' AND a.fn_lamovd <= '".trim($nPrm2)."'
+		");
+
+		$sSQL = $this->db->query($xSQL);
+		return $sSQL;
+	}
+
+	public function getDetailMax($sKdCab, $dStart, $dEnd, $nPrm)
+	{
+		$xSQL = ("
+			SELECT CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
+			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, d.fs_namdel, b.fd_tglstj, 
+			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
+			a.fn_outnet, a.fn_lamovd, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND a.fn_lamovd > '".trim($nPrm)."'
+		");
+
+		$sSQL = $this->db->query($xSQL);
+		return $sSQL;
+	}
+
+	public function getDetailTotal($sKdCab, $dStart, $dEnd)
+	{
+		$xSQL = ("
+			SELECT CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
+			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, d.fs_namdel, b.fd_tglstj, 
+			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
+			a.fn_outnet, a.fn_lamovd, a.fd_tglupd
+			FROM tx_arovdd a
+			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
+			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
+			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			WHERE a.fn_outnet <> '0' AND b.fn_kodekr = '".trim($sKdCab)."' 
+			AND b.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
 
 		$sSQL = $this->db->query($xSQL);

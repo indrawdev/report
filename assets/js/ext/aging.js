@@ -88,7 +88,7 @@ Ext.onReady(function() {
 							var popUp = Ext.create('Ext.window.Window', {
 								modal: true,
 								width: 950,
-								height: 650,
+								height: 500,
 								closable: false,
 								layout:'anchor',
 								title: 'REPORT',
@@ -163,7 +163,7 @@ Ext.onReady(function() {
 			menuDisabled: true
 		},{
 			align: 'center',
-			text: 'Unit',
+			text: 'UNIT',
 			dataIndex: 'fn_unit',
 			menuDisabled: true,
 			width: 70
@@ -419,7 +419,7 @@ Ext.onReady(function() {
 				modal: true,
 				closable: false,
 				width: 950,
-				height: 650,
+				height: 500,
 				layout:'anchor',
 				title: 'REPORT',
 				buttons: [{
@@ -460,6 +460,7 @@ Ext.onReady(function() {
 					hrefTarget: '_blank',
 					handler: function() {
 						vMask.hide();
+						popUp.hide();
 					}
 				},{
 					text: 'Exit',
