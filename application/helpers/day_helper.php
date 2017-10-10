@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$tgl_indo = '';
 
-		if ($tanggal <> '') {
+		if (!empty($tanggal)) {
 			$split 	  = explode('-', $tanggal);
 			$tgl_indo = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
 			
@@ -36,6 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$num = date('N', strtotime($tanggal));
 				return $hari[$num] . ', ' . $tgl_indo;
 			}
+		} else {
+			$tgl_indo = '';
 		}
 		return $tgl_indo;
 	}

@@ -1,16 +1,15 @@
 <?php 
 	date_default_timezone_set("Asia/Jakarta");
 	$d = $detail->row();
+	$tanggal_update = '1997-01-01';
 	if (!empty($d->fd_tglupd)) {
 		$tanggal_update = $d->fd_tglupd;
-	} else {
-		$tanggal_update = '-';
 	}
 ?>
 <h1 align="center">
 	TABEL AGING SURVEYOR (<?php echo $kategori; ?>) - <?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?>
 </h1>
-<p align="center"><i>UPDATE PER TANGGAL - <?php echo strtoupper(tanggal_indo($tanggal_update)); ?></i></p>
+<p align="center"><i>UPDATE PER TANGGAL - <?php echo date_format(date_create($tanggal_update), 'd/m/Y'); ?></i></p>
 <table border="1" width="100%" cellpadding="3px">
 	<thead>
 		<tr>

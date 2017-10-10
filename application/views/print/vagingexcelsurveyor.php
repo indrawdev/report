@@ -6,16 +6,16 @@
 	header("Expires: 0");
 
 	$d = $detail->row();
+	$tanggal_update = '1997-01-01';
+	
 	if (!empty($d->fd_tglupd)) {
 		$tanggal_update = $d->fd_tglupd;
-	} else {
-		$tanggal_update = '-';
 	}
 ?>
 <h1 align="center">
 	TABEL AGING SURVEYOR (<?php echo $kategori; ?>) - <?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?>
 </h1>
-<p align="center"><i>UPDATE PER TANGGAL - <?php echo strtoupper(tanggal_indo($tanggal_update)); ?></i></p>
+<p align="center"><i>UPDATE PER TANGGAL - <?php echo date_format(date_create($tanggal_update), 'd/m/Y'); ?></i></p>
 <table border="1" width="100%" cellpadding="3px">
 	<thead>
 		<tr>
@@ -25,6 +25,7 @@
 			<th width="15%" align="center"><strong>NAMA KENDARAAN</strong></th>
 			<th width="6%" align="center"><strong>THN KEND</strong></th>
 			<th width="15%" align="center"><strong>NAMA DEALER</strong></th>
+			<th width="15%" align="center"><strong>NAMA SURVEYOR</strong></th>
 			<th width="7%" align="center"><strong>TGL CAIR</strong></th>
 			<th width="6%" align="center"><strong>ANGS KE</strong></th>
 			<th width="5%" align="center"><strong>TENOR</strong></th>
@@ -43,6 +44,7 @@
 			<td width="15%" align="center"><?php echo $val->fs_model_kendaraan; ?></td>
 			<td width="6%" align="center"><?php echo $val->fn_thnken; ?></td>
 			<td width="15%" align="center"><?php echo $val->fs_namdel; ?></td>
+			<td width="15%" align="center"><?php echo $val->fs_nama_surveyor; ?></td>
 			<td width="7%" align="center"><?php echo date_format(date_create($val->fd_tglstj), 'd-m-Y'); ?></td>
 			<td width="6%" align="center"><?php echo $val->fn_anggih; ?></td>
 			<td width="5%" align="center"><?php echo $val->fn_lamang; ?></td>
