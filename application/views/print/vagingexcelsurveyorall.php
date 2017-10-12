@@ -1,19 +1,19 @@
 <?php
+	$filename = 'tabel-aging-surveyor-summary-'. strtolower($nama_cabang->fs_nama_cabang) .'.xls';
 	date_default_timezone_set("Asia/Jakarta");
-	header("Content-type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=download-excel-aging-all.xls");
-	header("Pragma: no-cache");
-	header("Expires: 0");
+	header('Content-type: application/octet-stream');
+	header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+	header('Pragma: no-cache');
+	header('Expires: 0');
 
 	$d = $aging_current;
+	$tanggal_update = '1997-01-01';
 	if (!empty($d->fd_tglupd)) {
 		$tanggal_update = $d->fd_tglupd;
-	} else {
-		$tanggal_update = '-';
 	}
 ?>
 <h2 align="center">TABEL AGING SURVEYOR (<?php echo $nama_cabang->fs_nama_cabang; ?>) - <?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?></h2>
-<p align="center"><i>UPDATE PER TANGGAL - <?php echo strtoupper(tanggal_indo($tanggal_update)); ?></i></p>
+<p align="center"><i>UPDATE PER TANGGAL - <?php echo date_format(date_create($tanggal_update), 'd/m/Y'); ?></i></p>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>

@@ -159,7 +159,7 @@ class Aging extends CI_Controller {
 		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-aging-surveyor.pdf', 'I');
+		$pdf->Output('aging-surveyor-'.trim(strtolower($cabang .'-'. $xkategori)).'.pdf', 'I');
 	}
 
 	public function downloadagingdetail($cabang, $mulai, $selesai, $kategori) {
@@ -170,6 +170,7 @@ class Aging extends CI_Controller {
 		$data['tanggal_mulai'] = tanggal_indo($mulai);
 		$data['tanggal_selesai'] = tanggal_indo($selesai);
 		$data['kategori'] = $xkategori;
+		$data['kode_cabang'] = $cabang;
 		$data['nama_cabang'] = $this->MAging->getCabang($cabang);
 		
 		if ($xkategori == 'CURRENT') {
@@ -237,7 +238,7 @@ class Aging extends CI_Controller {
 		$pdf->AddPage('P', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-aging-all.pdf', 'I');
+		$pdf->Output('aging-surveyor-summary-'.trim($cabang).'.pdf', 'I');
 	}
 
 	public function downloadexcelagingall($cabang, $mulai, $selesai) {

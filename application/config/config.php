@@ -23,8 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+/*
 $config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 $config['base_url'] .= preg_replace('@/+$@', '', dirname($_SERVER['SCRIPT_NAME'])).'/';
+*/
+$config['base_url'] = "http://192.168.3.28";
 
 /* config extjs */
 $config['base_assets']	= 'assets/js/';

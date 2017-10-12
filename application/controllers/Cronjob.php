@@ -7,10 +7,12 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			// CALL BACK
 			$this->cronARAPK();
 			$this->cronAROVDD();
 			$this->cronARPJB();
 			$this->cronARCMAS();
+			$this->cronREPORT();
 			$this->cronLog();
 		}
 	}
@@ -259,6 +261,33 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
+	// CRONTAB REPORT
+	public function cronREPORT() {
+		// TRUNCATE TABLE
+		$this->load->database();
+		$this->db->truncate('tx_report');
+
+		// insert to tx_report
+		$this->load->model('MCronJob');
+		$this->MCronJob->insertAllReport();
+	}
+
+	// CRONTAB EMAIL NOTIF
+	public function cronEMAIL() {
+		$this->load->model('MEmail');
+		
+		// range
+		$start = '2017-04-01';
+		$end = '2017-09-30';
+
+		$sSQL = $this->MEmail->getEmail();
+		if ($sSQL->num_rows() > 0) {
+			foreach ($sSQL->result() as $val) {
+				$this->dailyReport($val->fs_email, $start, $end);
+			}
+		}
+	}
+
 	// CRONTAB ACTIVITY
 	public function cronLog() {
 		$data = array(
@@ -271,6 +300,55 @@ class Cronjob extends CI_Controller {
 		
 		$this->load->database();
 		$this->db->insert('tb_log', $data);
+	}
+
+	public function sendEmail($to, $subject, $content) {
+		// CATEGORY NOTIFIKASI 'N'
+		$this->load->model('MEmail');
+		$email = $this->MEmail->config('N');
+
+		$config = array(
+				'protocol' => $email->protocol,
+				'smtp_crypto' => $email->smtp_crypto,
+				'smtp_host' => $email->smtp_host,
+				'smtp_user' => $email->smtp_user,
+				'smtp_pass' => $email->smtp_pass,
+				'smtp_port' => $email->smtp_port,
+				'mailtype' => $email->mailtype,
+				'smtp_timeout' => $email->smtp_timeout,
+				'charset' => $email->charset
+			);
+
+		$this->load->library('email', $config);
+		$this->email->set_crlf("\r\n");
+		$this->email->set_newline("\r\n");
+		$this->email->from($email->smtp_user, "Reporting");
+		$this->email->to($to);
+		$this->email->subject($subject);
+		$this->email->message($content);
+
+		if ($this->email->send()) {
+			return true;
+		} else {
+			//return false;
+			echo $this->email->print_debugger();
+		}
+
+		return false;
+	}
+
+	public function dailyReport($to, $start, $end) {
+		$this->load->model('MFpd');
+		$cabang = '14';
+		$data['report'] = $this->MFpd->getReportDealer($cabang, $start, $end);
+		$subject = 'DAILY REPORT';
+		$html = $this->load->view('email/vdailyreport', $data, true);
+		$send = $this->sendEmail($to, $subject, $html);
+		if ($send) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

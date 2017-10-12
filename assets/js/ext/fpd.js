@@ -21,40 +21,51 @@ Ext.onReady(function() {
 	Ext.define('DataGridGroupDealer', {
 		extend: 'Ext.data.Model',
 		fields: [
-			{name: 'nomrjb', type: 'string'},
-			{name: 'penjualan', type: 'string'},
-			{name: 'lancar', type: 'string'},
-			{name: 'lunas', type: 'string'},
-			{name: 'kodsup', type: 'string'},
-			{name: 'nomsup', type: 'string'},
-			{name: 'ovdue', type: 'string'},
-			{name: 'fs_nama_dealer', type: 'string'},
-			{name: 'nampem', type: 'string'},
-			{name: 'fs_jenpiu', type: 'string'},
-			{name: 'fn_kodelk', type: 'string'}
+			{name: 'fn_koddel', type: 'string'},
+			{name: 'fs_namdel', type: 'string'},
+			{name: 'fs_ptgsvy', type: 'string'},
+			{name: 'fn_current', type: 'string'},
+			{name: 'fn_1_7', type: 'string'},
+			{name: 'fn_8_15', type: 'string'},
+			{name: 'fn_16_30', type: 'string'},
+			{name: 'fn_31_60', type: 'string'},
+			{name: 'fn_61_90', type: 'string'},
+			{name: 'fn_91_120', type: 'string'},
+			{name: 'fn_max', type: 'string'},
+			{name: 'fn_total', type: 'string'},
+			{name: 'fn_ovd', type: 'string'}
 		]
 	});
 
 	Ext.define('DataGridGroupSurveyor', {
 		extend: 'Ext.data.Model',
 		fields: [
-			{name: 'nomrjb', type: 'string'},
-			{name: 'penjualan', type: 'string'},
-			{name: 'lancar', type: 'string'},
-			{name: 'ovdue', type: 'string'},
-			{name: 'lunas', type: 'string'},
-			{name: 'tglfix', type: 'string'},
-			{name: 'tglfix2', type: 'string'},
-			{name: 'nama_svy', type: 'string'},
-			{name: 'nampem', type: 'string'},
-			{name: 'jenpiu', type: 'string'},
-			{name: 'kodelk', type: 'string'}
+			{name: 'fn_koddel', type: 'string'},
+			{name: 'fs_namdel', type: 'string'},
+			{name: 'fs_ptgsvy', type: 'string'},
+			{name: 'fn_current', type: 'string'},
+			{name: 'fn_1_7', type: 'string'},
+			{name: 'fn_8_15', type: 'string'},
+			{name: 'fn_16_30', type: 'string'},
+			{name: 'fn_31_60', type: 'string'},
+			{name: 'fn_61_90', type: 'string'},
+			{name: 'fn_91_120', type: 'string'},
+			{name: 'fn_max', type: 'string'},
+			{name: 'fn_total', type: 'string'},
+			{name: 'fn_ovd', type: 'string'}
 		]
 	});
 
 	var grupGroupingDealer = Ext.create('Ext.data.Store', {
 		autoLoad: false,
 		model: 'DataGridGroupDealer',
+		sorters: [{
+	        property: 'fn_ovd',
+	        direction: 'DESC'
+   		}],
+   		sortRoot: 'fn_ovd',
+   		sortOnLoad: true,
+   		remoteSort: false,
 		proxy: {
 			actionMethods: {
 				read: 'POST'
@@ -80,6 +91,13 @@ Ext.onReady(function() {
 	var grupGroupingSurveyor = Ext.create('Ext.data.Store', {
 		autoLoad: false,
 		model: 'DataGridGroupDealer',
+		sorters: [{
+	        property: 'fn_ovd',
+	        direction: 'DESC'
+   		}],
+   		sortRoot: 'fn_ovd',
+   		sortOnLoad: true,
+   		remoteSort: false,
 		proxy: {
 			actionMethods: {
 				read: 'POST'
@@ -111,7 +129,7 @@ Ext.onReady(function() {
 			width: 35,
 			xtype: 'rownumberer'
 		},{
-			text: 'Detail',
+			text: 'DETAIL',
 			align: 'center',
 			width: 70,
 			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
@@ -124,11 +142,10 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingDealer.getStore().getAt(rowIndex);
 
-							var xkdcabang = record.get('fs_kode_cabang');
+							var xkdcabang = record.get('fn_kodekr');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xkodsup = record.get('fn_kodsup');
-							var xnomsup = record.get('fn_nomsup');
+							var xkddealer = record.get('fn_koddel');
 
 							// AFTER CLICK OPEN WINDOW
 							var popUp = Ext.create('Ext.window.Window', {
@@ -147,7 +164,7 @@ Ext.onReady(function() {
 								}]
 							});
 
-							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewdealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkodsup +'/'+ xnomsup +'"></iframe>'});
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewdealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkddealer +'"></iframe>'});
 							popUp.show();
 						}
 					});
@@ -155,7 +172,7 @@ Ext.onReady(function() {
 				return Ext.String.format('<div id="{0}"></div>', id);
 			}
 		},{
-			text: 'Export To Excel',
+			text: 'EXPORT TO EXCEL',
 			align: 'center',
 			width: 100,
 			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
@@ -168,11 +185,10 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingDealer.getStore().getAt(rowIndex);
 
-							var xkdcabang = record.get('fs_kode_cabang');
+							var xkdcabang = record.get('fn_kodekr');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xkodsup = record.get('fn_kodsup');
-							var xnomsup = record.get('fn_nomsup');
+							var xkddealer = record.get('fn_koddel');
 
 							// AFTER CLICK OPEN WINDOW
 							var popUp = Ext.create('Ext.window.Window', {
@@ -185,7 +201,7 @@ Ext.onReady(function() {
 								buttons: [{
 									xtype: 'button',
 									text: 'Download',
-									href: 'fpd/downloaddealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkodsup +'/'+ xnomsup,
+									href: 'fpd/downloaddealerdetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xkddealer,
 									hrefTarget: '_blank',
 									handler: function() {
 										vMask.hide();
@@ -205,58 +221,87 @@ Ext.onReady(function() {
 				return Ext.String.format('<div id="{0}"></div>', id);
 			}
 		},{
-			text: 'Kode Dealer',
-			dataIndex: 'fn_kodelk',
+			align: 'center',
+			text: 'KODE',
+			dataIndex: 'fn_koddel',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Nama Dealer',
-			dataIndex: 'fs_nama_dealer',
+			text: 'NAMA DEALER',
+			dataIndex: 'fs_namdel',
 			menuDisabled: true,
 			width: 195
 		},{
 			align: 'center',
-			text: 'Penjualan',
-			dataIndex: 'fn_penjualan',
+			text: 'CURRENT',
+			dataIndex: 'fn_current',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Lancar',
-			dataIndex: 'fn_lancar',
+			text: '1-7 Hari',
+			dataIndex: 'fn_1_7',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Overdue',
-			dataIndex: 'fn_ovdue',
+			text: '8-15 Hari',
+			dataIndex: 'fn_8_15',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Lunas',
-			dataIndex: 'fn_lunas',
+			text: '16-30 Hari',
+			dataIndex: 'fn_16_30',
 			menuDisabled: true,
 			width: 70
+		},{
+			align: 'center',
+			text: '31-60 Hari',
+			dataIndex: 'fn_31_60',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '61-90 Hari',
+			dataIndex: 'fn_61_90',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '91-120 Hari',
+			dataIndex: 'fn_91_120',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '> 120 Hari',
+			dataIndex: 'fn_max',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'TOTAL',
+			dataIndex: 'fn_total',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'OVD %',
+			dataIndex: 'fn_ovd',
+			menuDisabled: true,
+			width: 70
+		},{
+			dataIndex: 'fn_kodekr',
+			menuDisabled: true,
+			hidden:true
 		},{
 			dataIndex: 'fd_start',
 			menuDisabled: true,
 			hidden:true
 		},{
 			dataIndex: 'fd_end',
-			menuDisabled: true,
-			hidden:true
-		},{
-			dataIndex: 'fn_kodsup',
-			menuDisabled: true,
-			hidden:true
-		},{
-			dataIndex: 'fn_kodsup',
-			menuDisabled: true,
-			hidden:true
-		},{
-			dataIndex: 'fn_nomsup',
 			menuDisabled: true,
 			hidden:true
 		}],
@@ -279,7 +324,7 @@ Ext.onReady(function() {
 			xtype: 'rownumberer'
 		},{
 			align: 'center',
-			text: 'Detail',
+			text: 'DETAIL',
 			width: 70,
 			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
 				var id = Ext.id();
@@ -291,11 +336,10 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingSurveyor.getStore().getAt(rowIndex);
 
-							var xkdcabang = record.get('fs_kode_cabang');
+							var xkdcabang = record.get('fn_kodekr');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xptgsvy = record.get('fs_nama_surveyor');
-							var xkodelk = record.get('fn_kodelk');
+							var xptgsvy = record.get('fs_ptgsvy');
 
 							var popUp = Ext.create('Ext.window.Window', {
 								modal: true,
@@ -313,7 +357,7 @@ Ext.onReady(function() {
 								}]
 							});
 
-							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy +'/'+ xkodelk +'"></iframe>'});
+							popUp.add({html: '<iframe width="942" height="650" src="fpd/previewsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy +'"></iframe>'});
 							popUp.show();
 						}
 					});
@@ -322,7 +366,7 @@ Ext.onReady(function() {
 			}
 		},{
 			align: 'center',
-			text: 'Export To Excel',
+			text: 'EXPORT TO EXCEL',
 			width: 100,
 			renderer:function(data, cell, record, rowIndex, columnIndex, store) {
 				var id = Ext.id();
@@ -334,11 +378,10 @@ Ext.onReady(function() {
 						handler: function() {
 							var record = gridGroupingSurveyor.getStore().getAt(rowIndex);
 
-							var xkdcabang = record.get('fs_kode_cabang');
+							var xkdcabang = record.get('fn_kodekr');
 							var xtglstart = record.get('fd_start');
 							var xtglend = record.get('fd_end');
-							var xptgsvy = record.get('fs_nama_surveyor');
-							var xkodelk = record.get('fn_kodelk');
+							var xptgsvy = record.get('fs_ptgsvy');
 
 							var popUp = Ext.create('Ext.window.Window', {
 								width: 300,
@@ -350,7 +393,7 @@ Ext.onReady(function() {
 								buttons: [{
 									xtype: 'button',
 									text: 'Download',
-									href: 'fpd/downloadsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy +'/'+ xkodelk,
+									href: 'fpd/downloadsurveyordetail/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'/'+ xptgsvy,
 									hrefTarget: '_blank',
 									handler: function() {
 										vMask.hide();
@@ -370,48 +413,89 @@ Ext.onReady(function() {
 				return Ext.String.format('<div id="{0}"></div>', id);
 			}
 		},{
-			text: 'Kode Cabang',
-			dataIndex: 'fn_kodelk',
+			align: 'center',
+			text: 'CMO',
+			dataIndex: 'fs_ptgsvy',
 			menuDisabled: true,
-			width: 80
+			width: 70
 		},{
 			align: 'center',
-			text: 'Nama Surveyor',
+			text: 'NAMA SURVEYOR',
 			dataIndex: 'fs_nama_surveyor',
 			menuDisabled: true,
 			width: 185
 		},{
 			align: 'center',
-			text: 'Penjualan',
-			dataIndex: 'fn_penjualan',
+			text: 'CURRENT',
+			dataIndex: 'fn_current',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Lancar',
-			dataIndex: 'fn_lancar',
+			text: '1-7 Hari',
+			dataIndex: 'fn_1_7',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Overdue',
-			dataIndex: 'fn_ovdue',
+			text: '8-15 Hari',
+			dataIndex: 'fn_8_15',
 			menuDisabled: true,
 			width: 70
 		},{
 			align: 'center',
-			text: 'Lunas',
-			dataIndex: 'fn_lunas',
+			text: '16 -30 Hari',
+			dataIndex: 'fn_16_30',
 			menuDisabled: true,
 			width: 70
+		},{
+			align: 'center',
+			text: '31-60 Hari',
+			dataIndex: 'fn_31_60',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '61-90 Hari',
+			dataIndex: 'fn_61_90',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '91-120 Hari',
+			dataIndex: 'fn_91_120',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: '> 120 Hari',
+			dataIndex: 'fn_max',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'TOTAL',
+			dataIndex: 'fn_total',
+			menuDisabled: true,
+			width: 70
+		},{
+			align: 'center',
+			text: 'OVD %',
+			dataIndex: 'fn_ovd',
+			menuDisabled: true,
+			width: 70
+		},{
+			dataIndex: 'fn_kodekr',
+			menuDisabled: true,
+			hidden: true
 		},{
 			dataIndex: 'fd_start',
 			menuDisabled: true,
-			hidden:true
+			hidden: true
 		},{
 			dataIndex: 'fd_end',
 			menuDisabled: true,
-			hidden:true
+			hidden: true
 		}],
 		viewConfig: {
 			getRowClass: function() {
@@ -682,6 +766,8 @@ Ext.onReady(function() {
 
 	// COMPONENT TAB FORM REPORT DEALER
 	var cboCabang1 = {
+		afterLabelTextTpl: required,
+		allowBlank: false,
 		anchor: '99%',
 		emptyText: 'Nama Cabang',
 		fieldLabel: 'Nama Cabang',
@@ -755,12 +841,17 @@ Ext.onReady(function() {
 		text: 'TAMPILKAN DATA',
 		xtype: 'button',
 		handler: function() {
-			grupGroupingDealer.load();
+			if (this.up('form').getForm().isValid()) {
+				grupGroupingDealer.removeAll();
+				grupGroupingDealer.load();
+			}
 		}
 	};
 
 	// COMPONENT TAB FORM REPORT SURVEYOR
 	var cboCabang2 = {
+		afterLabelTextTpl: required,
+		allowBlank: false,
 		anchor: '99%',
 		emptyText: 'Nama Cabang',
 		fieldLabel: 'Nama Cabang',
@@ -834,8 +925,10 @@ Ext.onReady(function() {
 		text: 'TAMPILKAN DATA',
 		xtype: 'button',
 		handler: function() {
-			grupGroupingSurveyor.removeAll();
-			grupGroupingSurveyor.load();
+			if (this.up('form').getForm().isValid()) {
+				grupGroupingSurveyor.removeAll();
+				grupGroupingSurveyor.load();
+			}
 		}
 	};
 
@@ -856,8 +949,8 @@ Ext.onReady(function() {
 
 	function fnPrintDealer() {
 		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
-		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
-		var xtglend = Ext.getCmp('cboEndDate1').getValue();
+		var xtglstart =  Ext.Date.format(Ext.getCmp('cboStartDate1').getValue(), 'Y-m-d');
+		var xtglend = Ext.Date.format(Ext.getCmp('cboEndDate1').getValue(), 'Y-m-d');
 
 		if (xkdcabang == '') {
 			xkdcabang = 0;
@@ -884,8 +977,8 @@ Ext.onReady(function() {
 
 	function fnDownloadDealer() {
 		var xkdcabang = Ext.getCmp('txtKdCabang1').getValue();
-		var xtglstart = Ext.getCmp('cboStartDate1').getValue();
-		var xtglend = Ext.getCmp('cboEndDate1').getValue();
+		var xtglstart =  Ext.Date.format(Ext.getCmp('cboStartDate1').getValue(), 'Y-m-d');
+		var xtglend = Ext.Date.format(Ext.getCmp('cboEndDate1').getValue(), 'Y-m-d');
 
 		if (xkdcabang == '') {
 			xkdcabang = 0;
@@ -919,8 +1012,8 @@ Ext.onReady(function() {
 
 	function fnPrintSurveyor() {
 		var xkdcabang = Ext.getCmp('txtKdCabang2').getValue();
-		var xtglstart = Ext.getCmp('cboStartDate2').getValue();
-		var xtglend = Ext.getCmp('cboEndDate2').getValue();
+		var xtglstart =  Ext.Date.format(Ext.getCmp('cboStartDate2').getValue(), 'Y-m-d');
+		var xtglend = Ext.Date.format(Ext.getCmp('cboEndDate2').getValue(), 'Y-m-d');
 
 		if (xkdcabang == '') {
 			xkdcabang = 0;
@@ -947,8 +1040,8 @@ Ext.onReady(function() {
 
 	function fnDownloadSurveyor() {
 		var xkdcabang = Ext.getCmp('txtKdCabang2').getValue();
-		var xtglstart = Ext.getCmp('cboStartDate2').getValue();
-		var xtglend = Ext.getCmp('cboEndDate2').getValue();
+		var xtglstart =  Ext.Date.format(Ext.getCmp('cboStartDate2').getValue(), 'Y-m-d');
+		var xtglend = Ext.Date.format(Ext.getCmp('cboEndDate2').getValue(), 'Y-m-d');
 
 		if (xkdcabang == '') {
 			xkdcabang = 0;

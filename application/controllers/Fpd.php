@@ -53,35 +53,25 @@ class Fpd extends CI_Controller {
 		$xArr = array();
 		if ($sSQL->num_rows() > 0) {
 			foreach ($sSQL->result() as $xRow) {
-
-				$unit1 = $this->MFpd->getUnit1($mulai, $selesai, $xRow->fn_kodsup, $xRow->fn_nomsup);
-				$lunas = $this->MFpd->unitLunas1($mulai, $selesai, $xRow->fn_kodsup, $xRow->fn_nomsup);
-
-				$totalLancar = 0;
-				$totalOvdue = 0;
-
-				foreach ($unit1->result() as $val) {
-					// TOTAL LANCAR
-					$nLancar = $this->MFpd->unitLancar($val->fn_kodelk, $val->fn_nomdel, $val->fs_jenpiu, $val->fn_polpen, $val->fn_nompjb);
-					$totalLancar += $nLancar->fn_lancar;
-
-					// TOTAL OVERDUE
-					$nOvdue = $this->MFpd0>unitOverdue($val->fn_kodelk, $val->fn_nomdel, $val->fs_jenpiu, $val->fn_polpen, $val->fn_nompjb);
-					$totalOvdue += $nOvdue->fn_ovdue;
-				}
-
+				$days = $xRow->fn_1_7 + $xRow->fn_8_15 + $xRow->fn_16_30 + $xRow->fn_61_90 + $xRow->fn_91_120 + $xRow->fn_max;
+				$ovd = number_format(($days / $xRow->fn_total) * 100) . '%';
+				
 				$xArr[] = array(
-					'fn_kodelk' => trim($xRow->fn_kodsup .'-'. $xRow->fn_nomsup),
-					'fn_kodsup' => trim($xRow->fn_kodsup),
-					'fn_nomsup' => trim($xRow->fn_nomsup),
-					'fs_nama_dealer' => trim($xRow->fs_nama_dealer),
-					'fs_kode_cabang' => trim($xRow->fs_kode_cabang),
-					'fn_penjualan' => trim($xRow->fn_penjualan),
-					'fn_lancar' => trim($totalLancar),
-					'fn_lunas' => trim($lunas->fn_lunas),
+					'fn_kodekr' => trim($cabang),
 					'fd_start' => trim($mulai),
 					'fd_end' => trim($selesai),
-					'fn_ovdue' => trim($totalOvdue)
+					'fn_koddel' => trim($xRow->fn_koddel),
+					'fs_namdel' => trim($xRow->fs_namdel),
+					'fn_current' => trim($xRow->fn_current),
+					'fn_1_7' => trim($xRow->fn_1_7),
+					'fn_8_15' => trim($xRow->fn_8_15),
+					'fn_16_30' => trim($xRow->fn_16_30),
+					'fn_31_60' => trim($xRow->fn_31_60),
+					'fn_61_90' => trim($xRow->fn_61_90),
+					'fn_91_120' => trim($xRow->fn_91_120),
+					'fn_max' => trim($xRow->fn_max),
+					'fn_total' => trim($xRow->fn_total),
+					'fn_ovd' => trim($ovd)
 				);
 			}
 		}
@@ -102,32 +92,25 @@ class Fpd extends CI_Controller {
 		$xArr = array();
 		if ($sSQL->num_rows() > 0) {
 			foreach ($sSQL->result() as $xRow) {
-
-				$unit2 = $this->MFpd->getUnit2($mulai, $selesai, $xRow->fs_ptgsvy);
-				$lunas = $this->MFpd->unitLunas2($mulai, $selesai, $xRow->fs_ptgsvy);
-
-				$totalLancar = 0;
-				$totalOvdue = 0;
-
-				foreach ($unit2->result() as $val) {
-					$nLancar = $this->MFpd->unitLancar($val->fn_kodelk, $val->fn_nomdel, $val->fs_jenpiu, $val->fn_polpen, $val->fn_nompjb);
-					$totalLancar += $nLancar->fn_lancar;
-
-					// TOTAL OVERDUE
-					$nOvdue = $this->MFpd0>unitOverdue($val->fn_kodelk, $val->fn_nomdel, $val->fs_jenpiu, $val->fn_polpen, $val->fn_nompjb);
-					$totalOvdue += $nOvdue->fn_ovdue;
-				}
+				$days = $xRow->fn_1_7 + $xRow->fn_8_15 + $xRow->fn_16_30 + $xRow->fn_61_90 + $xRow->fn_91_120 + $xRow->fn_max;
+				$ovd = number_format(($days / $xRow->fn_total) * 100) . '%';
 
 				$xArr[] = array(
-					'fn_kodelk' => trim($xRow->fn_kodelk),
-					'fs_nama_surveyor' => trim($xRow->fs_ptgsvy),
-					'fs_kode_cabang' => trim($cabang),
+					'fn_kodekr' => trim($cabang),
 					'fd_start' => trim($mulai),
 					'fd_end' => trim($selesai),
-					'fn_penjualan' => trim($xRow->fn_penjualan),
-					'fn_lancar' => trim($totalLancar),
-					'fn_lunas' => trim($lunas->fn_lunas),
-					'fn_ovdue' => trim($totalOvdue)
+					'fs_ptgsvy' => trim($xRow->fs_ptgsvy),
+					'fs_nama_surveyor' => trim($xRow->fs_nama_surveyor),
+					'fn_current' => trim($xRow->fn_current),
+					'fn_1_7' => trim($xRow->fn_1_7),
+					'fn_8_15' => trim($xRow->fn_8_15),
+					'fn_16_30' => trim($xRow->fn_16_30),
+					'fn_31_60' => trim($xRow->fn_31_60),
+					'fn_61_90' => trim($xRow->fn_61_90),
+					'fn_91_120' => trim($xRow->fn_91_120),
+					'fn_max' => trim($xRow->fn_max),
+					'fn_total' => trim($xRow->fn_total),
+					'fn_ovd' => trim($ovd)
 				);
 			}
 		}
@@ -135,113 +118,117 @@ class Fpd extends CI_Controller {
 	}
 
 	// DETAIL REPORT DEALER
-	public function previewdealerdetail($cabang, $mulai, $selesai, $kodsup, $nomsup) {
+	public function previewdealerdetail($cabang, $mulai, $selesai, $dealer) {
 		$this->load->library('Pdf');
 		$this->load->model('MFpd');
+		$this->load->helper('day');
 
-		$data['data_dealer'] = $this->MFpd->getDataDealer($mulai, $selesai, $kodsup, $nomsup);
-		$data['tanggal_mulai'] = $mulai;
-		$data['tanggal_selesai'] = $selesai;
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['detail'] = $this->MFpd->getDetailDealer($cabang, $mulai, $selesai, $dealer);
 
 		$html = $this->load->view('print/vfpdpdfdealer', $data, true);
-		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
 		$pdf->SetPrintHeader(false);
-		$pdf->SetMargins(8, 10, 35, true);
+		$pdf->SetMargins(10, 10, 10, true);
 		$pdf->SetPrintFooter(false);
 		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
 		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->SetFont('', '', 7.4, '', false);
-		$pdf->AddPage('P', 'A4');
+		$pdf->SetFont('', '', 7, '', false);
+		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-fpd-cabang.pdf', 'I');
+		$pdf->Output('fpd-dealer-'.$cabang.'-'.$dealer.'.pdf', 'I');
 	}
 
-	public function downloaddealerdetail($mulai, $selesai, $kodsup, $nomsup) {
+	public function downloaddealerdetail($cabang, $mulai, $selesai, $dealer) {
 		$this->load->model('MFpd');
+		$this->load->helper('day');
 
-		$data['data_dealer'] = $this->MFpd->getDataDealer($mulai, $selesai, $kodsup, $nomsup);
-		$data['tanggal_mulai'] = $mulai;
-		$data['tanggal_selesai'] = $selesai;
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['detail'] = $this->MFpd->getDetailDealer($cabang, $mulai, $selesai, $dealer);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
+
 		$this->load->view('print/vfpdexceldealer', $data);
 	}
 
 	// DETAIL REPORT SURVEYOR
-	public function previewsurveyordetail($mulai, $selesai, $ptgsvy, $kodelk) {
+	public function previewsurveyordetail($cabang, $mulai, $selesai, $ptgsvy) {
 		$this->load->library('Pdf');
 		$this->load->model('MFpd');
+		$this->load->helper('day');
 
-		$data['data_surveyor'] = $this->MFpd->getDataSurveyor($mulai, $selesai, $ptgsvy, $kodelk);
-		$data['tanggal_mulai'] = $mulai;
-		$data['tanggal_selesai'] = $selesai;
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['detail'] = $this->MFpd->getDetailSurveyor($cabang, $mulai, $selesai, $ptgsvy);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
 
 		$html = $this->load->view('print/vfpdpdfsurveyor', $data,true);
-		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
 		$pdf->SetPrintHeader(false);
-		$pdf->SetMargins(10, 10, 40, true);
+		$pdf->SetMargins(10, 10, 10, true);
 		$pdf->SetPrintFooter(false);
 		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
 		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->SetFont('', '', 7.4, '', false);
-		$pdf->AddPage('P', 'A4');
+		$pdf->SetFont('', '', 7, '', false);
+		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-fpd-cabang.pdf', 'I');
+		$pdf->Output('fpd-surveyor-'.$cabang.'-'.$ptgsvy.'.pdf', 'I');
 	}
 
-	public function downloadsurveyordetail($mulai, $selesai, $ptgsvy, $kodelk) {
+	public function downloadsurveyordetail($cabang, $mulai, $selesai, $ptgsvy) {
 		$this->load->model('MFpd');
+		$this->load->helper('day');
 
-		$data['data_surveyor'] = $this->MFpd->getDataSurveyor($mulai, $selesai, $ptgsvy, $kodelk);
-		$data['tanggal_mulai'] = $mulai;
-		$data['tanggal_selesai'] = $selesai;
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['detail'] = $this->MFpd->getDetailSurveyor($cabang, $mulai, $selesai, $ptgsvy);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
+
 		$this->load->view('print/vfpdexcelsurveyor', $data);
 	}
 
 	// ALL REPORT DEALER
 	public function previewpdfdealerall($cabang, $mulai, $selesai) {
 		$this->load->library('Pdf');
-		
-		$this->db->trans_start();
 		$this->load->model('MFpd');
-		$sSQL = $this->MFpd->getReportDealer($cabang, $mulai, $selesai);
-		$xTotal = $sSQL->num_rows();
-		$this->db->trans_complete();
+		$this->load->helper('day');
 
-		$xArr = array();
-		if ($sSQL->num_rows() > 0) {
-			foreach ($sSQL->result() as $xRow) {
-
-			}
-		}
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['all'] = $this->MFpd->getReportDealer($cabang, $mulai, $selesai);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
 
 		$html = $this->load->view('print/vfpdpdfdealerall', $data,true);
-		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
-		$pdf->SetMargins(10, 10, 20, true);
+		$pdf->SetMargins(10, 10, 10, true);
 		$pdf->SetPrintHeader(false);
 		$pdf->SetPrintFooter(false);
 		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
-		$pdf->SetAuthor('MFAS');
+		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->SetFont('', '', 7.4, '', false);
-		$pdf->AddPage('P', 'A4');
+		$pdf->SetFont('', '', 7.2, '', false);
+		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-fpd-cabang.pdf', 'I');
+		$pdf->Output('daftar-fpd-dealer-'.$cabang.'.pdf', 'I');
 	}
 
 	public function downloadexceldealerall($cabang, $mulai, $selesai) {
-
-		$this->db->trans_start();
 		$this->load->model('MFpd');
-		$sSQL = $this->MFpd->getReportDealer($cabang, $mulai, $selesai);
-		$xTotal = $sSQL->num_rows();
-		$this->db->trans_complete();
+		$this->load->helper('day');
+
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['all'] = $this->MFpd->getReportDealer($cabang, $mulai, $selesai);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
 
 		$this->load->view('print/vfpdexceldealerall', $data);
 	}
@@ -250,42 +237,38 @@ class Fpd extends CI_Controller {
 	public function previewpdfsurveyorall($cabang, $mulai, $selesai) {
 		$this->load->library('Pdf');
 		$this->load->model('MFpd');
+		$this->load->helper('day');
 
-		$html = $this->load->view('print/vfpdpdfsurveyorall', $data,true);
-		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['all'] = $this->MFpd->getReportSurveyor($cabang, $mulai, $selesai);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
+
+		$html = $this->load->view('print/vfpdpdfsurveyorall', $data, true);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
-		$pdf->SetMargins(10, 10, 20, true);
+		$pdf->SetMargins(10, 10, 10, true);
 		$pdf->SetPrintHeader(false);
 		$pdf->SetPrintFooter(false);
 		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
-		$pdf->SetAuthor('MFAS');
+		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->SetFont('', '', 7.4, '', false);
-		$pdf->AddPage('P', 'A4');
+		$pdf->SetFont('', '', 7.2, '', false);
+		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('daftar-fpd-cabang.pdf', 'I');
+		$pdf->Output('daftar-fpd-surveyor-'.$cabang.'.pdf', 'I');
 	}
 
 	public function downloadexcelsurveyorall($cabang, $mulai, $selesai) {
-
-		$this->db->trans_start();
 		$this->load->model('MFpd');
-		$sSQL = $this->MFpd->getReportSurveyor($cabang, $mulai, $selesai);
-		$xTotal = $sSQL->num_rows();
-		$this->db->trans_complete();
+		$this->load->helper('day');
 
-		$xArr = array();
-		if ($sSQL->num_rows() > 0) {
-			foreach ($sSQL->result() as $xRow) {
-				$unit1 = $this->MFpd->getUnit1($mulai, $selesai, $xRow->fn_kodsup, $xRow->fn_nomsup);
-				$lunas = $this->MFpd->unitLunas1($mulai, $selesai, $xRow->fn_kodsup, $xRow->fn_nomsup);
-			}
-		}
+		$data['tanggal_mulai'] = tanggal_indo($mulai);
+		$data['tanggal_selesai'] = tanggal_indo($selesai);
+		$data['all'] = $this->MFpd->getReportSurveyor($cabang, $mulai, $selesai);
+		$data['nama_cabang'] = $this->MFpd->getCabang($cabang);
 
-		$data['tanggal_mulai'] = $mulai;
-		$data['tanggal_selesai'] = $selesai;
-		$data['data_surveyor'] = '';
 		$this->load->view('print/vfpdexcelsurveyorall', $data);
 	}
 
