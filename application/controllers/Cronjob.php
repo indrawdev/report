@@ -7,12 +7,13 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
-			// CALL BACK
+			// CALL BACK ALL FUCTION CRONTAB
 			$this->cronARAPK();
 			$this->cronAROVDD();
 			$this->cronARPJB();
 			$this->cronARCMAS();
 			$this->cronREPORT();
+			$this->cronEMAIL();
 			$this->cronLog();
 		}
 	}
@@ -263,46 +264,56 @@ class Cronjob extends CI_Controller {
 
 	// CRONTAB REPORT
 	public function cronREPORT() {
-		// TRUNCATE TABLE
-		$this->load->database();
-		$this->db->truncate('tx_report');
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			// TRUNCATE TABLE
+			$this->load->database();
+			$this->db->truncate('tx_report');
 
-		// insert to tx_report
-		$this->load->model('MCronJob');
-		$this->MCronJob->insertAllReport();
+			// insert to tx_report
+			$this->load->model('MCronJob');
+			$this->MCronJob->insertAllReport();
+		}
 	}
 
 	// CRONTAB EMAIL NOTIF
 	public function cronEMAIL() {
-		$this->load->model('MEmail');
-		
-		// range
-		$start = '2017-04-01';
-		$end = '2017-09-30';
-
-		$sSQL = $this->MEmail->getEmail();
-		if ($sSQL->num_rows() > 0) {
-			foreach ($sSQL->result() as $val) {
-				$this->dailyReport($val->fs_email, $start, $end);
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$this->load->model('MEmail');
+			$sSQL = $this->MEmail->getEmail();
+			if ($sSQL->num_rows() > 0) {
+				// looping send email
+				foreach ($sSQL->result() as $val) {
+					// call back function
+					$this->dailyReportDealer($val->fs_email);
+					$this->dailyReportSurveyor($val->fs_email);
+				}
 			}
 		}
 	}
 
 	// CRONTAB ACTIVITY
 	public function cronLog() {
-		$data = array(
-			'log_time' => date('Y-m-d H:i:s'),
-			'log_name' => 'CRONJOB',
-			'log_user' => 'SERVER',
-			'log_message' => 'CRONJOB DBF FILE',
-			'ip_address' => 'NO-IP'
-		);
-		
-		$this->load->database();
-		$this->db->insert('tb_log', $data);
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$data = array(
+				'log_time' => date('Y-m-d H:i:s'),
+				'log_name' => 'CRONJOB',
+				'log_user' => 'SERVER',
+				'log_message' => 'CRONJOB DBF FILE',
+				'ip_address' => 'NO-IP'
+			);
+			$this->load->database();
+			$this->db->insert('tb_log', $data);
+		}
 	}
 
-	public function sendEmail($to, $subject, $content) {
+	// SENDER EMAIL
+	public function sendEmail($to, $subject, $content, $file) {
 		// CATEGORY NOTIFIKASI 'N'
 		$this->load->model('MEmail');
 		$email = $this->MEmail->config('N');
@@ -322,10 +333,11 @@ class Cronjob extends CI_Controller {
 		$this->load->library('email', $config);
 		$this->email->set_crlf("\r\n");
 		$this->email->set_newline("\r\n");
-		$this->email->from($email->smtp_user, "Reporting");
+		$this->email->from($email->smtp_user, "Reporting System");
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($content);
+		$this->email->attach($file);
 
 		if ($this->email->send()) {
 			return true;
@@ -337,18 +349,112 @@ class Cronjob extends CI_Controller {
 		return false;
 	}
 
-	public function dailyReport($to, $start, $end) {
+	// SEND EMAIL NOTIF DAILY REPORT DEALER
+	public function dailyReportDealer($to) {
+		$this->load->library('Pdf');
 		$this->load->model('MFpd');
-		$cabang = '14';
-		$data['report'] = $this->MFpd->getReportDealer($cabang, $start, $end);
-		$subject = 'DAILY REPORT';
-		$html = $this->load->view('email/vdailyreport', $data, true);
-		$send = $this->sendEmail($to, $subject, $html);
-		if ($send) {
-			return true;
-		} else {
-			return false;
-		}
+		$this->load->helper('day');
+
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$end = date('Y-m-d');
+
+		$data['tanggal_mulai'] = tanggal_indo($start);
+		$data['tanggal_selesai'] = tanggal_indo($end);
+
+		$data['cabang_sunter'] = $this->MFpd->getReportDealerAll('11', $start, $end);
+		$data['cabang_bsd'] = $this->MFpd->getReportDealerAll('12', $start, $end);
+		$data['cabang_bogor'] = $this->MFpd->getReportDealerAll('14', $start, $end);
+		$data['cabang_fatmawati1'] = $this->MFpd->getReportDealerAll('15', $start, $end);
+		$data['cabang_cibubur'] = $this->MFpd->getReportDealerAll('18', $start, $end);
+		$data['cabang_banjarmasin'] = $this->MFpd->getReportDealerAll('21', $start, $end);
+		$data['cabang_palangkaraya'] = $this->MFpd->getReportDealerAll('24', $start, $end);
+		$data['cabang_sampit'] = $this->MFpd->getReportDealerAll('25', $start, $end);
+		$data['cabang_pangkalanbun'] = $this->MFpd->getReportDealerAll('26', $start, $end);
+		$data['cabang_surabaya'] = $this->MFpd->getReportDealerAll('30', $start, $end);
+		$data['cabang_bali'] = $this->MFpd->getReportDealerAll('32', $start, $end);
+		$data['cabang_manado'] = $this->MFpd->getReportDealerAll('40', $start, $end);
+		$data['cabang_tomohon'] = $this->MFpd->getReportDealerAll('45', $start, $end);
+		$data['cabang_pangkalpinang'] = $this->MFpd->getReportDealerAll('51', $start, $end);
+		$data['cabang_sungailiat'] = $this->MFpd->getReportDealerAll('52', $start, $end);
+		$data['cabang_jambi'] = $this->MFpd->getReportDealerAll('60', $start, $end);
+		$data['cabang_palembang'] = $this->MFpd->getReportDealerAll('61', $start, $end);
+		$data['cabang_fatmawati2'] = $this->MFpd->getReportDealerAll('73', $start, $end);
+		$data['cabang_jakarta1'] = $this->MFpd->getReportDealerAll('82', $start, $end);
+		$data['cabang_jakarta2'] = $this->MFpd->getReportDealerAll('83', $start, $end);
+
+		$html = $this->load->view('email/vdailyreportdealer', $data, true);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
+		$pdf->SetPrintHeader(false);
+		$pdf->SetMargins(10, 10, 10, true);
+		$pdf->SetPrintFooter(false);
+		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
+		$pdf->SetAuthor('REPORT');
+		$pdf->SetDisplayMode('real', 'default');
+		$pdf->SetFont('', '', 7, '', false);
+		$pdf->AddPage('L', 'A4');
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->lastPage();
+		$pdf->Output('/var/www/report/temp/pdf/fpd-dealer-daily.pdf', 'F');
+		$subject = 'Daily Report - Fpd Dealer';
+		
+		$content = "REPORT FDP DEALER '".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."'";
+		$file = '/var/www/report/temp/pdf/fpd-dealer-daily.pdf';
+		$this->sendEmail($to, $subject, $content, $file);
+	}
+
+	// SEND EMAIL NOTIF DAILY REPORT SURVEYOR
+	public function dailyReportSurveyor($to) {
+		$this->load->library('Pdf');
+		$this->load->model('MFpd');
+		$this->load->helper('day');
+
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$end = date('Y-m-d');
+
+		$data['tanggal_mulai'] = tanggal_indo($start);
+		$data['tanggal_selesai'] = tanggal_indo($end);
+
+		$data['cabang_sunter'] = $this->MFpd->getReportSurveyorAll('11', $start, $end);
+		$data['cabang_bsd'] = $this->MFpd->getReportSurveyorAll('12', $start, $end);
+		$data['cabang_bogor'] = $this->MFpd->getReportSurveyorAll('14', $start, $end);
+		$data['cabang_fatmawati1'] = $this->MFpd->getReportSurveyorAll('15', $start, $end);
+		$data['cabang_cibubur'] = $this->MFpd->getReportSurveyorAll('18', $start, $end);
+		$data['cabang_banjarmasin'] = $this->MFpd->getReportSurveyorAll('21', $start, $end);
+		$data['cabang_palangkaraya'] = $this->MFpd->getReportSurveyorAll('24', $start, $end);
+		$data['cabang_sampit'] = $this->MFpd->getReportSurveyorAll('25', $start, $end);
+		$data['cabang_pangkalanbun'] = $this->MFpd->getReportSurveyorAll('26', $start, $end);
+		$data['cabang_surabaya'] = $this->MFpd->getReportSurveyorAll('30', $start, $end);
+		$data['cabang_bali'] = $this->MFpd->getReportSurveyorAll('32', $start, $end);
+		$data['cabang_manado'] = $this->MFpd->getReportSurveyorAll('40', $start, $end);
+		$data['cabang_tomohon'] = $this->MFpd->getReportSurveyorAll('45', $start, $end);
+		$data['cabang_pangkalpinang'] = $this->MFpd->getReportSurveyorAll('51', $start, $end);
+		$data['cabang_sungailiat'] = $this->MFpd->getReportSurveyorAll('52', $start, $end);
+		$data['cabang_jambi'] = $this->MFpd->getReportSurveyorAll('60', $start, $end);
+		$data['cabang_palembang'] = $this->MFpd->getReportSurveyorAll('61', $start, $end);
+		$data['cabang_fatmawati2'] = $this->MFpd->getReportSurveyorAll('73', $start, $end);
+		$data['cabang_jakarta1'] = $this->MFpd->getReportSurveyorAll('82', $start, $end);
+		$data['cabang_jakarta2'] = $this->MFpd->getReportSurveyorAll('83', $start, $end);
+
+		$html = $this->load->view('email/vdailyreportsurveyor', $data, true);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
+		$pdf->SetPrintHeader(false);
+		$pdf->SetMargins(10, 10, 10, true);
+		$pdf->SetPrintFooter(false);
+		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
+		$pdf->SetAuthor('REPORT');
+		$pdf->SetDisplayMode('real', 'default');
+		$pdf->SetFont('', '', 7, '', false);
+		$pdf->AddPage('L', 'A4');
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->lastPage();
+		$pdf->Output('/var/www/report/temp/pdf/fpd-surveyor-daily.pdf', 'F');
+		$subject = 'Daily Report - Fpd Surveyor';
+		
+		$content = "REPORT FDP SURVEYOR '".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."'";
+		$file = '/var/www/report/temp/pdf/fpd-surveyor-daily.pdf';
+		$this->sendEmail($to, $subject, $content, $file);
 	}
 
 }
