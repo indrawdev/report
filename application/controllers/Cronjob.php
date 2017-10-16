@@ -13,6 +13,7 @@ class Cronjob extends CI_Controller {
 			$this->cronARPJB();
 			$this->cronARCMAS();
 			$this->cronREPORT();
+			$this->cronFILEPDF();
 			$this->cronEMAIL();
 			$this->cronLog();
 		}
@@ -277,6 +278,16 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
+	// CRONTAB CREATE FILE PDF
+	public function cronFILEPDF() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$this->dailyReportDealer();
+			$this->dailyReportSurveyor();
+		}
+	}
+
 	// CRONTAB EMAIL NOTIF
 	public function cronEMAIL() {
 		if (!$this->input->is_cli_request()) {
@@ -288,8 +299,8 @@ class Cronjob extends CI_Controller {
 				// looping send email
 				foreach ($sSQL->result() as $val) {
 					// call back function
-					$this->dailyReportDealer($val->fs_email);
-					$this->dailyReportSurveyor($val->fs_email);
+					$this->sendNotifDealer($val->fs_email);
+					$this->sendNotifSurveyor($val->fs_email);
 				}
 			}
 		}
@@ -312,45 +323,8 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
-	// SENDER EMAIL
-	public function sendEmail($to, $subject, $content, $file) {
-		// CATEGORY NOTIFIKASI 'N'
-		$this->load->model('MEmail');
-		$email = $this->MEmail->config('N');
-
-		$config = array(
-				'protocol' => $email->protocol,
-				'smtp_crypto' => $email->smtp_crypto,
-				'smtp_host' => $email->smtp_host,
-				'smtp_user' => $email->smtp_user,
-				'smtp_pass' => $email->smtp_pass,
-				'smtp_port' => $email->smtp_port,
-				'mailtype' => $email->mailtype,
-				'smtp_timeout' => $email->smtp_timeout,
-				'charset' => $email->charset
-			);
-
-		$this->load->library('email', $config);
-		$this->email->set_crlf("\r\n");
-		$this->email->set_newline("\r\n");
-		$this->email->from($email->smtp_user, "Reporting System");
-		$this->email->to($to);
-		$this->email->subject($subject);
-		$this->email->message($content);
-		$this->email->attach($file);
-
-		if ($this->email->send()) {
-			return true;
-		} else {
-			//return false;
-			echo $this->email->print_debugger();
-		}
-
-		return false;
-	}
-
-	// SEND EMAIL NOTIF DAILY REPORT DEALER
-	public function dailyReportDealer($to) {
+	// DAILY REPORT DEALER
+	public function dailyReportDealer() {
 		$this->load->library('Pdf');
 		$this->load->model('MFpd');
 		$this->load->helper('day');
@@ -396,15 +370,10 @@ class Cronjob extends CI_Controller {
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
 		$pdf->Output('/var/www/report/temp/pdf/fpd-dealer-daily.pdf', 'F');
-		$subject = 'Daily Report - Fpd Dealer';
-		
-		$content = "REPORT FDP DEALER '".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."'";
-		$file = '/var/www/report/temp/pdf/fpd-dealer-daily.pdf';
-		$this->sendEmail($to, $subject, $content, $file);
 	}
 
-	// SEND EMAIL NOTIF DAILY REPORT SURVEYOR
-	public function dailyReportSurveyor($to) {
+	// DAILY REPORT SURVEYOR
+	public function dailyReportSurveyor() {
 		$this->load->library('Pdf');
 		$this->load->model('MFpd');
 		$this->load->helper('day');
@@ -450,11 +419,68 @@ class Cronjob extends CI_Controller {
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
 		$pdf->Output('/var/www/report/temp/pdf/fpd-surveyor-daily.pdf', 'F');
-		$subject = 'Daily Report - Fpd Surveyor';
-		
-		$content = "REPORT FDP SURVEYOR '".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."'";
-		$file = '/var/www/report/temp/pdf/fpd-surveyor-daily.pdf';
-		$this->sendEmail($to, $subject, $content, $file);
 	}
 
+	// SENDER EMAIL
+	public function sendEmail($to, $subject, $content, $file) {
+		// CATEGORY NOTIFIKASI 'N'
+		$this->load->model('MEmail');
+		$email = $this->MEmail->config('N');
+
+		$this->load->library('email');
+		$config = array(
+				'protocol' => $email->protocol,
+				'smtp_crypto' => $email->smtp_crypto,
+				'smtp_host' => $email->smtp_host,
+				'smtp_user' => $email->smtp_user,
+				'smtp_pass' => $email->smtp_pass,
+				'smtp_port' => $email->smtp_port,
+				'mailtype' => $email->mailtype,
+				'smtp_timeout' => $email->smtp_timeout,
+				'charset' => $email->charset,
+
+			);
+		$config['newline'] = "\r\n";
+		$this->email->clear(TRUE);
+		$this->email->initialize($config);
+		$this->email->from($email->smtp_user, "Reporting System");
+		$this->email->to($to);
+		$this->email->subject($subject);
+		$this->email->message($content);
+		$this->email->attach($file);
+		$this->email->set_crlf("\r\n");
+		$this->email->set_newline("\r\n");
+
+		if (!$this->email->send()) {
+			show_error($this->email->print_debugger());
+		}
+	}
+
+	// SEND EMAIL NOTIF DEALER
+	public function sendNotifDealer($to) {
+		$this->load->helper('day');
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$end = date('Y-m-d');
+
+		$subject = 'Daily Report - Fpd Dealer';
+		$content = "REPORT FDP DEALER ".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."";
+		$file = '/var/www/report/temp/pdf/fpd-dealer-daily.pdf';
+		if (!empty($file)) {
+			$this->sendEmail($to, $subject, $content, $file);
+		}
+	}
+
+	// SEND EMAIL NOTIF SURVEYOR
+	public function sendNotifSurveyor($to) {
+		$this->load->helper('day');
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$end = date('Y-m-d');
+
+		$subject = 'Daily Report - Fpd Surveyor';
+		$content = "REPORT FDP SURVEYOR ".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."";
+		$file = '/var/www/report/temp/pdf/fpd-surveyor-daily.pdf';
+		if (!empty($file)) {
+			$this->sendEmail($to, $subject, $content, $file);
+		}
+	}
 }
