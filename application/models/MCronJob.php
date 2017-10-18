@@ -22,7 +22,8 @@ class MCronJob extends CI_Model {
 			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
 			LEFT JOIN tm_kendaraan c ON c.fs_kode_kendaraan = b.fs_jenken
-			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup AND d.fn_nomdel = b.fn_nomsup
+			LEFT JOIN tx_arcmas d ON d.fn_cabang = b.fn_kodekr AND d.fn_kodelk = b.fn_kodsup 
+			AND d.fn_nomdel = b.fn_nomsup AND d.fn_polpen = b.fn_polpen
 			LEFT JOIN tx_arapk e ON  e.fn_kodelk = a.fn_kodelk AND e.fn_nomdel = a.fn_nomdel
 			AND e.fs_jenpiu = a.fs_jenpiu AND e.fn_polpen = a.fn_polpen AND e.fn_nompjb = a.fn_nompjb
 			WHERE a.fn_outnet <> '0' AND b.fd_tgllns = '0000-00-00';

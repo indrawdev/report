@@ -88,6 +88,7 @@ class Login extends CI_Controller {
 							
 					// UPDATE LAST LOGIN
 					$data = array(
+							'fs_ip_address' => $this->input->ip_address(),
 							'fd_last_login' => date('Y-m-d H:i:s'),
 							'fs_user_edit' => trim($username),
 							'fd_tanggal_edit' => date('Y-m-d H:i:s')

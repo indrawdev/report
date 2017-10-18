@@ -92,6 +92,16 @@ class Cronjob extends CI_Controller {
 				}
 
 				dbase_close($db);
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARAPK',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
 			}
 		}
 	} 
@@ -126,6 +136,16 @@ class Cronjob extends CI_Controller {
 					$this->db->insert('tx_arovdd', $data);
 				}
 				dbase_close($db);
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON AROVDD',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
 			}
 		}
 	}
@@ -201,6 +221,16 @@ class Cronjob extends CI_Controller {
 					$this->db->insert('tx_arpjb', $data);
 				}
 				dbase_close($db);
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARPJB',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
 			}
 		}
 	}
@@ -259,6 +289,16 @@ class Cronjob extends CI_Controller {
 					$this->db->insert('tx_arcmas', $data);
 				}
 				dbase_close($db);
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARCMAS',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
 			}
 		}
 	}
@@ -275,6 +315,16 @@ class Cronjob extends CI_Controller {
 			// insert to tx_report
 			$this->load->model('MCronJob');
 			$this->MCronJob->insertAllReport();
+
+			// LOGGING
+			$log = array(
+				'log_time' => date('Y-m-d H:i:s'),
+				'log_name' => 'CRONTAB',
+				'log_user' => 'SERVER',
+				'log_message' => 'CRON REPORT',
+				'ip_address' => 'NO-IP'
+			);
+			$this->db->insert('tb_log', $log);
 		}
 	}
 
@@ -285,6 +335,16 @@ class Cronjob extends CI_Controller {
 		} else {
 			$this->dailyReportDealer();
 			$this->dailyReportSurveyor();
+
+			// LOGGING
+			$log = array(
+				'log_time' => date('Y-m-d H:i:s'),
+				'log_name' => 'CRONTAB',
+				'log_user' => 'SERVER',
+				'log_message' => 'CRON FILEPDF',
+				'ip_address' => 'NO-IP'
+			);
+			$this->db->insert('tb_log', $log);
 		}
 	}
 
@@ -302,6 +362,17 @@ class Cronjob extends CI_Controller {
 					$this->sendNotifDealer($val->fs_email);
 					$this->sendNotifSurveyor($val->fs_email);
 				}
+				
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON EMAIL',
+					'ip_address' => 'NO-IP'
+				);
+				$this->load->database();
+				$this->db->insert('tb_log', $log);
 			}
 		}
 	}
@@ -315,7 +386,7 @@ class Cronjob extends CI_Controller {
 				'log_time' => date('Y-m-d H:i:s'),
 				'log_name' => 'CRONJOB',
 				'log_user' => 'SERVER',
-				'log_message' => 'CRONJOB DBF FILE',
+				'log_message' => 'CRONJOB FINISH',
 				'ip_address' => 'NO-IP'
 			);
 			$this->load->database();
