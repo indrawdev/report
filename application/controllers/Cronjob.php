@@ -360,6 +360,8 @@ class Cronjob extends CI_Controller {
 				foreach ($sSQL->result() as $val) {
 					// call back function
 					$this->sendNotifDealer($val->fs_email);
+					// delay 30 second
+					sleep(30);
 					$this->sendNotifSurveyor($val->fs_email);
 				}
 				
