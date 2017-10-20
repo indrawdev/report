@@ -337,6 +337,7 @@ class Cronjob extends CI_Controller {
 			$this->dailyReportSurveyor();
 
 			// LOGGING
+			$this->load->database();
 			$log = array(
 				'log_time' => date('Y-m-d H:i:s'),
 				'log_name' => 'CRONTAB',
@@ -360,12 +361,13 @@ class Cronjob extends CI_Controller {
 				foreach ($sSQL->result() as $val) {
 					// call back function
 					$this->sendNotifDealer($val->fs_email);
-					// delay 30 second
-					sleep(30);
+					// delay 15 second
+					sleep(15);
 					$this->sendNotifSurveyor($val->fs_email);
 				}
 				
 				// LOGGING
+				$this->load->database();
 				$log = array(
 					'log_time' => date('Y-m-d H:i:s'),
 					'log_name' => 'CRONTAB',
@@ -373,7 +375,6 @@ class Cronjob extends CI_Controller {
 					'log_message' => 'CRON EMAIL',
 					'ip_address' => 'NO-IP'
 				);
-				$this->load->database();
 				$this->db->insert('tb_log', $log);
 			}
 		}
@@ -384,6 +385,7 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->database();
 			$data = array(
 				'log_time' => date('Y-m-d H:i:s'),
 				'log_name' => 'CRONJOB',
@@ -391,7 +393,6 @@ class Cronjob extends CI_Controller {
 				'log_message' => 'CRONJOB FINISH',
 				'ip_address' => 'NO-IP'
 			);
-			$this->load->database();
 			$this->db->insert('tb_log', $data);
 		}
 	}
