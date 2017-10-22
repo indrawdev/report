@@ -12,6 +12,7 @@ class Cronjob extends CI_Controller {
 			$this->cronAROVDD();
 			$this->cronARPJB();
 			$this->cronARCMAS();
+			$this->cronARDENDA();
 			$this->cronREPORT();
 			$this->cronFILEPDF();
 			$this->cronEMAIL();
@@ -302,6 +303,52 @@ class Cronjob extends CI_Controller {
 			}
 		}
 	}
+
+	// CRONTAB ARDENDA
+	public function cronARDENDA() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/ARDENDA.DBF', 0);
+
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_ardenda');
+
+				$num_row = dbase_numrecords($db);
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+
+					$data = array(
+						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1], 
+						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
+						'fs_jenpiu' => $val[4], 'fn_polpen' => $val[5],
+						'fn_angske' => $val[6], 'fd_tgljtp' => $val[7],
+						'fn_jdenda' => $val[8], 'fn_jlsisa' => $val[9],
+						'fs_carbar' => $val[10], 'fs_sumdok' => $val[11],
+						'fs_nomdok' => $val[12], 'fd_tglbyr' => $val[13],
+						'fn_noskmr' => $val[14], 'fn_jumbyr' => $val[15],
+						'fs_flagct' => $val[16], 'fs_nomttd' => $val[17],
+						'fs_nokuit' => $val[18], 'fd_tangka' => $val[19],
+						'fd_tgltma' => $val[20], 'fn_jlangd' => $val[21]
+					);
+					$this->db->insert('tx_ardenda', $data);
+				}
+				dbase_close($db);
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARDENDA',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
+			}
+		}
+	} 
 
 	// CRONTAB REPORT
 	public function cronREPORT() {
