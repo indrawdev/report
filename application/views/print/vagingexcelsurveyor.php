@@ -45,7 +45,7 @@
 			<td width="6%" align="center"><?php echo $val->fn_thnken; ?></td>
 			<td width="15%" align="center"><?php echo $val->fs_namdel; ?></td>
 			<td width="3%" align="center"><?php echo $val->fs_ptgsvy; ?></td>
-			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tglstj), 'd-m-Y'); ?></td>
+			<td width="6%" align="center"><?php echo $val->fd_tglstj; ?></td>
 			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
 			<td width="5%" align="center"><?php echo $val->fn_lamang; ?></td>
 			<td width="8%" align="center"><?php echo number_format($val->fn_pokhut); ?></td>

@@ -41,7 +41,7 @@
 			<th width="20%" align="center"><?php echo $val->fs_nampem; ?></th>
 			<th width="20%" align="center"><?php echo $val->fs_namdel; ?></th>
 			<th width="15%" align="center"><?php echo $val->fs_ptgsvy; ?></th>
-			<th width="10%" align="center"><?php echo date_format(date_create($val->fd_tglstj), 'd-m-Y'); ?></th>
+			<th width="10%" align="center"><?php echo $val->fd_tglstj; ?></th>
 			<th width="5%" align="center"><?php echo $val->fn_anggih; ?></th>
 			<th width="7%" align="center"><?php echo $val->fn_lamovd; ?></th>
 			<th width="10%" align="center"><?php echo number_format($val->fn_outnet); ?></th>

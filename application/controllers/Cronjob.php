@@ -13,6 +13,7 @@ class Cronjob extends CI_Controller {
 			$this->cronARPJB();
 			$this->cronARCMAS();
 			$this->cronARDENDA();
+			$this->cronAPOVDD();
 			$this->cronREPORT();
 			$this->cronFILEPDF();
 			$this->cronEMAIL();
@@ -324,14 +325,16 @@ class Cronjob extends CI_Controller {
 						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1], 
 						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
 						'fs_jenpiu' => $val[4], 'fn_polpen' => $val[5],
-						'fn_angske' => $val[6], 'fd_tgljtp' => $val[7],
-						'fn_jdenda' => $val[8], 'fn_jlsisa' => $val[9],
-						'fs_carbar' => $val[10], 'fs_sumdok' => $val[11],
-						'fs_nomdok' => $val[12], 'fd_tglbyr' => $val[13],
-						'fn_noskmr' => $val[14], 'fn_jumbyr' => $val[15],
-						'fs_flagct' => $val[16], 'fs_nomttd' => $val[17],
-						'fs_nokuit' => $val[18], 'fd_tangka' => $val[19],
-						'fd_tgltma' => $val[20], 'fn_jlangd' => $val[21]
+						'fn_nompjb' => $val[6],  'fn_angske' => $val[7],
+						'fd_tgljtp' => $val[8],  'fn_jdenda' => $val[9],
+						'fn_jlsisa' => $val[10],  'fs_carbar' => $val[11],
+						'fs_sumdok' => $val[12],  'fn_nomdok' => $val[13],
+						'fd_tglbyr' => $val[14],  'fn_noskmr' => $val[15],
+						'fn_jumbyr' => $val[16],  'fs_flagct' => $val[17],
+						'fn_nomttd' => $val[18],  'fn_nokuit' => $val[19],
+						'fd_tangka' => $val[20],  'fd_tgltma' => $val[21],
+						'fn_jlangd' => $val[22]
+
 					);
 					$this->db->insert('tx_ardenda', $data);
 				}
@@ -348,7 +351,49 @@ class Cronjob extends CI_Controller {
 				$this->db->insert('tb_log', $log);
 			}
 		}
-	} 
+	}
+
+	// CRONTAB APOVDD
+	public function cronAPOVDD() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/APOVDD.DBF', 0);
+			
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_apovdd');
+
+				$num_row = dbase_numrecords($db);
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+
+					$data = array(
+						'fn_kodekr' => $val[0], 'fn_kodelk' => $val[1],
+						'fn_nomdel' => $val[2], 'fs_jenpiu' => $val[3],
+						'fn_polpen' => $val[4], 'fn_nompjb' => $val[5],
+						'fd_tglupd' => $val[6], 'fd_tglovd' => $val[7],
+						'fn_outgrs' => $val[8], 'fn_outnet' => $val[9], 
+						'fn_ovdgrs' => $val[10], 'fn_ovdnet' => $val[11],
+						'fn_lamovd' => $val[12], 'fn_jumken' => $val[13]
+					);
+
+					$this->db->insert('tx_apovdd', $data);
+				}
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON APOVDD',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
+			}
+		}
+	}
 
 	// CRONTAB REPORT
 	public function cronREPORT() {
@@ -450,7 +495,7 @@ class Cronjob extends CI_Controller {
 		$this->load->model('MFpd');
 		$this->load->helper('day');
 
-		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
 		$data['tanggal_mulai'] = tanggal_indo($start);
@@ -499,7 +544,7 @@ class Cronjob extends CI_Controller {
 		$this->load->model('MFpd');
 		$this->load->helper('day');
 
-		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
 		$data['tanggal_mulai'] = tanggal_indo($start);
@@ -580,7 +625,7 @@ class Cronjob extends CI_Controller {
 	// SEND EMAIL NOTIF DEALER
 	public function sendNotifDealer($to) {
 		$this->load->helper('day');
-		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
 		$subject = 'Daily Report - Fpd Dealer';
@@ -594,7 +639,7 @@ class Cronjob extends CI_Controller {
 	// SEND EMAIL NOTIF SURVEYOR
 	public function sendNotifSurveyor($to) {
 		$this->load->helper('day');
-		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-6, '01', date('Y')));
+		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
 		$subject = 'Daily Report - Fpd Surveyor';
