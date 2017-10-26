@@ -12,7 +12,7 @@
 		$tanggal_update = $d->fd_tglupd;
 	}
 ?>
-<h2 align="center">TABEL AGING SURVEYOR (<?php echo $nama_cabang->fs_nama_cabang; ?>) - <?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?></h2>
+<h2 align="center">TABEL AGING SURVEYOR (<?php echo $nama_cabang->fs_nama_cabang; ?>) - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?>)</h2>
 <p align="center"><i>UPDATE PER TANGGAL - <?php echo date_format(date_create($tanggal_update), 'd/m/Y'); ?></i></p>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>

@@ -75,7 +75,7 @@ class MFpd extends CI_Model {
 			COUNT(CASE WHEN a.fn_lamovd > '120' THEN a.fs_kontrak END) as fn_max,
 			COUNT(*) as fn_total 
 			FROM tx_report a
-			LEFT JOIN tm_surveyor b ON b.fs_kode_surveyor_lama = a.fs_ptgsvy
+			LEFT JOIN tm_surveyor b ON b.fs_kode_surveyor_lama = a.fs_ptgsvy AND b.fs_kode_cabang = a.fn_kodekr
 			WHERE a.fn_kodekr = '".trim($sKdCab)."' 
 			AND a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
@@ -142,7 +142,7 @@ class MFpd extends CI_Model {
 			COUNT(CASE WHEN fn_lamovd > '120' THEN fs_kontrak END) as fn_max,
 			COUNT(*) as fn_total
 			FROM tx_report
-			WHERE fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			WHERE fn_kodekr = '".trim($sKdCab)."' AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
 
 		$xSQL = $xSQL.("
@@ -169,8 +169,8 @@ class MFpd extends CI_Model {
 			COUNT(CASE WHEN a.fn_lamovd > '120' THEN a.fs_kontrak END) as fn_max,
 			COUNT(*) as fn_total, b.fs_nama_surveyor
 			FROM tx_report a
-			LEFT JOIN tm_surveyor b ON b.fs_kode_surveyor_lama = a.fs_ptgsvy
-			WHERE a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			LEFT JOIN tm_surveyor b ON b.fs_kode_surveyor_lama = a.fs_ptgsvy AND b.fs_kode_cabang = a.fn_kodekr
+			WHERE a.fn_kodekr = '".trim($sKdCab)."' AND a.fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
 
 		$xSQL = $xSQL.("

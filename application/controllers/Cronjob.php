@@ -425,6 +425,7 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			
 			$this->dailyReportDealer();
 			$this->dailyReportSurveyor();
 

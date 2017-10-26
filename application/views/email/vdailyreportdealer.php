@@ -1,5 +1,5 @@
 <!-- CABANG SUNTER -->
-<h1 align="center">CABANG SUNTER - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG SUNTER - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -44,7 +44,7 @@
 </table>
 <br>
 <!-- CABANG BSD -->
-<h1 align="center">CABANG BSD - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG BSD - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -89,7 +89,7 @@
 </table>
 <br>
 <!-- CABANG BOGOR -->
-<h1 align="center">CABANG BOGOR - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG BOGOR - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -134,7 +134,7 @@
 </table>
 <br>
 <!-- CABANG FATMAWATI 1 -->
-<h1 align="center">CABANG FATMAWATI 1 - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG FATMAWATI 1 - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -179,7 +179,7 @@
 </table>
 <br>
 <!-- CABANG CIBUBUR -->
-<h1 align="center">CABANG CIBUBUR - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG CIBUBUR - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -224,7 +224,7 @@
 </table>
 <br>
 <!-- CABANG BANJARMASIN -->
-<h1 align="center">CABANG BANJARMASIN - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG BANJARMASIN - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -269,7 +269,7 @@
 </table>
 <br>
 <!-- CABANG PALANGKARAYA -->
-<h1 align="center">CABANG PALANGKARAYA - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG PALANGKARAYA - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -314,7 +314,7 @@
 </table>
 <br>
 <!-- CABANG SAMPIT -->
-<h1 align="center">CABANG SAMPIT - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG SAMPIT - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -359,7 +359,7 @@
 </table>
 <br>
 <!-- CABANG PANGKALANBUN -->
-<h1 align="center">CABANG PANGKALANBUN - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG PANGKALANBUN - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -404,7 +404,7 @@
 </table>
 <br>
 <!-- CABANG SURABAYA -->
-<h1 align="center">CABANG SURABAYA - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG SURABAYA - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -449,7 +449,7 @@
 </table>
 <br>
 <!-- CABANG BALI -->
-<h1 align="center">CABANG BALI - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG BALI - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -494,7 +494,7 @@
 </table>
 <br>
 <!-- CABANG MANADO -->
-<h1 align="center">CABANG MANADO - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG MANADO - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -539,7 +539,7 @@
 </table>
 <br>
 <!-- CABANG TOMOHON -->
-<h1 align="center">CABANG TOMOHON - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG TOMOHON - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -584,7 +584,7 @@
 </table>
 <br>
 <!-- CABANG PANGKALPINANG -->
-<h1 align="center">CABANG PANGKALPINANG - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG PANGKALPINANG - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -629,7 +629,7 @@
 </table>
 <br>
 <!-- CABANG SUNGAILIAT -->
-<h1 align="center">CABANG SUNGAILIAT - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG SUNGAILIAT - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -674,7 +674,7 @@
 </table>
 <br>
 <!-- CABANG JAMBI -->
-<h1 align="center">CABANG JAMBI - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG JAMBI - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -719,7 +719,7 @@
 </table>
 <br>
 <!-- CABANG PALEMBANG -->
-<h1 align="center">CABANG PALEMBANG - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG PALEMBANG - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -764,7 +764,7 @@
 </table>
 <br>
 <!-- CABANG FATMAWATI 2 -->
-<h1 align="center">CABANG FATMAWATI 2 - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG FATMAWATI 2 - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -809,7 +809,7 @@
 </table>
 <br>
 <!-- CABANG JAKARTA 1 -->
-<h1 align="center">CABANG JAKARTA 1 - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG JAKARTA 1 - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -854,7 +854,7 @@
 </table>
 <br>
 <!-- CABANG JAKARTA 2 -->
-<h1 align="center">CABANG JAKARTA 2 - <?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?></h1>
+<h1 align="center">CABANG JAKARTA 2 - PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai . ' s/d ' . $tanggal_selesai); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>

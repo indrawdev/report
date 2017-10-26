@@ -8,7 +8,7 @@
 ?>
 <h1 align="center">
 	TABEL FPD SURVEYOR - <?php echo $d->fs_ptgsvy; ?>
-	<br><?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?>
+	<br>PENCAIRAN PERIODE (<?php echo strtoupper($tanggal_mulai) . ' s/d ' . strtoupper($tanggal_selesai); ?>)
 </h1>
 <p align="center"><i>UPDATE PER TANGGAL - <?php echo date_format(date_create($tanggal_update), 'd/m/Y'); ?></i></p>
 <table border="1" width="100%" cellpadding="3px">
