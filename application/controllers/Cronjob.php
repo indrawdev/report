@@ -629,8 +629,8 @@ class Cronjob extends CI_Controller {
 		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
-		$subject = 'Daily Report - Fpd Dealer';
-		$content = "REPORT FDP DEALER ".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."";
+		$subject = 'Daily Report - FPD Dealer';
+		$content = "REPORT FPD DEALER - PENCAIRAN PERIODE (".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end)).")";
 		$file = '/var/www/report/temp/pdf/fpd-dealer-daily.pdf';
 		if (!empty($file)) {
 			$this->sendEmail($to, $subject, $content, $file);
@@ -643,8 +643,8 @@ class Cronjob extends CI_Controller {
 		$start = date('Y-m-d', mktime(0, 0, 0, date('m')-9, '01', date('Y')));
 		$end = date('Y-m-d');
 
-		$subject = 'Daily Report - Fpd Surveyor';
-		$content = "REPORT FDP SURVEYOR ".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end))."";
+		$subject = 'Daily Report - FPD Surveyor';
+		$content = "REPORT FPD SURVEYOR - PENCAIRAN PERIODE (".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end)).")";
 		$file = '/var/www/report/temp/pdf/fpd-surveyor-daily.pdf';
 		if (!empty($file)) {
 			$this->sendEmail($to, $subject, $content, $file);
