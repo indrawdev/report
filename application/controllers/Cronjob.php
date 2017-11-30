@@ -14,6 +14,8 @@ class Cronjob extends CI_Controller {
 			$this->cronARCMAS();
 			$this->cronARDENDA();
 			$this->cronAPOVDD();
+			$this->cronARJATE();
+			$this->cronARNOKRS();
 			$this->cronREPORT();
 			$this->cronFILEPDF();
 			$this->cronEMAIL();
@@ -237,7 +239,7 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
-	// CONTAB ARCMAS
+	// CRONTAB ARCMAS
 	public function cronARCMAS() {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
@@ -395,6 +397,104 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
+	// CRONTAB ARJATE
+	public function cronARJATE() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/ARJATE.DBF', 0);
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arjate');
+
+				$num_row = dbase_numrecords($db);
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+
+					$data = array(
+						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1],
+						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
+						'fs_jenpiu' => $val[4], 'fn_polpen' => $val[5],
+						'fn_nompjb' => $val[6], 'fn_angske' => $val[7],
+						'fd_tgljtp' => $val[8], 'fn_jlangp' => $val[9],
+						'fn_jlangd' => $val[10], 'fn_nombbt' => $val[11],
+						'fn_nobbkt' => $val[12], 'fs_carbar' => $val[13],
+						'fs_sumdok' => $val[14], 'fn_nomdok' => $val[15],
+						'fd_tglbyr' => $val[16], 'fn_noskmr' => $val[17],
+						'fn_kowibk' => $val[18], 'fn_kodebk' => $val[19],
+						'fn_bgefek' => $val[20], 'fn_bgefek1' => $val[21],
+						'fn_bgefdk' => $val[22], 'fn_akrbge' => $val[23],
+						'fn_akrang' => $val[24], 'fs_akrflg' => $val[25],
+						'fn_jumbyr' => $val[26], 'fn_jumbdk' => $val[27],
+						'fn_flaggr' => $val[28], 'fs_userid' => $val[29],
+						'fs_updtke' => $val[30], 'fn_noinvo' => $val[31]
+					);
+
+					$this->db->insert('tx_arjate', $data);
+				}
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARJATE',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
+			}
+		}
+	}
+
+	// CRONTAB ARNOKRS
+	public function cronARNOKRS() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/ARNOKRS.DBF', 0);
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_arnokrs');
+
+				$num_row = dbase_numrecords($db);
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+
+					$data = array(
+						'fs_recoid' => $val[0], 'fs_sumdok' => $val[1],
+						'fn_nomdok' => $val[2], 'fs_nomoku' => $val[3],
+						'fd_tangku' => $val[4], 'fn_nomtrm' => $val[5],
+						'fd_tgltrm' => $val[6], 'fd_tgljtp' => $val[7],
+						'fn_nomdel' => $val[8], 'fn_kodelk' => $val[9],
+						'fs_jenpiu' => $val[10], 'fn_polpen' => $val[11],
+						'fn_noskmr' => $val[12], 'fn_angske' => $val[13],
+						'fs_carbar' => $val[14], 'fn_nompjb' => $val[15],
+						'fn_jlhpjb' => $val[16], 'fn_jumlah' => $val[17],
+						'fn_nonota' => $val[18], 'fn_nokuit' => $val[19],
+						'fn_nomttd' => $val[20], 'fs_flagnk' => $val[21],
+						'fs_flagup' => $val[22], 'fs_flagas' => $val[23],
+						'fs_flctdp' => $val[24], 'fs_updtke' => $val[25],
+						'fs_userid' => $val[26], 'fn_nombat' => $val[27],
+					);
+
+					$this->db->insert('tx_arnokrs', $data);
+				}
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARNOKRS',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
+			}
+		}
+	}
+
 	// CRONTAB REPORT
 	public function cronREPORT() {
 		if (!$this->input->is_cli_request()) {
@@ -402,11 +502,12 @@ class Cronjob extends CI_Controller {
 		} else {
 			// TRUNCATE TABLE
 			$this->load->database();
-			$this->db->truncate('tx_report');
-
+			//$this->db->truncate('tx_report');
+			$this->db->truncate('tx_report_denda');
 			// insert to tx_report
 			$this->load->model('MCronJob');
-			$this->MCronJob->insertAllReport();
+			//$this->MCronJob->insertAllReport();
+			$this->MCronJob->insertAllReportDenda();
 
 			// LOGGING
 			$log = array(
@@ -416,7 +517,7 @@ class Cronjob extends CI_Controller {
 				'log_message' => 'CRON REPORT',
 				'ip_address' => 'NO-IP'
 			);
-			$this->db->insert('tb_log', $log);
+			//$this->db->insert('tb_log', $log);
 		}
 	}
 
@@ -457,6 +558,9 @@ class Cronjob extends CI_Controller {
 					// delay 15 second
 					sleep(15);
 					$this->sendNotifSurveyor($val->fs_email);
+					// delay 15 second
+					sleep(15);
+					$this->sendNotifDenda($val->fs_email);
 				}
 				
 				// LOGGING
@@ -588,6 +692,30 @@ class Cronjob extends CI_Controller {
 		$pdf->Output('/var/www/report/temp/pdf/fpd-surveyor-daily.pdf', 'F');
 	}
 
+	// DAILY REPORT DENDA
+	public function dailyReportDenda() {
+		$this->load->library('Pdf');
+		$this->load->model('MDenda');
+		$this->load->helper('day');
+
+		$data['periode_bulan'] = bulan_indo(date('Y-m-d'));
+
+		$html = $this->load->view('email/vdailyreportdenda', $data, true);
+		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
+		$pdf->SetPrintHeader(false);
+		$pdf->SetMargins(10, 10, 10, true);
+		$pdf->SetPrintFooter(false);
+		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
+		$pdf->SetAuthor('REPORT');
+		$pdf->SetDisplayMode('real', 'default');
+		$pdf->SetFont('', '', 7, '', false);
+		$pdf->AddPage('L', 'A4');
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->lastPage();
+		$pdf->Output('/var/www/report/temp/pdf/denda-daily.pdf', 'F');
+	}
+
 	// SENDER EMAIL
 	public function sendEmail($to, $subject, $content, $file) {
 		// CATEGORY NOTIFIKASI 'N'
@@ -646,6 +774,18 @@ class Cronjob extends CI_Controller {
 		$subject = 'Daily Report - FPD Surveyor';
 		$content = "REPORT FPD SURVEYOR - PENCAIRAN PERIODE (".strtoupper(tanggal_indo($start) .' S/D ' . tanggal_indo($end)).")";
 		$file = '/var/www/report/temp/pdf/fpd-surveyor-daily.pdf';
+		if (!empty($file)) {
+			$this->sendEmail($to, $subject, $content, $file);
+		}
+	}
+
+	// SEND EMAIL NOTIF DENDA
+	public function sendNotifDenda($to) {
+		$this->load->helper('day');
+		$subject = 'Daily Report - Denda';
+		$content = '';
+
+		$file = '/var/www/report/temp/pdf/denda-daily.pdf';
 		if (!empty($file)) {
 			$this->sendEmail($to, $subject, $content, $file);
 		}
