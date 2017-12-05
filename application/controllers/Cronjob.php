@@ -307,54 +307,6 @@ class Cronjob extends CI_Controller {
 		}
 	}
 
-	// CRONTAB ARDENDA
-	public function cronARDENDA() {
-		if (!$this->input->is_cli_request()) {
-			echo "can only be accessed via the command line";
-		} else {
-			$db = dbase_open('./temp/dbf/ARDENDA.DBF', 0);
-
-			if ($db) {
-				// TRUNCATE TABLE
-				$this->load->database();
-				$this->db->truncate('tx_ardenda');
-
-				$num_row = dbase_numrecords($db);
-				for ($i = 1; $i <= $num_row; $i++) {
-					$val = dbase_get_record($db, $i);
-
-					$data = array(
-						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1], 
-						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
-						'fs_jenpiu' => $val[4], 'fn_polpen' => $val[5],
-						'fn_nompjb' => $val[6],  'fn_angske' => $val[7],
-						'fd_tgljtp' => $val[8],  'fn_jdenda' => $val[9],
-						'fn_jlsisa' => $val[10],  'fs_carbar' => $val[11],
-						'fs_sumdok' => $val[12],  'fn_nomdok' => $val[13],
-						'fd_tglbyr' => $val[14],  'fn_noskmr' => $val[15],
-						'fn_jumbyr' => $val[16],  'fs_flagct' => $val[17],
-						'fn_nomttd' => $val[18],  'fn_nokuit' => $val[19],
-						'fd_tangka' => $val[20],  'fd_tgltma' => $val[21],
-						'fn_jlangd' => $val[22]
-
-					);
-					$this->db->insert('tx_ardenda', $data);
-				}
-				dbase_close($db);
-
-				// LOGGING
-				$log = array(
-					'log_time' => date('Y-m-d H:i:s'),
-					'log_name' => 'CRONTAB',
-					'log_user' => 'SERVER',
-					'log_message' => 'CRON ARDENDA',
-					'ip_address' => 'NO-IP'
-				);
-				$this->db->insert('tb_log', $log);
-			}
-		}
-	}
-
 	// CRONTAB APOVDD
 	public function cronAPOVDD() {
 		if (!$this->input->is_cli_request()) {
@@ -407,6 +359,7 @@ class Cronjob extends CI_Controller {
 				// TRUNCATE TABLE
 				$this->load->database();
 				$this->db->truncate('tx_arjate');
+				$this->db->truncate('tx_arjate2');
 
 				$num_row = dbase_numrecords($db);
 				for ($i = 1; $i <= $num_row; $i++) {
@@ -434,6 +387,9 @@ class Cronjob extends CI_Controller {
 					$this->db->insert('tx_arjate', $data);
 				}
 
+				// INSERT MULTIPLE TABLE
+				$this->MCronJob->insertARJATE2();
+
 				// LOGGING
 				$log = array(
 					'log_time' => date('Y-m-d H:i:s'),
@@ -457,6 +413,7 @@ class Cronjob extends CI_Controller {
 				// TRUNCATE TABLE
 				$this->load->database();
 				$this->db->truncate('tx_arnokrs');
+				$this->db->truncate('tx_arnokrs2');
 
 				$num_row = dbase_numrecords($db);
 				for ($i = 1; $i <= $num_row; $i++) {
@@ -482,12 +439,67 @@ class Cronjob extends CI_Controller {
 					$this->db->insert('tx_arnokrs', $data);
 				}
 
+				// INSERT MULTIPLE TABLE
+				$this->MCronJob->insertARNOKRS2();
+
 				// LOGGING
 				$log = array(
 					'log_time' => date('Y-m-d H:i:s'),
 					'log_name' => 'CRONTAB',
 					'log_user' => 'SERVER',
 					'log_message' => 'CRON ARNOKRS',
+					'ip_address' => 'NO-IP'
+				);
+				$this->db->insert('tb_log', $log);
+			}
+		}
+	}
+
+	// CRONTAB ARDENDA
+	public function cronARDENDA() {
+		if (!$this->input->is_cli_request()) {
+			echo "can only be accessed via the command line";
+		} else {
+			$db = dbase_open('./temp/dbf/ARDENDA.DBF', 0);
+
+			if ($db) {
+				// TRUNCATE TABLE
+				$this->load->database();
+				$this->db->truncate('tx_ardenda');
+				$this->db->truncate('tx_ardenda2');
+
+				$num_row = dbase_numrecords($db);
+				for ($i = 1; $i <= $num_row; $i++) {
+					$val = dbase_get_record($db, $i);
+
+					$data = array(
+						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1], 
+						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
+						'fs_jenpiu' => $val[4], 'fn_polpen' => $val[5],
+						'fn_nompjb' => $val[6],  'fn_angske' => $val[7],
+						'fd_tgljtp' => $val[8],  'fn_jdenda' => $val[9],
+						'fn_jlsisa' => $val[10],  'fs_carbar' => $val[11],
+						'fs_sumdok' => $val[12],  'fn_nomdok' => $val[13],
+						'fd_tglbyr' => $val[14],  'fn_noskmr' => $val[15],
+						'fn_jumbyr' => $val[16],  'fs_flagct' => $val[17],
+						'fn_nomttd' => $val[18],  'fn_nokuit' => $val[19],
+						'fd_tangka' => $val[20],  'fd_tgltma' => $val[21],
+						'fn_jlangd' => $val[22]
+
+					);
+					$this->db->insert('tx_ardenda', $data);
+				}
+				dbase_close($db);
+
+				// INSERT MULTIPLE TABLE
+				$this->MCronJob->insertARDENDA2();
+
+				// LOGGING
+				$log = array(
+					'log_time' => date('Y-m-d H:i:s'),
+					'log_name' => 'CRONTAB',
+					'log_user' => 'SERVER',
+					'log_message' => 'CRON ARDENDA',
 					'ip_address' => 'NO-IP'
 				);
 				$this->db->insert('tb_log', $log);
@@ -502,12 +514,12 @@ class Cronjob extends CI_Controller {
 		} else {
 			// TRUNCATE TABLE
 			$this->load->database();
-			//$this->db->truncate('tx_report');
-			$this->db->truncate('tx_report_denda');
+			$this->db->truncate('tx_report');
+			$this->db->truncate('tx_report2');
 			// insert to tx_report
 			$this->load->model('MCronJob');
-			//$this->MCronJob->insertAllReport();
-			$this->MCronJob->insertAllReportDenda();
+			$this->MCronJob->insertAllReport();
+			$this->MCronJob->insertAllReport2();
 
 			// LOGGING
 			$log = array(
@@ -529,6 +541,7 @@ class Cronjob extends CI_Controller {
 			
 			$this->dailyReportDealer();
 			$this->dailyReportSurveyor();
+			$this->dailyReportDenda();
 
 			// LOGGING
 			$this->load->database();
@@ -700,9 +713,30 @@ class Cronjob extends CI_Controller {
 
 		$data['periode_bulan'] = bulan_indo(date('Y-m-d'));
 
+		$data['cabang_sunter'] = $this->MDenda->getReportAll('11');
+		$data['cabang_bsd'] = $this->MDenda->getReportAll('12');
+		$data['cabang_bogor'] = $this->MDenda->getReportAll('14');
+		$data['cabang_fatmawati1'] = $this->MDenda->getReportAll('15');
+		$data['cabang_cibubur'] = $this->MDenda->getReportAll('18');
+		$data['cabang_banjarmasin'] = $this->MDenda->getReportAll('21');
+		$data['cabang_palangkaraya'] = $this->MDenda->getReportAll('24');
+		$data['cabang_sampit'] = $this->MDenda->getReportAll('25');
+		$data['cabang_pangkalanbun'] = $this->MDenda->getReportAll('26');
+		$data['cabang_surabaya'] = $this->MDenda->getReportAll('30');
+		$data['cabang_bali'] = $this->MDenda->getReportAll('32');
+		$data['cabang_manado'] = $this->MDenda->getReportAll('40');
+		$data['cabang_tomohon'] = $this->MDenda->getReportAll('45');
+		$data['cabang_pangkalpinang'] = $this->MDenda->getReportAll('51');
+		$data['cabang_sungailiat'] = $this->MDenda->getReportAll('52');
+		$data['cabang_jambi'] = $this->MDenda->getReportAll('60');
+		$data['cabang_palembang'] = $this->MDenda->getReportAll('61');
+		$data['cabang_fatmawati2'] = $this->MDenda->getReportAll('73');
+		$data['cabang_jakarta1'] = $this->MDenda->getReportAll('82');
+		$data['cabang_jakarta2'] = $this->MDenda->getReportAll('83');
+
 		$html = $this->load->view('email/vdailyreportdenda', $data, true);
 		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
-		$pdf->SetTitle('DAFTAR FIRST PAYMENT DEFAULT');
+		$pdf->SetTitle('DAFTAR REPORT DENDA');
 		$pdf->SetPrintHeader(false);
 		$pdf->SetMargins(10, 10, 10, true);
 		$pdf->SetPrintFooter(false);
@@ -724,17 +758,16 @@ class Cronjob extends CI_Controller {
 
 		$this->load->library('email');
 		$config = array(
-				'protocol' => $email->protocol,
-				'smtp_crypto' => $email->smtp_crypto,
-				'smtp_host' => $email->smtp_host,
-				'smtp_user' => $email->smtp_user,
-				'smtp_pass' => $email->smtp_pass,
-				'smtp_port' => $email->smtp_port,
-				'mailtype' => $email->mailtype,
-				'smtp_timeout' => $email->smtp_timeout,
-				'charset' => $email->charset,
-
-			);
+			'protocol' => $email->protocol,
+			'smtp_crypto' => $email->smtp_crypto,
+			'smtp_host' => $email->smtp_host,
+			'smtp_user' => $email->smtp_user,
+			'smtp_pass' => $email->smtp_pass,
+			'smtp_port' => $email->smtp_port,
+			'mailtype' => $email->mailtype,
+			'smtp_timeout' => $email->smtp_timeout,
+			'charset' => $email->charset,
+		);
 		$config['newline'] = "\r\n";
 		$this->email->clear(TRUE);
 		$this->email->initialize($config);
@@ -782,8 +815,9 @@ class Cronjob extends CI_Controller {
 	// SEND EMAIL NOTIF DENDA
 	public function sendNotifDenda($to) {
 		$this->load->helper('day');
+		$tanggal = date('Y-m-d');
 		$subject = 'Daily Report - Denda';
-		$content = '';
+		$content = "REPORT DENDA PERIODE BULAN (".strtoupper(bulan_indo(date($tanggal))).")";
 
 		$file = '/var/www/report/temp/pdf/denda-daily.pdf';
 		if (!empty($file)) {

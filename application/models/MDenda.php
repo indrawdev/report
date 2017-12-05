@@ -9,17 +9,20 @@ class MDenda extends CI_Model
 		$this->load->database();
 	}
 
-	public function getReportAll($sKdCab, $dStart, $dEnd)
+	public function getReportAll($sKdCab)
 	{
 		$xSQL = ("
-			SELECT DISTINCT *
-			FROM tx_report_denda
+			SELECT DISTINCT fs_kontrak, fs_nampem, fd_tgljtp,
+				fn_jlangd, fd_tglbyr, fn_jumbyr, fd_tgltrm, fn_jumlah,
+				fn_anggih, fn_lamang, fn_outnet, fn_ovdnet, fn_lamovd,
+				fn_ovdgrs, fd_tglupd, fn_sisabyr, fn_jlsisa, fn_sisabyr1
+			FROM tx_report2
 			WHERE fn_kodekr = '".trim($sKdCab)."' 
-			AND fd_tgljtp BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
+			AND MONTH(fd_tgljtp) = MONTH(now()) AND YEAR(fd_tgljtp) = YEAR(now())
 		");
 
 		$xSQL = $xSQL.("
-			GROUP BY fs_kontrak, fd_tgljtp
+			GROUP BY fs_kontrak
 			ORDER BY fd_tgljtp ASC
 		");
 

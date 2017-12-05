@@ -21,15 +21,8 @@
 	<tbody>
 		<?php $no = 1; ?>
 		<?php foreach ($cabang_sunter->result() as $val) : ?>
-		<?php 
-			$angs_tertunggak = 0;
-			$angs_jatuhtempo = 0;
-			
-			if (date_format(date_create($val->fd_tgljtp), 'z') < date('z'))  {
-				$angs_tertunggak = $val->fn_jlangd - $val->fn_jumbyr;
-			} else {
-				$angs_jatuhtempo = $val->fn_jlangd - $val->fn_jumbyr;
-			}
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
 		?>
 		<tr>
 			<td width="3%" align="center"><?php echo $no; ?></td>
@@ -40,50 +33,59 @@
 			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
-			<td width="10%" align="right"><?php echo number_format($angs_tertunggak); ?></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="right"><?php echo number_format($angs_jatuhtempo); ?></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
 	</tbody>
-</table>
+</table> 
 <!-- CABANG BSD -->
 <h1 align="center">CABANG BSD (<?php echo strtoupper($periode_bulan); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_bsd->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG BOGOR -->
@@ -91,35 +93,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_bogor->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG FATMAWATI 1 -->
@@ -127,35 +138,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_fatmawati1->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG CIBUBUR -->
@@ -163,35 +183,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_cibubur->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG BANJARMASIN -->
@@ -199,35 +228,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_banjarmasin->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG PALANGKARAYA -->
@@ -235,35 +273,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_palangkaraya->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG SAMPIT -->
@@ -271,35 +318,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_sampit->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG PANGKALANBUN -->
@@ -307,35 +363,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_pangkalanbun->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG SURABAYA -->
@@ -343,35 +408,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_surabaya->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG BALI -->
@@ -379,35 +453,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_bali->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG MANADO -->
@@ -415,35 +498,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_manado->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG TOMOHON -->
@@ -451,35 +543,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_tomohon->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG PANGKALPINANG -->
@@ -487,35 +588,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_pangkalpinang->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG JAMBI -->
@@ -523,35 +633,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_jambi->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG PALEMBANG -->
@@ -559,35 +678,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_palembang->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG FATMAWATI 2 -->
@@ -595,35 +723,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_fatmawati2->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG JAKARTA 1 -->
@@ -631,35 +768,44 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_jakarta1->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 <!-- CABANG JAKARTA 2 -->
@@ -667,34 +813,43 @@
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
-			<th width="4%" align="center"><strong>No</strong></th>
-			<th width="8%" align="center"><strong>Jatuh Tempo</strong></th>
-			<th width="19%" align="center"><strong>Nama Konsumen</strong></th>
-			<th width="6%" align="center"><strong>Angs. Ke</strong></th>
-			<th width="5%" align="center"><strong>Tenor</strong></th>
-			<th width="5%" align="center"><strong>OVD</strong></th>
-			<th width="6%" align="center"><strong>OS Pokok</strong></th>
-			<th width="9%" align="center"><strong>Angs. Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Denda Tertunggak</strong></th>
-			<th width="10%" align="center"><strong>Angs. Jatuh Tempo</strong></th>
-			<th width="9%" align="center"><strong>Total Kewajiban</strong></th>
-			<th width="9%" align="center"><strong>Realisasi</strong></th>
+			<th width="3%" align="center"><strong>NO</strong></th>
+			<th width="6%" align="center"><strong>JTH TEMPO</strong></th>
+			<th width="7%" align="center"><strong>KONTRAK</strong></th>
+			<th width="17%" align="center"><strong>KONSUMEN</strong></th>
+			<th width="5%" align="center"><strong>ANGS. KE</strong></th>
+			<th width="4%" align="center"><strong>TENOR</strong></th>
+			<th width="3%" align="center"><strong>OVD</strong></th>
+			<th width="7%" align="center"><strong>OS POKOK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>DENDA TERTUNGGAK</strong></th>
+			<th width="10%" align="center"><strong>ANGS. JATUH TEMPO</strong></th>
+			<th width="9%" align="center"><strong>TOTAL KEWAJIBAN</strong></th>
+			<th width="9%" align="center"><strong>REALISASI</strong></th>
 		</tr>
 	</thead>
 	<tbody>
+		<?php $no = 1; ?>
+		<?php foreach ($cabang_jakarta2->result() as $val) : ?>
+		<?php
+			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
+		?>
 		<tr>
-			<td width="4%" align="center"></td>
-			<td width="8%" align="center"></td>
-			<td width="19%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="5%" align="center"></td>
-			<td width="6%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="10%" align="center"></td>
-			<td width="9%" align="center"></td>
-			<td width="9%" align="center"></td>
+			<td width="3%" align="center"><?php echo $no; ?></td>
+			<td width="6%" align="center"><?php echo date_format(date_create($val->fd_tgljtp), 'd/m/Y'); ?></td>
+			<th width="7%" align="center"><?php echo $val->fs_kontrak; ?></th>
+			<td width="17%" align="center"><?php echo $val->fs_nampem; ?></td>
+			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
+			<td width="4%" align="center"><?php echo $val->fn_lamang; ?></td>
+			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
+			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
+			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
+			<td width="9%" align="center"><?php echo number_format($total); ?></td>
+			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
+		<?php $no++; ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
