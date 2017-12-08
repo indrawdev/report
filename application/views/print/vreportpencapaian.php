@@ -1,5 +1,4 @@
-<!-- CABANG SUNTER -->
-<h1 align="center">CABANG SUNTER - PERIODE (<?php echo strtoupper($periode_bulan); ?>)</h1>
+<h1 align="center">CABANG PERIODE (<?php echo strtoupper($periode_bulan); ?>)</h1>
 <table border="1" align="left" width="100%" cellpadding="5px">
 	<thead>
 		<tr>
@@ -20,7 +19,7 @@
 	</thead>
 	<tbody>
 		<?php $no = 1; ?>
-		<?php foreach ($denda->result() as $val) : ?>
+		<?php foreach ($pencapaian->result() as $val) : ?>
 		<?php
 			$total = $val->fn_sisabyr + $val->fn_jlsisa + $val->fn_sisabyr1 + $val->fn_jumlah;
 		?>

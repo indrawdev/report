@@ -18,7 +18,7 @@ Ext.onReady(function() {
 
 	var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
-	Ext.define('DataGridDenda', {
+	Ext.define('DataGridPencapaian', {
 		extend: 'Ext.data.Model',
 		fields: [
 			{name: 'fd_tgljtp', type: 'string'},
@@ -26,6 +26,89 @@ Ext.onReady(function() {
 			{name: 'fn_anggih', type: 'string'}
 		]
 	});
+
+	Ext.define('Ext.form.field.Month', {
+        extend: 'Ext.form.field.Date',
+        alias: 'widget.monthfield',
+        requires: ['Ext.picker.Month'],
+        alternateClassName: ['Ext.form.MonthField', 'Ext.form.Month'],
+        selectMonth: null,
+        createPicker: function () {
+		    var me = this,
+		        format = Ext.String.format,
+		        pickerConfig;
+
+		    pickerConfig = {
+		        pickerField: me,
+		        ownerCmp: me,
+		        renderTo: document.body,
+		        floating: true,
+		        hidden: true,
+		        focusOnShow: true,
+		        minDate: me.minValue,
+		        maxDate: me.maxValue,
+		        disabledDatesRE: me.disabledDatesRE,
+		        disabledDatesText: me.disabledDatesText,
+		        disabledDays: me.disabledDays,
+		        disabledDaysText: me.disabledDaysText,
+		        format: me.format,
+		        showToday: me.showToday,
+		        startDay: me.startDay,
+		        minText: format(me.minText, me.formatDate(me.minValue)),
+		        maxText: format(me.maxText, me.formatDate(me.maxValue)),
+		        listeners: {
+		            select: { scope: me, fn: me.onSelect },
+		            monthdblclick: { scope: me, fn: me.onOKClick },
+		            yeardblclick: { scope: me, fn: me.onOKClick },
+		            OkClick: { scope: me, fn: me.onOKClick },
+		            CancelClick: { scope: me, fn: me.onCancelClick }
+		        },
+		        keyNavConfig: {
+		            esc: function () {
+		                me.collapse();
+		            }
+		        }
+		    };
+
+		    if (Ext.isChrome) {
+		        me.originalCollapse = me.collapse;
+		        pickerConfig.listeners.boxready = {
+		            fn: function () {
+		                this.picker.el.on({
+		                    mousedown: function () {
+		                        this.collapse = Ext.emptyFn;
+		                    },
+		                    mouseup: function () {
+		                        this.collapse = this.originalCollapse;
+		                    },
+		                    scope: this
+		                });
+		            },
+		            scope: me,
+		            single: true
+		        }
+		    }
+
+		    return Ext.create('Ext.picker.Month', pickerConfig);
+		},
+        onCancelClick: function() {
+            var me = this;
+            me.selectMonth = null;
+            me.collapse();
+        },
+        onOKClick: function() {
+            var me = this;
+            if (me.selectMonth) {
+                me.setValue(me.selectMonth);
+                me.fireEvent('select', me, me.selectMonth);
+            }
+            me.collapse();
+        },
+        onSelect: function(m, d) {
+            var me = this;
+            me.selectMonth = new Date((d[0] + 1) + '/1/' + d[1]);
+        }
+    });
 
 	// STORES
 	var grupCabang = Ext.create('Ext.data.Store', {
@@ -55,14 +138,14 @@ Ext.onReady(function() {
 		}
 	});
 
-	var grupDenda = Ext.create('Ext.data.Store', {
+	var grupPencapaian = Ext.create('Ext.data.Store', {
 		autoLoad: false,
-		model: 'DataGridDenda',
+		model: 'DataGridPencapaian',
 		sorters: [{
-	        property: '',
-	        direction: 'DESC'
+	        property: 'fd_tgljtp',
+	        direction: 'ASC'
    		}],
-   		sortRoot: '',
+   		sortRoot: 'fd_tgljtp',
    		sortOnLoad: true,
    		remoteSort: false,
 		proxy: {
@@ -73,15 +156,14 @@ Ext.onReady(function() {
 				type: 'json',
 			},
 			type: 'ajax',
-			url: 'fpd/gridgroupdealer',
+			url: 'pencapaian/grid',
 			timeout: 360000
 		},
 		listeners: {
 			beforeload: function(store) {
 				Ext.apply(store.getProxy().extraParams, {
 					'fs_kode_cabang': Ext.getCmp('txtKdCabang').getValue(),
-					'fd_start': Ext.Date.format(Ext.getCmp('cboStartDate').getValue(), 'Y-m-d'),
-					'fd_end': Ext.Date.format(Ext.getCmp('cboEndDate').getValue(), 'Y-m-d')
+					'fd_periode': Ext.Date.format(Ext.getCmp('cboPeriode').getValue(), 'Y-m-d')
 				});
 			}
 		}
@@ -225,36 +307,14 @@ Ext.onReady(function() {
 		hidden: true
 	};
 
-	var cboStartDate = {
-		afterLabelTextTpl: required,
-		allowBlank: false,
-		anchor: '99%',
-		editable: true,
-		fieldLabel: 'Mulai',
-		labelWidth: 85,
-		format: 'd-m-Y',
-		id: 'cboStartDate',
-		maskRe: /[0-9-]/,
-		minValue: Ext.Date.add(new Date(), Ext.Date.YEAR, -50),
-		name: 'cboStartDate',
-		value: new Date(),
-		xtype: 'datefield'
-	};
-
-	var cboEndDate = {
-		afterLabelTextTpl: required,
-		allowBlank: false,
-		anchor: '99%',
-		editable: true,
-		fieldLabel: 'Selesai',
-		labelWidth: 85,
-		format: 'd-m-Y',
-		id: 'cboEndDate',
-		maskRe: /[0-9-]/,
-		minValue: Ext.Date.add(new Date(), Ext.Date.YEAR, -50),
-		name: 'cboEndDate',
-		value: new Date(),
-		xtype: 'datefield'
+	var cboPeriode = {
+		anchor: '98%',
+		xtype: 'monthfield',
+		submitFormat: 'Y-m-d',
+		id: 'cboPeriode',
+		name: 'cboPeriode',
+		format: 'F, Y',
+		value: new Date()
 	};
 
 	var btnShow = {
@@ -267,19 +327,19 @@ Ext.onReady(function() {
 		xtype: 'button',
 		handler: function() {
 			if (this.up('form').getForm().isValid()) {
-				grupDenda.removeAll();
-				grupDenda.load();
+				grupPencapaian.removeAll();
+				grupPencapaian.load();
 			}
 		}
 	};
 
 	// GRIDS
-	var gridDenda = Ext.create('Ext.grid.Panel', {
+	var gridPencapaian = Ext.create('Ext.grid.Panel', {
 		anchor: '100%',
 		autoDestroy: true,
 		height: 250,
 		sortableColumns: false,
-		store: grupDenda,
+		store: grupPencapaian,
 		columns: [{
 			width: 35,
 			xtype: 'rownumberer'
@@ -289,7 +349,8 @@ Ext.onReady(function() {
 			dataIndex: 'fd_tgljtp',
 			menuDisabled: true,
 			width: 80,
-			locked: true
+			locked: true,
+			renderer: Ext.util.Format.dateRenderer('d-m-Y')
 		},{
 			align: 'center',
 			text: 'KONSUMEN',
@@ -300,57 +361,63 @@ Ext.onReady(function() {
 		},{
 			align: 'center',
 			text: 'ANGS. KE',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_anggih',
 			menuDisabled: true,
 			width: 60
 		},{
 			align: 'center',
 			text: 'TENOR',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_lamang',
 			menuDisabled: true,
 			width: 50
 		},{
 			align: 'center',
 			text: 'OVD',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_lamovd',
 			menuDisabled: true,
 			width: 50
 		},{
 			align: 'right',
 			text: 'OS POKOK',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_outnet',
 			menuDisabled: true,
-			width: 100
+			width: 100,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		},{
 			align: 'right',
 			text: 'ANGS. TERTUNGGAK',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_sisabyr',
 			menuDisabled: true,
-			width: 110
+			width: 110,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		},{
 			align: 'right',
 			text: 'DENDA. TERTUNGGAK',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_jlsisa',
 			menuDisabled: true,
-			width: 120
+			width: 120,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		},{
 			align: 'right',
 			text: 'ANGS. JATUH TEMPO',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_sisabyr1',
 			menuDisabled: true,
-			width: 120
+			width: 120,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		},{
 			align: 'right',
 			text: 'TOTAL',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_total',
 			menuDisabled: true,
-			width: 110
+			width: 110,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		},{
 			align: 'right',
 			text: 'REALISASI',
-			dataIndex: 'fs_nampem',
+			dataIndex: 'fn_jumlah',
 			menuDisabled: true,
-			width: 110
+			width: 110,
+			renderer: Ext.util.Format.numberRenderer('0,000,000')
 		}],
 		viewConfig: {
 			getRowClass: function() {
@@ -362,13 +429,14 @@ Ext.onReady(function() {
 
 	// FUNCTIONS
 	function fnReset() {
-
+		Ext.getCmp('cboCabang').setValue('');
+		Ext.getCmp('txtKdCabang').setValue('');
+		Ext.getCmp('cboPeriode').setValue('');
 	}
 
 	function fnPrint() {
 		var xkdcabang = Ext.getCmp('txtKdCabang').getValue();
-		var xtglstart =  Ext.Date.format(Ext.getCmp('cboStartDate').getValue(), 'Y-m-d');
-		var xtglend = Ext.Date.format(Ext.getCmp('cboEndDate').getValue(), 'Y-m-d');
+		var xblnperiode =  Ext.Date.format(Ext.getCmp('cboPeriode').getValue(), 'Y-m-d');
 
 		if (xkdcabang == '') {
 			xkdcabang = 0;
@@ -379,7 +447,7 @@ Ext.onReady(function() {
 			width: 950,
 			height: 650,
 			layout:'anchor',
-			title: 'REPORT',
+			title: 'REPORT PENCAPAIAN PENAGIHAN',
 			buttons: [{
 				text: 'Close',
 				handler: function() {
@@ -389,15 +457,15 @@ Ext.onReady(function() {
 			}]
 		});
 
-		popUp.add({html: '<iframe width="942" height="650" src="denda/preview/'+ xkdcabang +'/'+ xtglstart +'/'+ xtglend +'"></iframe>'});
+		popUp.add({html: '<iframe width="942" height="650" src="pencapaian/preview/'+ xkdcabang +'/'+ xblnperiode +'"></iframe>'});
 		popUp.show();
 	}
 
-	var frmDenda = Ext.create('Ext.form.Panel', {
+	var frmPencapaian = Ext.create('Ext.form.Panel', {
 		border: false,
 		frame: true,
 		region: 'center',
-		title: 'Denda',
+		title: 'Pencapaian Penagihan',
 		width: 930,
 		items: [{
 			bodyStyle: 'background-color: '.concat(gBasePanel),
@@ -413,7 +481,7 @@ Ext.onReady(function() {
 				},
 				anchor: '100%',
 				style: 'padding: 5px;',
-				title: 'Report Denda',
+				title: 'Report Pencapaian Penagihan',
 				xtype: 'fieldset',
 				items: [{
 					anchor: '100%',
@@ -447,18 +515,17 @@ Ext.onReady(function() {
 							style: 'padding: 5px;',
 							xtype: 'fieldset',
 							items: [
-								cboStartDate,
-								cboEndDate
+								cboPeriode
 							]
 						}]
 					}]
 				},{
 					anchor: '100%',
 					style: 'padding: 5px',
-					title: 'Data Denda',
+					title: 'Data Pencapaian Penagihan',
 					xtype: 'fieldset',
 					items: [
-						gridDenda
+						gridPencapaian
 					]
 				}]
 			}],
@@ -478,18 +545,18 @@ Ext.onReady(function() {
 
 	var vMask = new Ext.LoadMask({
 		msg: 'Please wait...',
-		target: frmDenda
+		target: frmPencapaian
 	});
 
 	function fnMaskShow() {
-		frmDenda.mask('Please wait...');
+		frmPencapaian.mask('Please wait...');
 	}
 
 	function fnMaskHide() {
-		frmDenda.unmask();
+		frmPencapaian.unmask();
 	}
 	
-	frmDenda.render(Ext.getBody());
+	frmPencapaian.render(Ext.getBody());
 	Ext.get('loading').destroy();
 
 });

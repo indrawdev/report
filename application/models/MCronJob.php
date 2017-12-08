@@ -90,7 +90,7 @@ class MCronJob extends CI_Model {
 		$xSQL = ("
 			INSERT INTO tx_report2
 			SELECT DISTINCT b.fn_kodekr, CONCAT(a.fn_kodelk, a.fn_nomdel, a.fs_jenpiu, a.fn_polpen, a.fn_nompjb) as fs_kontrak,
-			b.fs_nampem, c.fd_tgljtp, c.fn_jlangd, c.fd_tglbyr, c.fn_jumbyr, d.fd_tgltrm, d.fn_jumlah,
+			b.fs_nampem, e.fd_tgljtp, c.fn_jlangd, c.fd_tglbyr, c.fn_jumbyr, d.fd_tgltrm, d.fn_jumlah,
 			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang,
 			a.fn_outnet, a.fn_ovdnet, a.fn_lamovd, a.fn_ovdgrs, a.fd_tglupd, c.fn_sisabyr, f.fn_jlsisa,
 			(e.fn_jlangd - e.fn_jumbyr) as fn_sisabyr1
@@ -103,7 +103,6 @@ class MCronJob extends CI_Model {
 			AND d.fs_jenpiu = a.fs_jenpiu AND d.fn_polpen = a.fn_polpen AND d.fn_nompjb = a.fn_nompjb
 			LEFT JOIN tx_arjate e ON e.fn_kodelk = a.fn_kodelk AND e.fn_nomdel = a.fn_nomdel
 			AND e.fs_jenpiu = a.fs_jenpiu AND e.fn_polpen = a.fn_polpen AND e.fn_nompjb = a.fn_nompjb
-			AND MONTH(e.fd_tgljtp) = MONTH(now()) AND YEAR(e.fd_tgljtp) = YEAR(now())
 			LEFT JOIN tx_ardenda2 f ON f.fn_kodelk = a.fn_kodelk AND f.fn_nomdel = a.fn_nomdel
 			AND f.fs_jenpiu = a.fs_jenpiu AND f.fn_polpen = a.fn_polpen AND f.fn_nompjb = a.fn_nompjb
 			WHERE a.fn_outnet <> '0' AND b.fd_tgllns = '0000-00-00';

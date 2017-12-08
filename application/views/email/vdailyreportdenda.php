@@ -34,10 +34,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -79,10 +79,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -124,10 +124,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -169,10 +169,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -214,10 +214,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -259,10 +259,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -304,10 +304,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -349,10 +349,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -394,10 +394,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -439,10 +439,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -484,10 +484,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -529,10 +529,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -574,10 +574,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -619,10 +619,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -664,10 +664,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -709,10 +709,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -754,10 +754,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -799,10 +799,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>
@@ -844,10 +844,10 @@
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 			<td width="7%" align="right"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr); ?></td>
-			<td width="10%" align="center"><?php echo number_format($val->fn_jlsisa); ?></td>
+			<td width="10%" align="right"><?php echo number_format($val->fn_jlsisa); ?></td>
 			<td width="10%" align="right"><?php echo number_format($val->fn_sisabyr1); ?></td>
-			<td width="9%" align="center"><?php echo number_format($total); ?></td>
-			<td width="9%" align="center"><?php echo number_format($val->fn_jumlah); ?></td>
+			<td width="9%" align="right"><?php echo number_format($total); ?></td>
+			<td width="9%" align="right"><?php echo number_format($val->fn_jumlah); ?></td>
 		</tr>
 		<?php $no++; ?>
 		<?php endforeach; ?>

@@ -16,7 +16,7 @@
 		var gBaseIMG = '<?php echo config_item('base_img');?>';
 		var gBasePanel = '<?php echo config_item('base_panel');?>';
 	</script>
-<script type="text/javascript" src="<?php echo config_item('base_js');?>denda.js?cb=<?php echo time()?>"></script>
+<script type="text/javascript" src="<?php echo config_item('base_js');?>pencapaian.js?cb=<?php echo time()?>"></script>
 </head>
 <body>
 

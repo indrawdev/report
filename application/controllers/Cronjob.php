@@ -365,6 +365,13 @@ class Cronjob extends CI_Controller {
 				for ($i = 1; $i <= $num_row; $i++) {
 					$val = dbase_get_record($db, $i);
 
+					$hmin3 = time();
+					$datediff = $hmin3 - strtotime($val[8]);
+
+					$xxx = floor($datediff / (60 * 60 * 24));
+					$sisabyr = $val[10] - $val[26];
+					$dendabyr = ($xxx * 0.005) * $sisabyr;
+
 					$data = array(
 						'fs_recoid' => $val[0], 'fn_nomdel' => $val[1],
 						'fn_kodelk' => $val[2], 'fn_nomrut' => $val[3],
@@ -381,13 +388,15 @@ class Cronjob extends CI_Controller {
 						'fn_akrang' => $val[24], 'fs_akrflg' => $val[25],
 						'fn_jumbyr' => $val[26], 'fn_jumbdk' => $val[27],
 						'fn_flaggr' => $val[28], 'fs_userid' => $val[29],
-						'fs_updtke' => $val[30], 'fn_noinvo' => $val[31]
+						'fs_updtke' => $val[30], 'fn_noinvo' => $val[31],
+						'fn_dndbyr' => $dendabyr
 					);
 
 					$this->db->insert('tx_arjate', $data);
 				}
 
 				// INSERT MULTIPLE TABLE
+				$this->load->model('MCronJob');
 				$this->MCronJob->insertARJATE2();
 
 				// LOGGING
@@ -440,6 +449,7 @@ class Cronjob extends CI_Controller {
 				}
 
 				// INSERT MULTIPLE TABLE
+				$this->load->model('MCronJob');
 				$this->MCronJob->insertARNOKRS2();
 
 				// LOGGING
@@ -485,13 +495,13 @@ class Cronjob extends CI_Controller {
 						'fn_nomttd' => $val[18],  'fn_nokuit' => $val[19],
 						'fd_tangka' => $val[20],  'fd_tgltma' => $val[21],
 						'fn_jlangd' => $val[22]
-
 					);
 					$this->db->insert('tx_ardenda', $data);
 				}
 				dbase_close($db);
 
 				// INSERT MULTIPLE TABLE
+				$this->load->model('MCronJob');
 				$this->MCronJob->insertARDENDA2();
 
 				// LOGGING
@@ -512,11 +522,13 @@ class Cronjob extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+
 			// TRUNCATE TABLE
 			$this->load->database();
 			$this->db->truncate('tx_report');
 			$this->db->truncate('tx_report2');
-			// insert to tx_report
+
+			// insert to tx_report & tx_report2
 			$this->load->model('MCronJob');
 			$this->MCronJob->insertAllReport();
 			$this->MCronJob->insertAllReport2();
@@ -529,7 +541,7 @@ class Cronjob extends CI_Controller {
 				'log_message' => 'CRON REPORT',
 				'ip_address' => 'NO-IP'
 			);
-			//$this->db->insert('tb_log', $log);
+			$this->db->insert('tb_log', $log);
 		}
 	}
 
@@ -743,11 +755,11 @@ class Cronjob extends CI_Controller {
 		$pdf->SetAutoPageBreak(True, PDF_MARGIN_FOOTER);
 		$pdf->SetAuthor('REPORT');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->SetFont('', '', 7, '', false);
+		$pdf->SetFont('', '', 6, '', false);
 		$pdf->AddPage('L', 'A4');
 		$pdf->writeHTML($html, true, false, true, false, '');
 		$pdf->lastPage();
-		$pdf->Output('/var/www/report/temp/pdf/denda-daily.pdf', 'F');
+		$pdf->Output('/var/www/report/temp/pdf/pencapaian-penagihan-daily.pdf', 'F');
 	}
 
 	// SENDER EMAIL
@@ -816,10 +828,10 @@ class Cronjob extends CI_Controller {
 	public function sendNotifDenda($to) {
 		$this->load->helper('day');
 		$tanggal = date('Y-m-d');
-		$subject = 'Daily Report - Denda';
-		$content = "REPORT DENDA PERIODE BULAN (".strtoupper(bulan_indo(date($tanggal))).")";
+		$subject = 'Daily Report - Pencapaian Penagihan';
+		$content = "REPORT PENCAPAIAN PENAGIHAN PERIODE BULAN (".strtoupper(bulan_indo(date($tanggal))).")";
 
-		$file = '/var/www/report/temp/pdf/denda-daily.pdf';
+		$file = '/var/www/report/temp/pdf/pencapaian-penagihan-daily.pdf';
 		if (!empty($file)) {
 			$this->sendEmail($to, $subject, $content, $file);
 		}
