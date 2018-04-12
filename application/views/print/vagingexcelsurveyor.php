@@ -30,7 +30,7 @@
 			<th width="6%" align="center"><strong>TGL CAIR</strong></th>
 			<th width="5%" align="center"><strong>ANGS KE</strong></th>
 			<th width="5%" align="center"><strong>TENOR</strong></th>
-			<th width="8%" align="center"><strong>PH</strong></th>
+			<th width="8%" align="center"><strong>ANGSURAN</strong></th>
 			<th width="8%" align="center"><strong>OS POKOK</strong></th>
 			<th width="3%" align="center"><strong>OVD</strong></th>
 	</thead>
@@ -48,7 +48,7 @@
 			<td width="6%" align="center"><?php echo $val->fd_tglstj; ?></td>
 			<td width="5%" align="center"><?php echo $val->fn_anggih; ?></td>
 			<td width="5%" align="center"><?php echo $val->fn_lamang; ?></td>
-			<td width="8%" align="center"><?php echo number_format($val->fn_pokhut); ?></td>
+			<td width="8%" align="center"><?php echo number_format($val->fn_jlangd); ?></td>
 			<td width="8%" align="center"><?php echo number_format($val->fn_outnet); ?></td>
 			<td width="3%" align="center"><?php echo $val->fn_lamovd; ?></td>
 		</tr>

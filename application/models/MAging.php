@@ -32,7 +32,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -50,7 +50,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -68,7 +68,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -86,7 +86,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -103,7 +103,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -115,7 +115,7 @@ class MAging extends CI_Model
 		$xSQL = ("
 			SELECT DISTINCT fs_kontrak,
 			fs_nampem, fs_model_kendaraan, fn_thnken, fs_namdel, fd_tglstj, fn_anggih, 
-			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy
+			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy, fn_jlangd
 			FROM tx_report
 			WHERE fn_kodekr = '".trim($sKdCab)."' 
 			AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
@@ -123,7 +123,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -135,7 +135,7 @@ class MAging extends CI_Model
 		$xSQL = ("
 			SELECT DISTINCT fs_kontrak,
 			fs_nampem, fs_model_kendaraan, fn_thnken, fs_namdel, fd_tglstj, fn_anggih, 
-			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy
+			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy, fn_jlangd
 			FROM tx_report
 			WHERE fn_kodekr = '".trim($sKdCab)."' 
 			AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
@@ -144,7 +144,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -156,7 +156,7 @@ class MAging extends CI_Model
 		$xSQL = ("
 			SELECT DISTINCT fs_kontrak,
 			fs_nampem, fs_model_kendaraan, fn_thnken, fs_namdel, fd_tglstj, fn_anggih, 
-			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy
+			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy, fn_jlangd
 			FROM tx_report
 			WHERE fn_kodekr = '".trim($sKdCab)."' 
 			AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
@@ -164,7 +164,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -176,7 +176,7 @@ class MAging extends CI_Model
 		$xSQL = ("
 			SELECT DISTINCT fs_kontrak,
 			fs_nampem, fs_model_kendaraan, fn_thnken, fs_namdel, fd_tglstj, fn_anggih, 
-			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy
+			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy, fn_jlangd
 			FROM tx_report
 			WHERE fn_kodekr = '".trim($sKdCab)."' 
 			AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
@@ -184,7 +184,7 @@ class MAging extends CI_Model
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);
@@ -196,14 +196,14 @@ class MAging extends CI_Model
 		$xSQL = ("
 			SELECT DISTINCT fs_kontrak,
 			fs_nampem, fs_model_kendaraan, fn_thnken, fs_namdel, fd_tglstj, fn_anggih, 
-			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy
+			fn_lamang, fn_pokhut, fn_outnet, fn_lamovd, fd_tglupd, fs_ptgsvy, fn_jlangd
 			FROM tx_report
 			WHERE fn_outnet <> '0' AND fn_kodekr = '".trim($sKdCab)."' 
 			AND fd_tglstj BETWEEN '".trim($dStart)."' AND '".trim($dEnd)."'
 		");
 
 		$xSQL = $xSQL.("
-			ORDER BY fd_tglupd DESC
+			ORDER BY fn_lamovd DESC
 		");
 
 		$sSQL = $this->db->query($xSQL);

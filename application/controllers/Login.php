@@ -126,9 +126,4 @@ class Login extends CI_Controller {
 		echo "{success:true}";
 	}
 	
-	public function test() {
-		$now = time();
-		$datediff = $now - strtotime('2017-12-01');
-		echo floor($datediff / (60 * 60 * 24));
-	}
 }

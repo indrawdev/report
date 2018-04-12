@@ -17,7 +17,7 @@ class MCronJob extends CI_Model {
 			b.fs_nampem, c.fs_model_kendaraan, b.fn_thnken, 
 			CONCAT(d.fn_cabang, d.fn_kodelk, d.fn_nomdel) as fn_koddel, d.fs_namdel, b.fd_tglstj, 
 			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang, (b.fn_juhang - b.fn_biangd) as fn_pokhut, 
-			a.fn_outnet, a.fn_ovdnet, a.fn_lamovd, a.fn_ovdgrs, a.fd_tglupd, e.fs_ptgsvy, f.fn_jlsisa
+			a.fn_outnet, a.fn_ovdnet, a.fn_lamovd, a.fn_ovdgrs, a.fd_tglupd, e.fs_ptgsvy, f.fn_jlsisa, b.fn_jlangd
 			FROM tx_arovdd a
 			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
@@ -93,7 +93,7 @@ class MCronJob extends CI_Model {
 			b.fs_nampem, e.fd_tgljtp, c.fn_jlangd, c.fd_tglbyr, c.fn_jumbyr, d.fd_tgltrm, d.fn_jumlah,
 			(b.fn_anggih + 1) as fn_anggih, b.fn_lamang,
 			a.fn_outnet, a.fn_ovdnet, a.fn_lamovd, a.fn_ovdgrs, a.fd_tglupd, c.fn_sisabyr, f.fn_jlsisa,
-			(e.fn_jlangd - e.fn_jumbyr) as fn_sisabyr1
+			(e.fn_jlangd - e.fn_jumbyr) as fn_sisabyr1, SUM(e.fn_dndbyr) as fn_dndjln
 			FROM tx_arovdd a
 			LEFT JOIN tx_arpjb b ON b.fn_kodelk = a.fn_kodelk AND b.fn_nomdel = a.fn_nomdel
 			AND b.fs_jenpiu = a.fs_jenpiu AND b.fn_polpen = a.fn_polpen AND b.fn_nompjb = a.fn_nompjb
