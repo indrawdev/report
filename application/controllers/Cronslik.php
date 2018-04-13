@@ -899,7 +899,7 @@ class Cronslik extends CI_Controller {
 			echo "can only be accessed via the command line";
 		} else {
 			$this->load->model('MCronSlik');
-			$sSQL = $this->MCronSlik->getJoinAccount();
+			$sSQL = $this->MCronSlik->getKreditJoinAcc();
 
 			if ($sSQL->num_rows() > 0) {
 				$file = './temp/txt/kredit_joinaccount.txt';
@@ -1017,7 +1017,7 @@ class Cronslik extends CI_Controller {
 			echo "can only be accessed via the command line";
 		} else {
 			$this->load->model('MCronSlik');
-			$sSQL = $this->MCronSlik->getJoinAccount();
+			$sSQL = $this->MCronSlik->getSuratBerharga();
 
 			if ($sSQL->num_rows() > 0) {
 				$file = './temp/txt/surat_berharga.txt';
@@ -1026,6 +1026,60 @@ class Cronslik extends CI_Controller {
 				foreach ($sSQL->result() as $val) {
 					fwrite($fh, "'");
 					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_suratberharga);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_sovereign_rate);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_listing);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_peringkat_suratberharga);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_tujuan_kepemilikan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_penerbitan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_pembelian);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_jatuh_tempo);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_valuta);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nominal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_kurs_asal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_pasar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_perolehan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_persentase_sukubunga);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_tunggakan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_jumlah_tunggakan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kolektibilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_macet);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_sebab_macet);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
 				}
 				fclose($fh);
 			}
@@ -1036,7 +1090,65 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getIrrevocable();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/irrevocable.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_lc);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_tujuan_lc);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_keluar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_jatuh_tempo);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_akad_awal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_akad);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_akad_akhir);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_akad_akhir);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_bank_counterparty);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_valuta);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_plafon);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nominal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_setoran_jaminan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kolektibilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_wanprestasi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1044,7 +1156,65 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getBankGaransi();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/bankgaransi.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_garansi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_tujuan_garansi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_penerbitan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_jatuh_tempo);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_akad_awal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_akad);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_akad_akhir);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_akad_akhir);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nama_dijamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_valuta);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_plafon);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nominal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_setoran_jaminan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kolektibilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_wanprestasi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1052,7 +1222,61 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getFasilitasLain();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/fasilitaslain.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_fasilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_sumber_dana);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_mulai);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_jatuh_tempo);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_persentase_sukubunga);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_valuta);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nominal_kewajiban);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_kurs_asal);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kolektibilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_macet);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_sebab_macet);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_tunggakan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_jumlah_tunggakan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_kondisi);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1060,7 +1284,75 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getAgunan();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/agunan.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_segmen);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_status_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_peringkat_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_lembaga_pemeringkat);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_pengikat);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_pengikatan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_pemilik_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_bukti_kepemilikan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_alamat_agunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kodedati);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_agunan_sesuai_njop);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_agunan_pelapor);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_penilaian_pelapor);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_nilai_agunan_penilai);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nama_penilai_independen);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_tanggal_penilaian_penilai);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_status_paripasu);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_persentase_paripasu);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_status_kredit_join);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_diasuransikan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1068,7 +1360,47 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getPenjamin();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/penjamin.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_identitas_penjamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_segmen);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_identitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nama_sesuai_idt);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nama_lengkap);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_golongan_penjamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_alamat_penjamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_persentase_dijamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_keterangan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1076,7 +1408,49 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getPengurus();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/pengurus.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_identitas_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_no_rekening);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_identitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nama_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jenis_kelamin);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_alamat_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kelurahan_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kecamatan_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kodedati);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_jabatan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_pangsa_kepemilikan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_status_pengurus);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
@@ -1084,7 +1458,83 @@ class Cronslik extends CI_Controller {
 		if (!$this->input->is_cli_request()) {
 			echo "can only be accessed via the command line";
 		} else {
+			$this->load->model('MCronSlik');
+			$sSQL = $this->MCronSlik->getLaporanKeuangan();
 
+			if ($sSQL->num_rows() > 0) {
+				$file = './temp/txt/laporankeuangan.txt';
+				$fh = fopen($file, 'w') or die("Can't create file");
+
+				foreach ($sSQL->result() as $val) {
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_flag_detail);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_nomor_debitur);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fd_posisi_keuangan_tahunan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_aset);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_aset_lancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_setara_kas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_piutang_pembiayaan_aset_lancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_investasi_keuangan_aset_lancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_aset_lancar_lain);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_aset_tidak_lancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_piutang_pembiayaan_aset_tidaklancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_investasi_keuangan_aset_tidaklancar);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_tidak_lancar_lain);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_liabilitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_liabilitas_jangka_pendek);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_pinjaman_jangka_pendek_liabilitas_pendek);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_utangusaha_jangka_pendek_liabilitas_pendek);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_lainnya_jangka_pendek_liabilitas_pendek);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_liabilitas_jangka_panjang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_pinjaman_jangka_panjang_liabilitas_panjang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_utangusaha_jangka_panjang_liabilitas_panjang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_lainnya_jangka_panjang_liabilitas_panjang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_ekuitas);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_pendapatan_usaha);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_bahan_pokok_pendapatan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_laba_rugi_bruto);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_pendapatan_lainnya);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_beban_lainnya);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_laba_rugi_sebelum_pajak);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fn_laba_rugi_tahun_berjalan);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_kode_cabang);
+					fwrite($fh, "'");
+					fwrite($fh, $val->fs_operasi_data);
+					fwrite($fh, "'");
+					fwrite($fh, "\n");
+				}
+				fclose($fh);
+			}
 		}
 	}
 
